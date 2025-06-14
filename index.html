@@ -2,51 +2,92 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hamusata ホームページ一覧</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 600px;
-      margin: 2rem auto;
-      padding: 1rem;
-      background-color: #121a12; /* とても濃い緑（ダークグリーン） */
-      color: #a9d18e; /* 明るい黄緑 */
+    :root {
+      --bg-color: #0d1b0d;
+      --text-color: #e7fce7;
+      --link-color: #b7ffb7;
+      --link-hover-bg: #1a331a;
+      --accent-color: #7fe07f;
     }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 700px;
+      padding: 2rem 1rem;
+    }
+
     h1 {
       text-align: center;
-      color: #7fbf7f; /* 落ち着いたライトグリーン */
+      color: var(--accent-color);
+      font-size: 2rem;
       margin-bottom: 2rem;
     }
+
     ul {
-      list-style-type: none;
+      list-style: none;
       padding: 0;
+      margin: 0;
     }
+
     li {
       margin: 1rem 0;
-      font-size: 1.1rem;
     }
+
     a {
-      color: #a9d18e; /* 明るい黄緑 */
+      color: var(--link-color);
       text-decoration: none;
-      transition: color 0.3s ease;
+      font-size: 1.1rem;
+      display: inline-block;
+      padding: 0.5rem 0.8rem;
+      border-radius: 6px;
+      transition: background 0.3s, color 0.3s;
     }
+
     a:hover {
-      color: #d0f0a1; /* もっと明るい黄緑に */
-      text-decoration: underline;
+      background-color: var(--link-hover-bg);
+      color: #ffffff;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      a {
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Hamusata ホームページ一覧</h1>
-  <ul>
-    <li><a href="https://hamusata.f5.siYouTube" target="_blank" rel="noopener noreferrer">YouTube</a></li>
-    <li><a href="https://hamusata.f5.siscratch-user-info" target="_blank" rel="noopener noreferrer">Scratch User Info</a></li>
-    <li><a href="https://hamusata.f5.siweather-hachinohe" target="_blank" rel="noopener noreferrer">Weather Hachinohe</a></li>
-    <li><a href="https://hamusata.f5.sitime-zone" target="_blank" rel="noopener noreferrer">Time Zone</a></li>
-    <li><a href="https://hamusata.f5.sitest" target="_blank" rel="noopener noreferrer">Site</a></li>
-    <li><a href="https://hamusata.f5.siexpo2025-counter" target="_blank" rel="noopener noreferrer">Expo 2025 Counter</a></li>
-    <li><a href="https://test.hamusata.f5.si" target="_blank" rel="noopener noreferrer">Device inf (test.hamusata.f5.si)</a></li>
-    <li><a href="https://hamuzon.github.io/expo2025-counter/" target="_blank" rel="noopener noreferrer">Hamuzon Expo 2025 Counter</a></li>
-  </ul>
+  <div class="container">
+    <h1>Hamusata ホームページ一覧</h1>
+    <ul>
+      <li><a href="https://hamusata.f5.siYouTube" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+      <li><a href="https://hamusata.f5.siscratch-user-info" target="_blank" rel="noopener noreferrer">Scratch User Info</a></li>
+      <li><a href="https://hamusata.f5.siweather-hachinohe" target="_blank" rel="noopener noreferrer">Weather Hachinohe</a></li>
+      <li><a href="https://hamusata.f5.sitime-zone" target="_blank" rel="noopener noreferrer">Time Zone</a></li>
+      <li><a href="https://hamusata.f5.sitest" target="_blank" rel="noopener noreferrer">Site</a></li>
+      <li><a href="https://hamusata.f5.siexpo2025-counter" target="_blank" rel="noopener noreferrer">Expo 2025 Counter</a></li>
+      <li><a href="https://test.hamusata.f5.si" target="_blank" rel="noopener noreferrer">Device info</a></li>
+      <li><a href="https://hamuzon.github.io/expo2025-counter/" target="_blank" rel="noopener noreferrer">Hamuzon Expo 2025 Counter</a></li>
+    </ul>
+  </div>
 </body>
 </html>
