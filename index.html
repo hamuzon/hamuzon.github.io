@@ -85,10 +85,6 @@
       text-decoration: underline;
     }
 
-    #public-site-list {
-      display: none;
-    }
-
     @media (max-width: 480px) {
       h1 {
         font-size: 1.5rem;
@@ -109,7 +105,6 @@
     <h1>
       <a href="javascript:void(0);" onclick="window.location.href = window.location.href">Website List</a>
     </h1>
-
     <ul id="site-list">
       <li><a href="https://home.hamusata.f5.si/" target="_blank" rel="noopener noreferrer">Hamusatamay'n (Main)</a></li>
       <li><a href="https://YouTube.hamusata.f5.si" target="_blank" rel="noopener noreferrer">YouTube</a></li>
@@ -119,18 +114,7 @@
       <li><a href="https://test.hamusata.f5.si" target="_blank" rel="noopener noreferrer">Device Info</a></li>
       <li><a href="https://expo2025-counter.hamusata.f5.si" target="_blank" rel="noopener noreferrer">Expo 2025 Countdown - Hamusata</a></li>
     </ul>
-
-    <ul id="public-site-list">
-      <li><a href="https://www.google.com" target="_blank" rel="noopener noreferrer">Google</a></li>
-      <li><a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">YouTube</a></li>
-      <li><a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">Twitter / X</a></li>
-      <li><a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">Facebook</a></li>
-      <li><a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a></li>
-      <li><a href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer">TikTok</a></li>
-      <li><a href="https://www.discord.com" target="_blank" rel="noopener noreferrer">Discord</a></li>
-    </ul>
   </div>
-
   <footer id="main-footer">
     <span id="footer-hamusata">
       &copy; 2025 
@@ -148,23 +132,26 @@
 
   <script>
     const currentHost = window.location.hostname;
-    const siteList = document.getElementById("site-list");
-    const publicSiteList = document.getElementById("public-site-list");
     const weatherPlaceholder = document.getElementById("weather-link-placeholder");
-    const footer = document.getElementById("main-footer");
+    const siteList = document.getElementById("site-list");
     const footerHamusata = document.getElementById("footer-hamusata");
     const footerHamuzon = document.getElementById("footer-hamuzon");
     const defaultMessage = document.getElementById("default-message");
 
     if (currentHost === "home.hamusata.f5.si") {
+      // 天気リンク表示
       weatherPlaceholder.innerHTML = `
         <a href="https://weather-hachinohe.hamusata.f5.si" target="_blank" rel="noopener noreferrer">
           Hachinohe Weather
         </a>
       `;
+      // footer表示調整
       footerHamusata.style.display = "inline";
       footerHamuzon.style.display = "none";
+      defaultMessage.style.display = "inline";
+
     } else if (currentHost === "hamuzon.github.io") {
+      // リストは「Expo 2025 Countdown - Hamuzon」だけ表示
       siteList.innerHTML = `
         <li>
           <a href="https://hamuzon.github.io/expo2025-counter/" target="_blank" rel="noopener noreferrer">
@@ -172,17 +159,17 @@
           </a>
         </li>
       `;
+      // footer表示調整
       footerHamusata.style.display = "none";
       footerHamuzon.style.display = "inline";
+      defaultMessage.style.display = "none";
+
     } else {
-      siteList.style.display = "none";
-      publicSiteList.style.display = "block";
-      footer.innerHTML = `
-        <span style="display: block; padding: 0.5rem;">
-          このサイトは公式ではなく、一部の情報は異なる場合があります。<br>
-          This version may differ from the original official site.
-        </span>
-      `;
+      // それ以外は天気リンクなし、footer非表示、デフォルトメッセージも非表示
+      weatherPlaceholder.innerHTML = "";
+      footerHamusata.style.display = "none";
+      footerHamuzon.style.display = "none";
+      defaultMessage.style.display = "none";
     }
   </script>
 </body>
