@@ -67,7 +67,7 @@
   </div>
 
   <div id="content">
-    <!-- 元のコンテンツをここに入れてください -->
+    <!-- 元のコンテンツ -->
     <h1>
       <a href="https://hamuzon.github.io/" target="_blank" rel="noopener noreferrer" style="color:#7fe07f;text-decoration:none;">Hamusata Website List</a>
     </h1>
@@ -95,16 +95,13 @@
     const msgBuffer = new TextEncoder().encode(message);
     const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    return hashHex;
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
   }
 
   async function checkPassword() {
-    let passInput = document.getElementById('password').value;
-    passInput = passInput.toLowerCase();
+    let passInput = document.getElementById('password').value.toLowerCase();
     const correctHash = '126a826795b22edbf1c4bf961db3be20611ed226d6ba7c100dc022823278b8d8';
     const inputHash = await sha256(passInput);
-
     if (inputHash === correctHash) {
       document.getElementById('login').style.display = 'none';
       document.getElementById('content').style.display = 'block';
