@@ -1,237 +1,129 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>一時的アカウント作成付きパスワード保護</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hamusata Website List</title>
   <style>
+    :root {
+      --bg-color: #0d1b0d;
+      --text-color: #e7fce7;
+      --link-color: #b7ffb7;
+      --link-hover-bg: #1a331a;
+      --accent-color: #7fe07f;
+    }
+
     body {
-      background-color: #0d1b0d;
-      color: #e7fce7;
-      font-family: Arial, sans-serif;
-      margin: 0; padding: 0;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Arial', sans-serif;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-      align-items: center;
-      justify-content: center;
     }
-    .box {
-      background: #1a331a;
-      padding: 2rem;
-      border-radius: 8px;
+
+    .container {
       width: 90%;
-      max-width: 360px;
-      text-align: center;
-    }
-    input[type="text"], input[type="password"] {
-      width: 100%;
-      padding: 0.5rem;
-      margin: 0.5rem 0;
-      border-radius: 4px;
-      border: none;
-      font-size: 1rem;
-    }
-    button {
-      background-color: #7fe07f;
-      border: none;
-      color: #0d1b0d;
-      padding: 0.5rem 1rem;
-      margin: 0.5rem 0;
-      font-size: 1rem;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #6ac66a;
-    }
-    #error {
-      color: #f88;
-      margin-top: 0.5rem;
-      display: none;
-    }
-    #content {
-      display: none;
       max-width: 700px;
-      margin: 2rem auto;
-      padding: 1rem;
-      background-color: #113311;
-      border-radius: 8px;
-      text-align: left;
+      padding: 2rem 1rem;
+      margin: 0 auto;
+      flex: 1;
     }
-    #logoutBtn {
-      margin-top: 1rem;
-      background-color: #f77;
-      color: #300;
+
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 2rem;
     }
-    #logoutBtn:hover {
-      background-color: #d55;
+
+    h1 a {
+      color: var(--accent-color);
+      text-decoration: none;
     }
-    .toggle-link {
-      color: #7fe07f;
-      cursor: pointer;
+
+    h1 a:hover {
       text-decoration: underline;
-      margin-top: 1rem;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      margin: 1rem 0;
+    }
+
+    a {
+      color: var(--link-color);
+      text-decoration: none;
+      font-size: 1.1rem;
       display: inline-block;
+      padding: 0.5rem 0.8rem;
+      border-radius: 6px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    a:hover {
+      background-color: var(--link-hover-bg);
+      color: #ffffff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #0a140a;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    footer a {
+      color: var(--accent-color);
+      text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      a {
+        font-size: 1rem;
+      }
+
+      footer {
+        font-size: 0.75rem;
+      }
     }
   </style>
 </head>
 <body>
-
-  <div id="loginBox" class="box">
-    <h2>ログイン</h2>
-    <input type="text" id="loginUser" placeholder="ユーザー名" autocomplete="username" />
-    <input type="password" id="loginPass" placeholder="パスワード" autocomplete="current-password" />
-    <button onclick="login()">ログイン</button>
-    <div id="loginError" class="error">ユーザー名またはパスワードが違います。</div>
-    <div class="toggle-link" onclick="showSignup()">新規アカウント作成はこちら</div>
-  </div>
-
-  <div id="signupBox" class="box" style="display:none;">
-    <h2>新規アカウント作成</h2>
-    <input type="text" id="signupUser" placeholder="ユーザー名" autocomplete="username" />
-    <input type="password" id="signupPass" placeholder="パスワード" autocomplete="new-password" />
-    <button onclick="signup()">アカウント作成</button>
-    <div id="signupError" class="error"></div>
-    <div class="toggle-link" onclick="showLogin()">ログインはこちら</div>
-  </div>
-
-  <div id="content">
-    <h1>Hamusata Website List</h1>
+  <div class="container">
+    <h1>
+      <a href="https://hamuzon.github.io/" target="_blank" rel="noopener noreferrer">
+        Hamusata Website List
+      </a>
+    </h1>
     <ul>
-      <li><a href="https://hamusata.f5.si" target="_blank" rel="noopener noreferrer" style="color:#7fe07f;">Hamusatamay'n (Main)</a></li>
-      <li><a href="https://YouTube.hamusata.f5.si" target="_blank" rel="noopener noreferrer" style="color:#7fe07f;">YouTube</a></li>
-      <li><a href="https://scratch-user-info.hamusata.f5.si" target="_blank" rel="noopener noreferrer" style="color:#7fe07f;">Scratch User & Project Info</a></li>
-      <li><a href="https://weather-hachinohe.hamusata.f5.si" target="_blank" rel="noopener noreferrer" style="color:#7fe07f;">Hachinohe Weather</a></li>
-      <li><a href="https://time-zone.hamusata.f5.si" target="_blank" rel="noopener noreferrer" style="color:#7fe07f;">Time Zone</a></li>
-      <li><a href="https://test.hamusata.f5.si" target="_blank" rel="noopener noreferrer" style="color:#7fe07f;">Device Info</a></li>
-      <li><a href="https://expo2025-counter.hamusata.f5.si" target="_blank" rel="noopener noreferrer" style="color:#7fe07f;">Expo 2025 Countdown - Hamusata</a></li>
-      <li><a href="https://hamuzon.github.io/expo2025-counter/" target="_blank" rel="noopener noreferrer" style="color:#7fe07f;">Expo 2025 Countdown - Hamuzon</a></li>
+      <li><a href="https://hamusata.f5.si" target="_blank" rel="noopener noreferrer">Hamusatamay'n (Main)</a></li>
+      <li><a href="https://YouTube.hamusata.f5.si" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+      <li><a href="https://scratch-user-info.hamusata.f5.si" target="_blank" rel="noopener noreferrer">Scratch User & Project Info</a></li>
+      <!-- <li><a href="https://weather-hachinohe.hamusata.f5.si" target="_blank" rel="noopener noreferrer">Hachinohe Weather</a></li> -->
+      <li><a href="https://time-zone.hamusata.f5.si" target="_blank" rel="noopener noreferrer">Time Zone</a></li>
+      <li><a href="https://test.hamusata.f5.si" target="_blank" rel="noopener noreferrer">Device Info</a></li>
+      <li><a href="https://expo2025-counter.hamusata.f5.si" target="_blank" rel="noopener noreferrer">Expo 2025 Countdown - Hamusata</a></li>
+      <li><a href="https://hamuzon.github.io/expo2025-counter/" target="_blank" rel="noopener noreferrer">Expo 2025 Countdown - Hamuzon</a></li>
     </ul>
-    <footer>
-      &copy; 2025 
-      <a href="https://hamusata.f5.si" target="_blank" rel="noopener noreferrer" style="color:#7fe07f;">@hamusata</a> / 
-      <a href="https://github.com/Hamuzon" target="_blank" rel="noopener noreferrer" style="color:#7fe07f;">@hamuzon</a><br>
-      ※一部のサイトは現在アクセスできない場合があります。<br>
-      Some sites may be temporarily unavailable.
-    </footer>
-    <button id="logoutBtn" onclick="logout()">ログアウト</button>
   </div>
-
-<script>
-  // ユーザー情報は localStorage に { username: hashedPass, ... } の形で保存
-  const storageKey = 'users_hamusata';
-
-  // 表示切替
-  function showLogin() {
-    document.getElementById('signupBox').style.display = 'none';
-    document.getElementById('loginBox').style.display = 'block';
-    document.getElementById('loginError').style.display = 'none';
-    document.getElementById('signupError').style.display = 'none';
-  }
-  function showSignup() {
-    document.getElementById('loginBox').style.display = 'none';
-    document.getElementById('signupBox').style.display = 'block';
-    document.getElementById('loginError').style.display = 'none';
-    document.getElementById('signupError').style.display = 'none';
-  }
-
-  async function sha256(message) {
-    const msgBuffer = new TextEncoder().encode(message.toLowerCase());
-    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  }
-
-  // ユーザー情報読み込み
-  function loadUsers() {
-    const json = localStorage.getItem(storageKey);
-    return json ? JSON.parse(json) : {};
-  }
-
-  // ユーザー情報保存
-  function saveUsers(users) {
-    localStorage.setItem(storageKey, JSON.stringify(users));
-  }
-
-  async function signup() {
-    const username = document.getElementById('signupUser').value.trim().toLowerCase();
-    const password = document.getElementById('signupPass').value;
-
-    if (!username || !password) {
-      showSignupError('ユーザー名とパスワードを入力してください。');
-      return;
-    }
-    const users = loadUsers();
-    if (users[username]) {
-      showSignupError('そのユーザー名は既に使われています。');
-      return;
-    }
-    const passHash = await sha256(password);
-    users[username] = passHash;
-    saveUsers(users);
-    alert('アカウント作成成功！ログインしてください。');
-    showLogin();
-  }
-
-  function showSignupError(msg) {
-    const el = document.getElementById('signupError');
-    el.textContent = msg;
-    el.style.display = 'block';
-  }
-
-  async function login() {
-    const username = document.getElementById('loginUser').value.trim().toLowerCase();
-    const password = document.getElementById('loginPass').value;
-
-    if (!username || !password) {
-      showLoginError('ユーザー名とパスワードを入力してください。');
-      return;
-    }
-    const users = loadUsers();
-    if (!users[username]) {
-      showLoginError('ユーザー名またはパスワードが違います。');
-      return;
-    }
-    const passHash = await sha256(password);
-    if (passHash === users[username]) {
-      localStorage.setItem('loggedInUser', username);
-      showContent();
-    } else {
-      showLoginError('ユーザー名またはパスワードが違います。');
-    }
-  }
-
-  function showLoginError(msg) {
-    const el = document.getElementById('loginError');
-    el.textContent = msg;
-    el.style.display = 'block';
-  }
-
-  function showContent() {
-    document.getElementById('loginBox').style.display = 'none';
-    document.getElementById('signupBox').style.display = 'none';
-    document.getElementById('content').style.display = 'block';
-    document.getElementById('loginError').style.display = 'none';
-    document.getElementById('signupError').style.display = 'none';
-  }
-
-  function logout() {
-    localStorage.removeItem('loggedInUser');
-    document.getElementById('content').style.display = 'none';
-    showLogin();
-  }
-
-  // ページロード時にログイン状態チェック
-  window.addEventListener('load', () => {
-    const loggedInUser = localStorage.getItem('loggedInUser');
-    if (loggedInUser) {
-      showContent();
-    } else {
-      showLogin();
-    }
-  });
-</script>
-
+  <footer>
+    &copy; 2025 
+    <a href="https://hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a> / 
+    <a href="https://github.com/Hamuzon" target="_blank" rel="noopener noreferrer">@hamuzon</a><br>
+    ※一部のサイトは現在アクセスできない場合があります。<br>
+    Some sites may be temporarily unavailable.
+  </footer>
 </body>
 </html>
