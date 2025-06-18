@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Website List</title>
+  <style>
+    :root {
+      --bg-color: #0d1b0d;
+      --text-color: #e7fce7;
+      --link-color: #b7ffb7;
+      --link-hover-bg: #1a331a;
+      --accent-color: #7fe07f;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 700px;
+      padding: 2rem 1rem;
+      margin: 0 auto;
+      flex: 1;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    h1 a {
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+
+    h1 a:hover {
+      text-decoration: underline;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      margin: 1rem 0;
+    }
+
+    a {
+      color: var(--link-color);
+      text-decoration: none;
+      font-size: 1.1rem;
+      display: inline-block;
+      padding: 0.5rem 0.8rem;
+      border-radius: 6px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    a:hover {
+      background-color: var(--link-hover-bg);
+      color: #fff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #0a140a;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    footer a {
+      color: var(--accent-color);
+      text-decoration: underline;
+    }
+
+    #public-site-list {
+      display: none;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      a {
+        font-size: 1rem;
+      }
+
+      footer {
+        font-size: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>
+      <a href="javascript:void(0);" onclick="location.reload()">Website List</a>
+    </h1>
+
+    <ul id="site-list">
+      <li><a href="https://home.hamusata.f5.si" target="_blank" rel="noopener noreferrer">Hamusata-Website-List</a></li>
+      <li><a href="https://YouTube.hamusata.f5.si" target="_blank" rel="noopener noreferrer">YouTube / Local PC Service by Cloudflare Tunnel</a></li>
+      <li><a href="https://scratch-user-info.hamusata.f5.si" target="_blank" rel="noopener noreferrer">Scratch User & Project Info / Local PC Service by Cloudflare Tunnel</a></li>
+      <!-- <li id="weather-link-placeholder"></li> -->
+      <li><a href="https://hamusata.f5.si" target="_blank" rel="noopener noreferrer">Time Zone / Local PC Service by Cloudflare Tunnel</a></li>
+      <li><a href="https://time-zone.hamusata.f5.si" target="_blank" rel="noopener noreferrer">Time Zone / Hosted by GitHub</a></li>
+      <li><a href="https://Device-info.hamusata.f5.si" target="_blank" rel="noopener noreferrer">Device Info / Hosted by GitHub</a></li>
+      <li><a href="https://expo2025-counter.hamusata.f5.si" target="_blank" rel="noopener noreferrer">Expo 2025 Countdown - Hamusata / Hosted by GitHub</a></li>
+    </ul>
+
+    <ul id="public-site-list">
+      <li><a href="https://www.google.com" target="_blank" rel="noopener noreferrer">Google</a></li>
+      <li><a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+      <li><a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">Twitter / X</a></li>
+      <li><a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+      <li><a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+      <li><a href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer">TikTok</a></li>
+      <li><a href="https://www.discord.com" target="_blank" rel="noopener noreferrer">Discord</a></li>
+    </ul>
+  </div>
+
+  <footer id="main-footer">
+    <span id="footer-hamusata">
+      &copy; 2025 <a href="https://home.hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a>
+    </span>
+    <span id="footer-hamuzon" style="display: none;">
+      <a href="https://github.com/Hamuzon" target="_blank" rel="noopener noreferrer">@hamuzon</a>
+    </span>
+    <br />
+    <span id="default-message">
+      ※一部のサイトは現在アクセスできない場合があります。<br />
+      Some sites may be temporarily unavailable.
+    </span>
+  </footer>
+
+  <script>
+    const currentHost = window.location.hostname;
+    const siteList = document.getElementById("site-list");
+    const publicSiteList = document.getElementById("public-site-list");
+    const weatherPlaceholder = document.getElementById("weather-link-placeholder");
+    const footer = document.getElementById("main-footer");
+    const footerHamusata = document.getElementById("footer-hamusata");
+    const footerHamuzon = document.getElementById("footer-hamuzon");
+    const defaultMessage = document.getElementById("default-message");
+
+    if (currentHost === "home.hamusata.f5.si") {
+      if (weatherPlaceholder) {
+        weatherPlaceholder.innerHTML = `
+          <a href="https://weather-hachinohe.hamusata.f5.si" target="_blank" rel="noopener noreferrer">
+            Hachinohe Weather
+          </a>
+        `;
+      }
+      footerHamusata.style.display = "inline";
+      footerHamuzon.style.display = "none";
+    } else if (currentHost === "hamuzon.github.io") {
+      siteList.innerHTML = `
+        <li>
+          <a href="https://hamuzon.github.io/Time-Zone/" target="_blank" rel="noopener noreferrer">
+            TimeZone - Hamuzon
+          </a>
+        </li>
+        <li>
+          <a href="https://hamuzon.github.io/expo2025-counter/" target="_blank" rel="noopener noreferrer">
+            Expo 2025 Countdown - Hamuzon
+          </a>
+        </li>
+      `;
+      footerHamusata.style.display = "none";
+      footerHamuzon.style.display = "inline";
+    } else {
+      siteList.style.display = "none";
+      publicSiteList.style.display = "block";
+      footer.innerHTML = `
+        <span style="display: block; padding: 0.5rem;">
+          このサイトは公式ではなく、一部の情報は異なる場合があります。<br />
+          This version may differ from the original official site.
+        </span>
+      `;
+    }
+  </script>
+</body>
+</html>
