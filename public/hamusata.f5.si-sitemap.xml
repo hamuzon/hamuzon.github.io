@@ -1,45 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://hamusata.f5.si/</loc>
-  </url>
-  <url>
-    <loc>https://home.hamusata.f5.si/</loc>
-  </url>
-  <url>
-    <loc>https://YouTube.hamusata.f5.si/</loc>
-  </url>
-  <url>
-    <loc>https://scratch-user-info.hamusata.f5.si/</loc>
-  </url>
-  <url>
-    <loc>https://scratch-project.hamusata.f5.si/</loc>
-  </url>
-  <url>
-    <loc>https://time-zone.hamusata.f5.si/</loc>
-  </url>
-  <url>
-    <loc>https://Device-info.hamusata.f5.si/</loc>
-  </url>
-  <url>
-    <loc>https://expo2025-counter.hamusata.f5.si/</loc>
-  </url>
-  <url>
-    <loc>https://weather-hachinohe.hamusata.f5.si/</loc>
-  </url>
-  <url>
-    <loc>https://bin2dec.hamusata.f5.si/</loc>
-  </url>
-  <url>
-    <loc>https://text.hamusata.f5.si/</loc>
-  </url>
-  <url>
-    <loc>https://calculator.hamusata.f5.si/</loc>
-  </url>
-  <url>
-    <loc>https://password-create.hamusata.f5.si/</loc>
-  </url>
-  <url>
-    <loc>https://Calendar.hamusata.f5.si/</loc>
-  </url>
+<url><loc>https://hamusata.f5.si/</loc></url>
+<url><loc>https://home.hamusata.f5.si/</loc></url>
+<url><loc>https://YouTube.hamusata.f5.si/</loc></url>
+<url><loc>https://scratch-user-info.hamusata.f5.si/</loc></url>
+<url><loc>https://scratch-project.hamusata.f5.si/</loc></url>
+<url><loc>https://time-zone.hamusata.f5.si/</loc></url>
+<url><loc>https://Device-info.hamusata.f5.si/</loc></url>
+<url><loc>https://expo2025-counter.hamusata.f5.si/</loc></url>
+<url><loc>https://weather-hachinohe.hamusata.f5.si/</loc></url>
+<url><loc>https://bin2dec.hamusata.f5.si/</loc></url>
+<url><loc>https://text.hamusata.f5.si/</loc></url>
+<url><loc>https://calculator.hamusata.f5.si/</loc></url>
+<url><loc>https://password-create.hamusata.f5.si/</loc></url>
+<url><loc>https://Calendar.hamusata.f5.si/</loc></url>
+<url><loc>https://todo.hamusata.f5.si/</loc></url>
 </urlset>
