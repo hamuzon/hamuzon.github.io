@@ -28,7 +28,8 @@
     h1 {
       text-align: center;
       font-size: 2rem;
-      color: white;
+      color: #f0f0f0;
+      text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
       margin-bottom: 2rem;
     }
 
@@ -57,31 +58,31 @@
 
     a {
       display: block;
-      background: rgba(255, 255, 255, 0.3);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      color: #222;
+      background: rgba(20, 20, 20, 0.15);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #ddd;
       text-decoration: none;
       padding: 1rem;
       border-radius: 16px;
       font-size: 1rem;
       font-weight: 600;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
       transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
       word-break: break-word;
     }
 
     a:hover {
-      background: rgba(255, 255, 255, 0.5);
+      background: rgba(30, 30, 30, 0.3);
       transform: translateY(-4px);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
     }
 
     footer {
       text-align: center;
       padding: 1rem;
-      color: #fff;
+      color: #f0f0f0;
       font-size: 0.85rem;
     }
 
@@ -92,14 +93,6 @@
 
     #public-site-list {
       display: none;
-    }
-
-    .text-orange-50 {
-      color: #ffd580;
-    }
-
-    .font-bold {
-      font-weight: 700;
     }
 
     @media (max-width: 480px) {
@@ -125,7 +118,6 @@
       <li><a href="https://home.hamusata.f5.si" class="tpww" onclick="location.reload()">Hamusata-Website-List</a></li>
       <li><a href="https://YouTube.hamusata.f5.si" target="_blank" rel="noopener noreferrer">YouTube / Local PC Service by Cloudflare Tunnel</a></li>
       <li><a href="https://scratch-user-info.hamusata.f5.si" target="_blank" rel="noopener noreferrer">Scratch User & Project Info / Local PC Service by Cloudflare Tunnel</a></li>
-      <li id="weather-link-placeholder"></li>
       <li><a href="https://hamusata.f5.si" target="_blank" rel="noopener noreferrer">Time Zone / Local PC Service by Cloudflare Tunnel</a></li>
       <li><a href="https://time-zone.hamusata.f5.si" target="_blank" rel="noopener noreferrer">Time Zone / Hosted by GitHub</a></li>
       <li><a href="https://Device-info.hamusata.f5.si" target="_blank" rel="noopener noreferrer">Device Info / Hosted by GitHub</a></li>
@@ -168,17 +160,11 @@
     const currentHost = window.location.hostname;
     const siteList = document.getElementById("site-list");
     const publicSiteList = document.getElementById("public-site-list");
-    const weatherPlaceholder = document.getElementById("weather-link-placeholder");
     const footerHamusata = document.getElementById("footer-hamusata");
     const footerHamuzon = document.getElementById("footer-hamuzon");
     const footer = document.getElementById("main-footer");
 
     if (currentHost === "home.hamusata.f5.si") {
-      if (weatherPlaceholder) {
-        weatherPlaceholder.innerHTML = `
-          <li><a href="https://weather-hachinohe.hamusata.f5.si" target="_blank" rel="noopener noreferrer">Hachinohe Weather</a></li>
-        `;
-      }
       siteList.style.display = "grid";
       publicSiteList.style.display = "none";
       footerHamusata.style.display = "inline";
