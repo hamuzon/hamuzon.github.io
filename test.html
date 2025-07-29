@@ -246,16 +246,16 @@
       fireworksOn = !fireworksOn;
       if (fireworksOn) {
         toggleBtn.textContent = '花火ON';
-        window.startFireworks && window.startFireworks();
+        window.fireworksControl && window.fireworksControl.start();
       } else {
         toggleBtn.textContent = '花火OFF';
-        window.stopFireworks && window.stopFireworks();
+        window.fireworksControl && window.fireworksControl.stop();
       }
     });
 
     // ページ読み込み時はONで開始
     window.addEventListener('load', () => {
-      window.startFireworks && window.startFireworks();
+      window.fireworksControl && window.fireworksControl.start();
     });
   </script>
 </body>
