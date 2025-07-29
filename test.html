@@ -13,31 +13,39 @@
     html, body {
       margin: 0; padding: 0;
       font-family: 'Inter', 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif;
-      background: linear-gradient(to bottom, #ffcf91 0%, #a96bf8 100%);
+      background: linear-gradient(135deg, #ffcf91 0%, #a96bf8 100%);
       min-height: 100vh;
-      color: #333;
+      color: #222;
+      overflow-x: hidden;
+      position: relative;
     }
     .container {
       width: 90%;
       max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem 1rem;
+      margin: 3rem auto 4rem auto;
+      padding: 1rem 2rem;
+      background: rgba(255 255 255 / 0.85);
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgb(0 0 0 / 0.15);
       position: relative;
-      z-index: 1; /* キャンバスより上に表示 */
+      z-index: 10;
     }
     h1 {
       text-align: center;
-      font-size: 2rem;
-      color: #f0f0f0;
-      text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+      font-size: 2.4rem;
+      color: #4a148c;
+      font-weight: 700;
       margin-bottom: 2rem;
+      user-select: none;
     }
     h1 a.tpww {
-      color: #fff8dd;
+      color: #6a1b9a;
       text-decoration: none;
       cursor: pointer;
+      transition: color 0.3s ease;
     }
     h1 a.tpww:hover {
+      color: #ab47bc;
       text-decoration: underline;
     }
     ul {
@@ -53,33 +61,33 @@
     }
     a {
       display: block;
-      background: rgba(20, 20, 20, 0.15);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      color: #ddd;
+      background: #6a1b9a;
+      color: #f3e5f5;
       text-decoration: none;
-      padding: 1rem;
-      border-radius: 16px;
+      padding: 1.15rem 1rem;
+      border-radius: 12px;
       font-size: 1rem;
       font-weight: 600;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-      transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 2px 8px rgb(106 27 154 / 0.6);
+      transition: background-color 0.25s ease, transform 0.3s ease;
       word-break: break-word;
     }
     a:hover {
-      background: rgba(30, 30, 30, 0.3);
+      background-color: #ab47bc;
       transform: translateY(-4px);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 6px 20px rgb(171 71 188 / 0.7);
     }
     footer {
       text-align: center;
-      padding: 1rem;
-      color: #f0f0f0;
-      font-size: 0.85rem;
+      padding: 1rem 0 2rem;
+      color: #4a148c;
+      font-size: 0.9rem;
+      user-select: none;
+      position: relative;
+      z-index: 10;
     }
     footer a {
-      color: #fff8dd;
+      color: #7e57c2;
       text-decoration: underline;
     }
     #public-site-list {
@@ -87,7 +95,7 @@
     }
     @media (max-width: 480px) {
       h1 {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
       }
       footer {
         font-size: 0.75rem;
@@ -96,14 +104,17 @@
         grid-template-columns: 1fr !important;
       }
     }
-    /* 花火キャンバス用 */
+    /* 花火キャンバス */
     #fireworksCanvas {
       position: fixed;
       top: 0; left: 0;
       width: 100vw;
       height: 100vh;
       pointer-events: none;
-      z-index: 0;
+      z-index: 1;
+      mix-blend-mode: screen;
+      filter: drop-shadow(0 0 3px #fff);
+      user-select: none;
     }
     /* ON/OFFボタン */
     #toggleFireworks {
@@ -111,28 +122,29 @@
       top: 20px;
       right: 20px;
       z-index: 10000;
-      padding: 10px 18px;
+      padding: 10px 22px;
       font-size: 16px;
+      font-weight: 600;
       cursor: pointer;
-      background-color: rgba(255 255 255 / 0.15);
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      color: #fff;
+      background-color: rgba(106, 27, 154, 0.85);
+      border: none;
+      border-radius: 20px;
+      color: #f3e5f5;
+      box-shadow: 0 2px 8px rgb(106 27 154 / 0.7);
       user-select: none;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s ease, transform 0.25s ease;
     }
     #toggleFireworks:hover {
-      background-color: rgba(255 255 255 / 0.3);
+      background-color: #ab47bc;
+      transform: scale(1.05);
     }
   </style>
 </head>
 <body>
 
-  <!-- 花火表示用キャンバス -->
   <canvas id="fireworksCanvas"></canvas>
 
-  <!-- 花火ON/OFF切替ボタン -->
-  <button id="toggleFireworks">花火 ON</button>
+  <button id="toggleFireworks" aria-pressed="false" aria-label="花火のオンオフ切り替え">花火 ON</button>
 
   <div class="container">
     <h1>
@@ -231,15 +243,33 @@
 
   <!-- 外部花火スクリプト -->
   <script src="fireworks.js"></script>
+
   <script>
     const btn = document.getElementById('toggleFireworks');
+    // 初期状態：ON（花火表示）
+    btn.textContent = '花火 ON';
+    btn.setAttribute('aria-pressed', 'true');
+
     btn.addEventListener('click', () => {
-      if (window.fireworksControl.isRunning()) {
+      if (window.fireworksControl && window.fireworksControl.isRunning()) {
         window.fireworksControl.stop();
         btn.textContent = '花火 OFF';
-      } else {
+        btn.setAttribute('aria-pressed', 'false');
+      } else if(window.fireworksControl) {
         window.fireworksControl.start();
         btn.textContent = '花火 ON';
+        btn.setAttribute('aria-pressed', 'true');
+      }
+    });
+
+    // ページロード時に花火開始しているならボタン表示を合わせる
+    window.addEventListener('load', () => {
+      if(window.fireworksControl && window.fireworksControl.isRunning()) {
+        btn.textContent = '花火 ON';
+        btn.setAttribute('aria-pressed', 'true');
+      } else {
+        btn.textContent = '花火 OFF';
+        btn.setAttribute('aria-pressed', 'false');
       }
     });
   </script>
