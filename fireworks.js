@@ -4,7 +4,6 @@
   const ctx = canvas.getContext('2d');
   let cw, ch;
 
-  // リサイズ対応
   function resize() {
     cw = canvas.width = window.innerWidth;
     ch = canvas.height = window.innerHeight;
@@ -12,18 +11,14 @@
   window.addEventListener('resize', resize);
   resize();
 
-  // ユーティリティ関数
   const random = (min, max) => Math.random() * (max - min) + min;
   const dist = (aX, aY, bX, bY) => Math.hypot(bX - aX, bY - aY);
 
-  // 花火打ち上げ＆爆発用配列
   const fireworks = [];
   const particles = [];
 
-  // 色相の基本をランダムに
   let baseHue = random(0, 360);
 
-  // 花火の打ち上げクラス
   class Firework {
     constructor(sx, sy, tx, ty) {
       this.x = sx;
@@ -79,7 +74,6 @@
     }
   }
 
-  // 爆発パターンクラス
   class Particle {
     constructor(x, y, color, shape) {
       this.x = x;
@@ -96,36 +90,31 @@
       this.decay = random(0.008, 0.015);
       this.brightness = random(50, 90);
       this.hue = color;
-      this.shape = shape; // 形状を受け取る
+      this.shape = shape;
       this.angle = 0;
       this.angleVelocity = 0;
       this.radius = 0;
       this.radiusSpeed = 0;
 
-      // 形ごとに初期化パラメータを変える
       switch(shape) {
         case 'circle':
           this.angle = random(0, Math.PI * 2);
           break;
-
         case 'ring':
           this.radius = random(10, 30);
           this.radiusSpeed = random(0.1, 0.3);
           this.angle = random(0, Math.PI * 2);
           this.angleVelocity = random(0.05, 0.1);
           break;
-
         case 'heart':
           this.angle = random(0, Math.PI * 2);
           this.speed = random(2, 5);
           break;
-
         case 'star':
           this.angle = random(0, Math.PI * 2);
           this.speed = random(3, 6);
           break;
-
-        default: // defaultは通常の散開
+        default:
           this.angle = random(0, Math.PI * 2);
           break;
       }
@@ -135,25 +124,20 @@
       this.coordinates.pop();
       this.coordinates.unshift([this.x, this.y]);
 
-      // 形ごとに動きを変える
       switch(this.shape) {
         case 'circle':
           this.speed *= this.friction;
           this.x += Math.cos(this.angle) * this.speed;
           this.y += Math.sin(this.angle) * this.speed + this.gravity;
           break;
-
         case 'ring':
           this.angle += this.angleVelocity;
           this.x += Math.cos(this.angle) * this.radiusSpeed * this.radius;
           this.y += Math.sin(this.angle) * this.radiusSpeed * this.radius;
           this.radius *= 0.97;
-          this.alpha -= this.decay * 0.5; // ゆっくり消える
+          this.alpha -= this.decay * 0.5;
           break;
-
         case 'heart':
-          // ハート形の方程式を使って動かす（中心からの位置を計算）
-          // t = angle でパラメータ化した形
           const t = this.angle;
           const scale = this.speed;
           this.x += scale * 16 * Math.pow(Math.sin(t), 3);
@@ -161,16 +145,13 @@
           this.angle += 0.15;
           this.alpha -= this.decay;
           break;
-
         case 'star':
-          // 星形の動きは少しランダムに跳ねるイメージ
           this.speed *= this.friction;
           this.x += Math.cos(this.angle) * this.speed + random(-1,1);
           this.y += Math.sin(this.angle) * this.speed + this.gravity + random(-1,1);
           this.angle += 0.2;
           this.alpha -= this.decay;
           break;
-
         default:
           this.speed *= this.friction;
           this.x += Math.cos(this.angle) * this.speed;
@@ -193,7 +174,6 @@
       ctx.strokeStyle = `hsla(${this.hue}, 100%, ${this.brightness}%, ${this.alpha})`;
       ctx.lineWidth = 2;
 
-      // 形ごとに描画の工夫
       switch(this.shape) {
         case 'heart':
           ctx.strokeStyle = `hsla(${this.hue}, 90%, ${this.brightness}%, ${this.alpha})`;
@@ -214,25 +194,22 @@
     }
   }
 
-  // 爆発パターンを作成
   function createParticles(x, y) {
     baseHue = (baseHue + random(30, 60)) % 360;
-
-    // パターン選択（circle, ring, heart, star, default scatter）
     const shapes = ['circle', 'ring', 'heart', 'star', 'scatter'];
     const shape = shapes[Math.floor(random(0, shapes.length))];
-
     const count = 40;
     for(let i = 0; i < count; i++) {
       particles.push(new Particle(x, y, baseHue, shape));
     }
   }
 
-  // メインループ
   function loop() {
+    if (!running) return;  // 花火OFFなら描画ループしない
+
     requestAnimationFrame(loop);
     ctx.globalCompositeOperation = 'destination-out';
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'; // 少し残像残る感じに調整
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
     ctx.fillRect(0, 0, cw, ch);
     ctx.globalCompositeOperation = 'lighter';
 
@@ -247,8 +224,8 @@
     }
   }
 
-  // ランダムな位置に花火を打ち上げる
   function launchFirework() {
+    if (!running) return; // 花火OFFなら発射しない
     const startX = cw / 2;
     const startY = ch;
     const targetX = random(100, cw - 100);
@@ -256,12 +233,35 @@
     fireworks.push(new Firework(startX, startY, targetX, targetY));
   }
 
-  // 間隔をランダムにして自然な感じに
+  let launchTimer = null;
+  let running = true; // 初期はON
+
   function launchLoop() {
+    if (!running) return;
     launchFirework();
-    setTimeout(launchLoop, random(700, 1500));
+    launchTimer = setTimeout(launchLoop, random(700, 1500));
   }
 
+  function startFireworks() {
+    if (running) return;
+    running = true;
+    launchLoop();
+    loop();
+  }
+
+  function stopFireworks() {
+    running = false;
+    clearTimeout(launchTimer);
+  }
+
+  // 最初に開始
   launchLoop();
   loop();
+
+  // グローバルに公開してボタンから操作可能にする
+  window.fireworksControl = {
+    start: startFireworks,
+    stop: stopFireworks,
+    isRunning: () => running,
+  };
 })();
