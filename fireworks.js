@@ -177,8 +177,6 @@
         const r = 1 - Math.cos(t);
         const angle = t;
         const speed = r * random(1.5, 3.5);
-        const x = this.x + r * Math.cos(angle) * 30;
-        const y = this.y + r * Math.sin(angle) * 30;
         const rgb = hsvToRgb((this.colorHue + 330) % 360, 1, 1);
         const color = `rgba(${rgb.r},${rgb.g},${rgb.b},1)`;
         this.particles.push(new Particle(this.x, this.y, angle, speed, color, 0.02, 2, 0.01));
