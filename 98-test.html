@@ -11,44 +11,122 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jdan/98.css@v0.4.0/dist/98.css" />
 
   <style>
-    /* 98.cssに合わせて全体中央寄せと幅調整 */
+    /* 背景と全体配置 */
     body {
-      margin: 2rem;
-      background-color: #008080; /* Windows 98デスクトップ風 */
+      margin: 1rem;
+      background-color: #008080; /* Windows 98のデスクトップ色 */
+      font-family: 'MS PGothic', 'MS UI Gothic', monospace, sans-serif;
       display: flex;
       justify-content: center;
       min-height: 100vh;
-    }
-
-    .container {
-      width: 800px;
-      background: #c0c0c0;
-      padding: 1rem;
-      box-sizing: border-box;
-    }
-
-    h1 {
-      /* 98.cssのwindowタイトル風にするため下記を追加 */
-      margin-bottom: 1rem;
-      font-weight: bold;
       user-select: none;
     }
 
+    /* メインコンテナ（ウィンドウ風） */
+    main.container.window {
+      width: 820px;
+      background: #c0c0c0;
+      padding: 1rem 1.25rem 1.25rem 1.25rem;
+      box-sizing: border-box;
+      border: 2px solid #fff;
+      box-shadow:
+        inset 1px 1px 0 #fff,
+        inset -1px -1px 0 #404040,
+        2px 2px 0 #404040;
+    }
+
+    /* タイトルバーのカスタム */
+    header.title-bar {
+      user-select: none;
+      padding: 0 8px;
+      height: 27px;
+      line-height: 27px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to bottom, #000080, #00004d);
+      color: white;
+      font-weight: bold;
+      border-bottom: 2px solid #404040;
+      border-top: 2px solid #8080ff;
+      border-left: 2px solid #8080ff;
+      border-right: 2px solid #404040;
+      box-sizing: border-box;
+    }
+    .title-bar-text {
+      font-size: 14px;
+      padding-left: 4px;
+    }
+
+    /* タイトルバーの閉じるボタン風 */
+    .title-bar-close {
+      width: 24px;
+      height: 24px;
+      background-color: #c0c0c0;
+      border: 2px outset buttonface;
+      box-sizing: border-box;
+      cursor: pointer;
+      position: relative;
+      margin-right: 2px;
+      padding: 0;
+    }
+    .title-bar-close::before, .title-bar-close::after {
+      content: "";
+      position: absolute;
+      top: 6px;
+      left: 5px;
+      width: 14px;
+      height: 2px;
+      background-color: #404040;
+      transform-origin: center;
+    }
+    .title-bar-close::before {
+      transform: rotate(45deg);
+    }
+    .title-bar-close::after {
+      transform: rotate(-45deg);
+    }
+    .title-bar-close:hover {
+      background-color: #000080;
+      border-style: inset;
+    }
+
+    /* 見出し */
+    h1 {
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: black;
+      margin: 1rem 0 1.5rem 0;
+      user-select: none;
+    }
+    h1 a {
+      color: black;
+      text-decoration: none;
+      border: 2px outset buttonface;
+      padding: 4px 10px;
+      display: inline-block;
+      background-color: #c0c0c0;
+    }
+    h1 a:hover, h1 a:focus {
+      background-color: #000080;
+      color: white;
+      border-style: inset;
+      outline: none;
+    }
+
+    /* リスト（リンク群） */
     ul {
       list-style: none;
       padding-left: 0;
       margin: 0;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 0.5rem;
+      gap: 8px;
     }
-
     li {
       margin: 0;
     }
-
     a {
-      /* 98.cssのbuttonリンク風に */
       display: block;
       padding: 6px 10px;
       color: black;
@@ -57,6 +135,8 @@
       border: 2px outset buttonface;
       box-sizing: border-box;
       user-select: none;
+      font-size: 14px;
+      transition: background-color 0.15s ease, color 0.15s ease, border-style 0.15s ease;
     }
     a:hover, a:focus {
       background-color: #000080;
@@ -65,30 +145,32 @@
       outline: none;
     }
 
+    /* フッター */
     footer {
-      margin-top: 2rem;
-      padding: 0.5rem;
+      margin-top: 2.5rem;
+      padding: 0.75rem 1rem;
       background-color: #c0c0c0;
       border-top: 2px solid buttonhighlight;
       border-bottom: 2px solid buttonshadow;
       font-size: 0.75rem;
       text-align: center;
       user-select: none;
+      line-height: 1.3;
+      color: black;
     }
-
     footer a {
       color: black;
       text-decoration: underline;
     }
 
-    /* 非表示要素は非表示のまま */
+    /* 非表示のサイトリスト */
     #public-site-list {
       display: none;
     }
 
-    /* 小さい画面対応：列を1列に */
-    @media (max-width: 480px) {
-      .container {
+    /* スマホ・狭い画面での対応 */
+    @media (max-width: 520px) {
+      main.container.window {
         width: 100%;
         margin: 1rem;
       }
@@ -98,6 +180,28 @@
       footer {
         font-size: 0.65rem;
       }
+      h1 {
+        font-size: 1.3rem;
+      }
+      a {
+        font-size: 13px;
+        padding: 5px 8px;
+      }
+      header.title-bar {
+        height: 24px;
+        line-height: 24px;
+        font-size: 13px;
+      }
+      .title-bar-close {
+        width: 20px;
+        height: 20px;
+      }
+      .title-bar-close::before, .title-bar-close::after {
+        top: 5px;
+        left: 4px;
+        width: 12px;
+        height: 2px;
+      }
     }
   </style>
 </head>
@@ -105,7 +209,7 @@
   <main class="container window" role="main" aria-label="Website List Window">
     <header class="title-bar">
       <p class="title-bar-text">Website List</p>
-      <button class="title-bar-close" aria-label="Close"></button>
+      <button class="title-bar-close" aria-label="Close" onclick="window.close ? window.close() : alert('閉じるボタンは機能しません。');"></button>
     </header>
 
     <h1>
