@@ -11,28 +11,102 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jdan/98.css@v0.4.0/dist/98.css" />
 
   <style>
-    /* 98.cssに合わせて全体中央寄せと幅調整 */
+    /* 背景と全体配置 */
     body {
-      margin: 2rem;
-      background-color: #008080; /* Windows 98デスクトップ風 */
+      margin: 1rem;
+      background-color: #008080; /* Windows 98のデスクトップ色 */
+      font-family: 'MS PGothic', 'MS UI Gothic', monospace, sans-serif;
       display: flex;
       justify-content: center;
       min-height: 100vh;
+      user-select: text; /* 全体テキスト選択可能 */
     }
 
-    .container {
-      width: 800px;
+    main.container.window {
+      width: 820px;
       background: #c0c0c0;
-      padding: 1rem;
+      padding: 1rem 1.25rem 1.25rem 1.25rem;
       box-sizing: border-box;
+      border: 2px solid #fff;
+      box-shadow:
+        inset 1px 1px 0 #fff,
+        inset -1px -1px 0 #404040,
+        2px 2px 0 #404040;
+    }
+
+    header.title-bar {
+      user-select: none;
+      padding: 0 8px;
+      height: 27px;
+      line-height: 27px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to bottom, #000080, #00004d);
+      color: white;
+      font-weight: bold;
+      border-bottom: 2px solid #404040;
+      border-top: 2px solid #8080ff;
+      border-left: 2px solid #8080ff;
+      border-right: 2px solid #404040;
+      box-sizing: border-box;
+    }
+    .title-bar-text {
+      font-size: 14px;
+      padding-left: 4px;
+    }
+    .title-bar-close {
+      width: 24px;
+      height: 24px;
+      background-color: #c0c0c0;
+      border: 2px outset buttonface;
+      box-sizing: border-box;
+      cursor: pointer;
+      position: relative;
+      margin-right: 2px;
+      padding: 0;
+    }
+    .title-bar-close::before, .title-bar-close::after {
+      content: "";
+      position: absolute;
+      top: 6px;
+      left: 5px;
+      width: 14px;
+      height: 2px;
+      background-color: #404040;
+      transform-origin: center;
+    }
+    .title-bar-close::before {
+      transform: rotate(45deg);
+    }
+    .title-bar-close::after {
+      transform: rotate(-45deg);
+    }
+    .title-bar-close:hover {
+      background-color: #000080;
+      border-style: inset;
     }
 
     h1 {
-      /* 98.cssのwindowタイトル風にするため下記を追加 */
-      margin-bottom: 1rem;
+      font-size: 1.6rem;
       font-weight: bold;
-      user-select: none;
-      text-align: center; /* 中央揃え */
+      color: black;
+      margin: 1rem 0 1.5rem 0;
+      user-select: text;
+    }
+    h1 a {
+      color: black;
+      text-decoration: none;
+      border: 2px outset buttonface;
+      padding: 4px 10px;
+      display: inline-block;
+      background-color: #c0c0c0;
+    }
+    h1 a:hover, h1 a:focus {
+      background-color: #000080;
+      color: white;
+      border-style: inset;
+      outline: none;
     }
 
     ul {
@@ -41,15 +115,12 @@
       margin: 0;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 0.5rem;
+      gap: 8px;
     }
-
     li {
       margin: 0;
     }
-
     a {
-      /* 98.cssのbuttonリンク風に */
       display: block;
       padding: 6px 10px;
       color: black;
@@ -57,7 +128,9 @@
       background-color: #c0c0c0;
       border: 2px outset buttonface;
       box-sizing: border-box;
-      user-select: none;
+      user-select: text;
+      font-size: 14px;
+      transition: background-color 0.15s ease, color 0.15s ease, border-style 0.15s ease;
     }
     a:hover, a:focus {
       background-color: #000080;
@@ -67,34 +140,29 @@
     }
 
     footer {
-      margin-top: 2rem;
-      padding: 0.5rem;
+      margin-top: 2.5rem;
+      padding: 0.75rem 1rem;
       background-color: #c0c0c0;
       border-top: 2px solid buttonhighlight;
       border-bottom: 2px solid buttonshadow;
       font-size: 0.75rem;
       text-align: center;
-      user-select: none;
-
-      display: flex;
-      flex-direction: column; /* 縦並び */
-      gap: 0.2rem;
-      align-items: center;
+      user-select: text;
+      line-height: 1.3;
+      color: black;
     }
-
     footer a {
       color: black;
       text-decoration: underline;
+      user-select: text;
     }
 
-    /* 非表示要素は非表示のまま */
     #public-site-list {
       display: none;
     }
 
-    /* 小さい画面対応：列を1列に */
-    @media (max-width: 480px) {
-      .container {
+    @media (max-width: 520px) {
+      main.container.window {
         width: 100%;
         margin: 1rem;
       }
@@ -104,12 +172,34 @@
       footer {
         font-size: 0.65rem;
       }
+      h1 {
+        font-size: 1.3rem;
+      }
+      a {
+        font-size: 13px;
+        padding: 5px 8px;
+      }
+      header.title-bar {
+        height: 24px;
+        line-height: 24px;
+        font-size: 13px;
+      }
+      .title-bar-close {
+        width: 20px;
+        height: 20px;
+      }
+      .title-bar-close::before, .title-bar-close::after {
+        top: 5px;
+        left: 4px;
+        width: 12px;
+        height: 2px;
+      }
     }
   </style>
 </head>
 <body>
   <main class="container window" role="main" aria-label="Website List Window">
-    <header class="title-bar">
+    <header class="title-bar" role="banner">
       <p class="title-bar-text">Website List</p>
       <button class="title-bar-close" aria-label="Close"></button>
     </header>
@@ -149,14 +239,12 @@
       <li><a href="https://www.discord.com" target="_blank" rel="noopener noreferrer">Discord</a></li>
     </ul>
 
-    <footer id="main-footer">
-      <span id="footer-hamusata">
+    <footer id="main-footer" role="contentinfo" aria-label="Footer">
+      <span id="footer-copyright">
         &copy; <span id="year-hamusata"></span> <a href="https://home.hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a>
       </span>
-      <span id="footer-hamuzon" style="display: none;">
-        &copy; <span id="year-hamuzon"></span> <a href="https://github.com/Hamuzon" target="_blank" rel="noopener noreferrer">@Hamuzon</a>
-      </span>
-      <span id="default-message" style="font-size: 0.75rem; user-select:none; margin-top: 0.5rem;">
+      <br />
+      <span id="default-message" style="margin-top:0.5rem; display:block; user-select:text;">
         ※一部のサイトは現在アクセスできない場合があります。<br />
         Some sites may be temporarily unavailable.
       </span>
@@ -167,15 +255,12 @@
     const currentHost = window.location.hostname;
     const siteList = document.getElementById("site-list");
     const publicSiteList = document.getElementById("public-site-list");
-    const footerHamusata = document.getElementById("footer-hamusata");
-    const footerHamuzon = document.getElementById("footer-hamuzon");
     const footer = document.getElementById("main-footer");
 
     if (currentHost === "home.hamusata.f5.si") {
       siteList.style.display = "grid";
       publicSiteList.style.display = "none";
-      footerHamusata.style.display = "inline";
-      footerHamuzon.style.display = "none";
+      footer.style.display = "block";
     } else if (currentHost === "hamuzon.github.io") {
       siteList.innerHTML = `
         <li><a href="./summer" class="tpww" onclick="location.reload()">Hamuzon-Website-List</a></li>
@@ -195,13 +280,12 @@
       `;
       siteList.style.display = "grid";
       publicSiteList.style.display = "none";
-      footerHamusata.style.display = "none";
-      footerHamuzon.style.display = "inline";
+      footer.style.display = "block";
     } else {
       siteList.style.display = "none";
       publicSiteList.style.display = "grid";
       footer.innerHTML = `
-        <span style="display: block; padding: 0.5rem; user-select:none;">
+        <span style="display: block; padding: 0.5rem;">
           このサイトは公式ではなく、一部の情報は異なる場合があります。<br />
           This version may differ from the original official site.
         </span>
@@ -213,7 +297,6 @@
     const currentYear = new Date().getFullYear();
     const yearDisplay = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
     document.getElementById("year-hamusata").textContent = yearDisplay;
-    document.getElementById("year-hamuzon").textContent = yearDisplay;
   </script>
 </body>
 </html>
