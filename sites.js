@@ -47,3 +47,29 @@ const sitesData = {
     { href: "https://www.discord.com", text: "Discord" },
   ]
 };
+
+// 動的にリンク先を切り替える処理（ロード時などに呼び出す）
+(function updateBaseLink() {
+  const path = window.location.pathname.replace(/^\/|\/$/g, ""); // 先頭・末尾のスラッシュ除去
+  let newPas = "";
+
+  if (path === "") {
+    // トップ → summer に切り替え
+    newPas = "summer";
+  } else if (path === "summer") {
+    // summer → 98 に切り替え
+    newPas = "98";
+  } else if (path === "98") {
+    // 98 → トップに戻す（空文字）
+    newPas = "";
+  } else {
+    // その他はトップ扱い
+    newPas = "";
+  }
+
+  // hamuzonGitHubIO の先頭リンクを書き換え
+  sitesData.hamuzonGitHubIO[0].href = newPas === "" ? "./" : `./${newPas}`;
+
+  // homeHamusata の先頭リンクを書き換え
+  sitesData.homeHamusata[0].href = newPas === "" ? "https://home.hamusata.f5.si/" : `https://home.hamusata.f5.si/${newPas}`;
+})();
