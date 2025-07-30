@@ -145,10 +145,12 @@
     </span>
   </footer>
 
-  <!-- sites.js 読み込み -->
+  <!-- sites.js を外部ファイルとして読み込む -->
   <script src="sites.js"></script>
 
   <script>
+    // sites.jsの sitesData と createLinkItem を利用する想定
+
     // DOM準備後に実行
     document.addEventListener("DOMContentLoaded", () => {
       const currentHost = window.location.hostname;
@@ -158,48 +160,49 @@
       const footerHamuzon = document.getElementById("footer-hamuzon");
       const footer = document.getElementById("main-footer");
 
-      // リンクリストのli要素を作る関数
-      function createLinkItem({ href, text, className, reload }) {
+      // もしsites.jsにcreateLinkItem関数がなければ、こちらの関数を使う（重複回避）
+      const safeCreateLinkItem = typeof createLinkItem === "function" ? createLinkItem : function({ href, text, className, openInSameTab }) {
         const li = document.createElement("li");
         const a = document.createElement("a");
         a.href = href;
-        a.textContent = text;
-        a.target = "_blank";
+        a.textContent = text || href;
         a.rel = "noopener noreferrer";
         if (className) a.className = className;
-        if (reload) {
-          a.addEventListener("click", e => {
-            e.preventDefault();
-            location.reload();
-          });
+        if (openInSameTab) {
+          a.target = "_self";
+          a.setAttribute("onclick", "location.reload(); return false;");
+        } else {
+          a.target = "_blank";
         }
         li.appendChild(a);
         return li;
-      }
+      };
 
-      // ホスト名で表示切替
+      // ホストによる表示切替
       if (currentHost === "home.hamusata.f5.si") {
         siteList.innerHTML = "";
         sitesData.homeHamusata.forEach(site => {
-          siteList.appendChild(createLinkItem(site));
+          siteList.appendChild(safeCreateLinkItem(site));
         });
         siteList.style.display = "grid";
         publicSiteList.style.display = "none";
         footerHamusata.style.display = "inline";
         footerHamuzon.style.display = "none";
+
       } else if (currentHost === "hamuzon.github.io") {
         siteList.innerHTML = "";
         sitesData.hamuzonGitHubIO.forEach(site => {
-          siteList.appendChild(createLinkItem(site));
+          siteList.appendChild(safeCreateLinkItem(site));
         });
         siteList.style.display = "grid";
         publicSiteList.style.display = "none";
         footerHamusata.style.display = "none";
         footerHamuzon.style.display = "inline";
+
       } else {
         publicSiteList.innerHTML = "";
         sitesData.publicSites.forEach(site => {
-          publicSiteList.appendChild(createLinkItem(site));
+          publicSiteList.appendChild(safeCreateLinkItem(site));
         });
         siteList.style.display = "none";
         publicSiteList.style.display = "grid";

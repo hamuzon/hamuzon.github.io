@@ -129,7 +129,7 @@
       const footerHamuzon = document.getElementById("footer-hamuzon");
       const footer = document.getElementById("main-footer");
 
-      function createLinkItem({ href, text, className, reload }) {
+      function createLinkItem({ href, text, className, openInSameTab }) {
         const li = document.createElement("li");
         const a = document.createElement("a");
         if ((href === "https://home.hamusata.f5.si/" || href === "./") && text.includes("Website-List")) {
@@ -138,14 +138,11 @@
           a.href = href;
         }
         a.textContent = text;
-        a.target = "_blank";
+        a.target = openInSameTab ? "_self" : "_blank";
         a.rel = "noopener noreferrer";
         if (className) a.className = className;
-        if (reload && !a.href.includes("/summer")) {
-          a.onclick = (e) => {
-            e.preventDefault();
-            location.reload();
-          };
+        if (openInSameTab) {
+          a.setAttribute("onclick", "location.reload(); return false;");
         }
         li.appendChild(a);
         return li;
