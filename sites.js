@@ -71,7 +71,7 @@ function createLinkItem({ href, text, className }) {
   a.textContent = text || href;
   a.rel = "noopener noreferrer";
   if (className) a.className = className;
-  a.target = "_self";
+  a.target = "_self"; 
   li.appendChild(a);
   return li;
 }
