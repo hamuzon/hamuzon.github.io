@@ -7,132 +7,156 @@
   <meta name="description" content="homepageのリンクListsです" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
 
-  <!-- 98.cssのCDN -->
-  <link rel="stylesheet" href="https://unpkg.com/98.css" />
+  <!-- 98.css CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jdan/98.css@v0.4.0/dist/98.css" />
 
   <style>
+    /* 98.cssに合わせて全体中央寄せと幅調整 */
     body {
-      background-color: #008080; /* Win98風背景色 */
-      color: black;
-      font-family: 'ms gothic', 'Segoe UI', 'Tahoma', sans-serif;
       margin: 2rem;
+      background-color: #008080; /* Windows 98デスクトップ風 */
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
     }
+
     .container {
-      max-width: 960px;
-      margin: 0 auto;
+      width: 800px;
+      background: #c0c0c0;
+      padding: 1rem;
+      box-sizing: border-box;
     }
-    header, footer {
-      margin-bottom: 1rem;
-    }
+
     h1 {
+      /* 98.cssのwindowタイトル風にするため下記を追加 */
       margin-bottom: 1rem;
+      font-weight: bold;
+      user-select: none;
     }
-    ul.site-list {
+
+    ul {
       list-style: none;
-      padding: 0;
+      padding-left: 0;
       margin: 0;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 0.5rem;
     }
-    ul.site-list li {
+
+    li {
       margin: 0;
     }
-    a.link-button {
+
+    a {
+      /* 98.cssのbuttonリンク風に */
       display: block;
-      padding: 0.5rem 1rem;
+      padding: 6px 10px;
+      color: black;
       text-decoration: none;
-      color: black;
-      background: #c0c0c0;
-      border: 2px solid #fff;
-      box-shadow:
-        1px 1px 0 #808080,
-        2px 2px 0 #fff,
-        3px 3px 0 #808080;
-      border-radius: 0;
-      font-weight: bold;
-      font-size: 1rem;
+      background-color: #c0c0c0;
+      border: 2px outset buttonface;
+      box-sizing: border-box;
       user-select: none;
-      transition: all 0.15s ease-in-out;
     }
-    a.link-button:hover {
-      background: #000080;
+    a:hover, a:focus {
+      background-color: #000080;
       color: white;
-      border-color: #0000ff;
-      box-shadow: none;
+      border-style: inset;
+      outline: none;
     }
+
     footer {
+      margin-top: 2rem;
+      padding: 0.5rem;
+      background-color: #c0c0c0;
+      border-top: 2px solid buttonhighlight;
+      border-bottom: 2px solid buttonshadow;
+      font-size: 0.75rem;
       text-align: center;
-      font-size: 0.85rem;
-      color: black;
+      user-select: none;
     }
+
     footer a {
-      color: #0000ee;
+      color: black;
       text-decoration: underline;
     }
+
+    /* 非表示要素は非表示のまま */
+    #public-site-list {
+      display: none;
+    }
+
+    /* 小さい画面対応：列を1列に */
     @media (max-width: 480px) {
-      ul.site-list {
+      .container {
+        width: 100%;
+        margin: 1rem;
+      }
+      ul {
         grid-template-columns: 1fr !important;
       }
-      body {
-        margin: 1rem;
+      footer {
+        font-size: 0.65rem;
       }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>
-        <a href="./" class="link-button" onclick="location.reload()">Website List</a>
-      </h1>
+  <main class="container window" role="main" aria-label="Website List Window">
+    <header class="title-bar">
+      <p class="title-bar-text">Website List</p>
+      <button class="title-bar-close" aria-label="Close"></button>
     </header>
 
-    <ul id="site-list" class="site-list">
-      <li><a href="https://home.hamusata.f5.si/summer" class="link-button" onclick="location.reload()">Hamusata-Website-List</a></li>
-      <li><a href="https://YouTube.hamusata.f5.si" class="link-button" target="_blank" rel="noopener noreferrer">YouTube / Local PC Service by Cloudflare Tunnel</a></li>
-      <li><a href="https://scratch-user-info.hamusata.f5.si" class="link-button" target="_blank" rel="noopener noreferrer">Scratch User & Project Info / Local PC Service by Cloudflare Tunnel</a></li>
-      <li><a href="https://hamusata.f5.si" class="link-button" target="_blank" rel="noopener noreferrer">Time Zone / Local PC Service by Cloudflare Tunnel</a></li>
-      <li><a href="https://time-zone.hamusata.f5.si" class="link-button" target="_blank" rel="noopener noreferrer">Time Zone / Hosted by GitHub</a></li>
-      <li><a href="https://Device-info.hamusata.f5.si" class="link-button" target="_blank" rel="noopener noreferrer">Device Info / Hosted by GitHub</a></li>
-      <li><a href="https://expo2025-counter.hamusata.f5.si" class="link-button" target="_blank" rel="noopener noreferrer">Expo 2025 Countdown - Hamusata / Hosted by GitHub</a></li>
-      <li><a href="https://bin2dec.hamusata.f5.si" class="link-button" target="_blank" rel="noopener noreferrer">binary-decimal-converter - Hamusata / Hosted by GitHub</a></li>
-      <li><a href="https://text.hamusata.f5.si" class="link-button" target="_blank" rel="noopener noreferrer">Text enlargement app - Hamusata / Hosted by GitHub</a></li>
-      <li><a href="https://Calculator.hamusata.f5.si" class="link-button" target="_blank" rel="noopener noreferrer">計算機 / Calculator - Hamusata / Hosted by GitHub</a></li>
-      <li><a href="https://password-create.hamusata.f5.si" class="link-button" target="_blank" rel="noopener noreferrer">🔑Password Generator Tool🗝️ - Hamusata / Hosted by GitHub</a></li>
-      <li><a href="https://calendar.hamusata.f5.si" class="link-button" target="_blank" rel="noopener noreferrer">🗓️カレンダー / calendar📅 - Hamusata / Hosted by GitHub</a></li>
-      <li><a href="https://todo.hamusata.f5.si" class="link-button" target="_blank" rel="noopener noreferrer">📝 TODO lists ✏ - Hamusata / Hosted by GitHub</a></li>
-      <li><a href="https://url.hamusata.f5.si" class="link-button" target="_blank" rel="noopener noreferrer">🔗Short link creation service🔗/ Local PC Service by Cloudflare Tunnel</a></li> 
-      <li><a href="https://link.hamusata.f5.si" class="link-button" target="_blank" rel="noopener noreferrer">🔗Short link creation service🔗/ Hosted by Cloudflare Workers (Code privately hosted on GitHub)</a></li> 
-      <li><a href="https://qr.hamusata.f5.si" class="link-button" target="_blank" rel="noopener noreferrer">🔳QR 🔗- Hamusata / Hosted by GitHub</a></li>
-      <li><a href="http://omikuji.hamusata.f5.si" class="link-button" target="_blank" rel="noopener noreferrer">🍀おみくじ🔮- Hamusata / Hosted by GitHub</a></li>
-      <li><a href="https://dice.hamusata.f5.si" class="link-button" target="_blank" rel="noopener noreferrer">🎲サイコロ🎯 Hamusata / Hosted by GitHub</a></li>
+    <h1>
+      <a href="./" class="tpww" onclick="location.reload()">Website List</a>
+    </h1>
+
+    <ul id="site-list" class="field-row wrap gap-2">
+      <li><a href="https://home.hamusata.f5.si/summer" class="tpww" onclick="location.reload()">Hamusata-Website-List</a></li>
+      <li><a href="https://YouTube.hamusata.f5.si" target="_blank" rel="noopener noreferrer">YouTube / Local PC Service by Cloudflare Tunnel</a></li>
+      <li><a href="https://scratch-user-info.hamusata.f5.si" target="_blank" rel="noopener noreferrer">Scratch User & Project Info / Local PC Service by Cloudflare Tunnel</a></li>
+      <li><a href="https://hamusata.f5.si" target="_blank" rel="noopener noreferrer">Time Zone / Local PC Service by Cloudflare Tunnel</a></li>
+      <li><a href="https://time-zone.hamusata.f5.si" target="_blank" rel="noopener noreferrer">Time Zone / Hosted by GitHub</a></li>
+      <li><a href="https://Device-info.hamusata.f5.si" target="_blank" rel="noopener noreferrer">Device Info / Hosted by GitHub</a></li>
+      <li><a href="https://expo2025-counter.hamusata.f5.si" target="_blank" rel="noopener noreferrer">Expo 2025 Countdown - Hamusata / Hosted by GitHub</a></li>
+      <li><a href="https://bin2dec.hamusata.f5.si" target="_blank" rel="noopener noreferrer">binary-decimal-converter - Hamusata / Hosted by GitHub</a></li>
+      <li><a href="https://text.hamusata.f5.si" target="_blank" rel="noopener noreferrer">Text enlargement app - Hamusata / Hosted by GitHub</a></li>
+      <li><a href="https://Calculator.hamusata.f5.si" target="_blank" rel="noopener noreferrer">計算機 / Calculator - Hamusata / Hosted by GitHub</a></li>
+      <li><a href="https://password-create.hamusata.f5.si" target="_blank" rel="noopener noreferrer">🔑Password Generator Tool🗝️ - Hamusata / Hosted by GitHub</a></li>
+      <li><a href="https://calendar.hamusata.f5.si" target="_blank" rel="noopener noreferrer">🗓️カレンダー / calendar📅 - Hamusata / Hosted by GitHub</a></li>
+      <li><a href="https://todo.hamusata.f5.si" target="_blank" rel="noopener noreferrer">📝 TODO lists ✏ - Hamusata / Hosted by GitHub</a></li>
+      <li><a href="https://url.hamusata.f5.si" target="_blank" rel="noopener noreferrer"> 🔗Short link creation service🔗/ Local PC Service by Cloudflare Tunnel</a></li> 
+      <li><a href="https://link.hamusata.f5.si" target="_blank" rel="noopener noreferrer">🔗Short link creation service🔗/ Hosted by Cloudflare Workers (Code privately hosted on GitHub)</a></li> 
+      <li><a href="https://qr.hamusata.f5.si" target="_blank" rel="noopener noreferrer">🔳QR 🔗- Hamusata / Hosted by GitHub</a></li>
+      <li><a href="http://omikuji.hamusata.f5.si" target="_blank" rel="noopener noreferrer">🍀おみくじ🔮- Hamusata / Hosted by GitHub</a></li>
+      <li><a href="https://dice.hamusata.f5.si" target="_blank" rel="noopener noreferrer">🎲サイコロ🎯 Hamusata / Hosted by GitHub</a></li>
     </ul>
 
-    <ul id="public-site-list" class="site-list" style="display:none;">
-      <li><a href="https://www.google.com" class="link-button" target="_blank" rel="noopener noreferrer">Google</a></li>
-      <li><a href="https://www.youtube.com" class="link-button" target="_blank" rel="noopener noreferrer">YouTube</a></li>
-      <li><a href="https://www.twitter.com" class="link-button" target="_blank" rel="noopener noreferrer">Twitter / X</a></li>
-      <li><a href="https://www.facebook.com" class="link-button" target="_blank" rel="noopener noreferrer">Facebook</a></li>
-      <li><a href="https://www.instagram.com" class="link-button" target="_blank" rel="noopener noreferrer">Instagram</a></li>
-      <li><a href="https://www.tiktok.com" class="link-button" target="_blank" rel="noopener noreferrer">TikTok</a></li>
-      <li><a href="https://www.discord.com" class="link-button" target="_blank" rel="noopener noreferrer">Discord</a></li>
+    <ul id="public-site-list" class="field-row wrap gap-2" style="display:none;">
+      <li><a href="https://www.google.com" target="_blank" rel="noopener noreferrer">Google</a></li>
+      <li><a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+      <li><a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">Twitter / X</a></li>
+      <li><a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+      <li><a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+      <li><a href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer">TikTok</a></li>
+      <li><a href="https://www.discord.com" target="_blank" rel="noopener noreferrer">Discord</a></li>
     </ul>
 
-    <footer>
+    <footer id="main-footer" class="field-row" style="margin-top: 2rem; justify-content: center;">
       <span id="footer-hamusata">
         &copy; <span id="year-hamusata"></span> <a href="https://home.hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a>
       </span>
       <span id="footer-hamuzon" style="display: none;">
-        &copy; <span id="year-hamuzon"></span> <a href="https://github.com/Hamuzon" target="_blank" rel="noopener noreferrer">@hamuzon</a>
+        &copy; <span id="year-hamuzon"></span> <a href="https://github.com/Hamuzon" target="_blank" rel="noopener noreferrer">@Hamuzon</a>
       </span>
       <br />
-      <span id="default-message">
+      <span id="default-message" style="font-size: 0.75rem; user-select:none;">
         ※一部のサイトは現在アクセスできない場合があります。<br />
         Some sites may be temporarily unavailable.
       </span>
     </footer>
-  </div>
+  </main>
 
   <script>
     const currentHost = window.location.hostname;
@@ -140,7 +164,7 @@
     const publicSiteList = document.getElementById("public-site-list");
     const footerHamusata = document.getElementById("footer-hamusata");
     const footerHamuzon = document.getElementById("footer-hamuzon");
-    const footer = document.querySelector("footer");
+    const footer = document.getElementById("main-footer");
 
     if (currentHost === "home.hamusata.f5.si") {
       siteList.style.display = "grid";
@@ -149,20 +173,20 @@
       footerHamuzon.style.display = "none";
     } else if (currentHost === "hamuzon.github.io") {
       siteList.innerHTML = `
-        <li><a href="./summer" class="link-button" onclick="location.reload()">Hamuzon-Website-List</a></li>
-        <li><a href="https://hamuzon.github.io/Time-Zone_app/" class="link-button" target="_blank" rel="noopener noreferrer">TimeZone - Hamuzon</a></li>
-        <li><a href="https://hamuzon.github.io/expo2025-counter/" class="link-button" target="_blank" rel="noopener noreferrer">Expo 2025 Countdown - Hamuzon</a></li>
-        <li><a href="https://hamuzon.github.io/binary-decimal-converter/" class="link-button" target="_blank" rel="noopener noreferrer">binary-decimal-converter - Hamuzon</a></li>
-        <li><a href="https://hamuzon.github.io/Device-info/" class="link-button" target="_blank" rel="noopener noreferrer">Device-info - Hamuzon</a></li>
-        <li><a href="https://hamuzon.github.io/text/" class="link-button" target="_blank" rel="noopener noreferrer">Text enlargement app - Hamuzon</a></li>
-        <li><a href="https://hamuzon.github.io/Calculator/" class="link-button" target="_blank" rel="noopener noreferrer">計算機 / Calculator - Hamuzon</a></li>
-        <li><a href="https://hamuzon.github.io/password/" class="link-button" target="_blank" rel="noopener noreferrer">🔑Password Generator Tool🗝️ - Hamuzon</a></li>
-        <li><a href="https://hamuzon.github.io/calendar/" class="link-button" target="_blank" rel="noopener noreferrer">🗓️カレンダー / calendar📅 - Hamuzon</a></li>
-        <li><a href="https://hamuzon.github.io/todo/" class="link-button" target="_blank" rel="noopener noreferrer">📝 TODO lists ✏ - Hamuzon</a></li>
-        <li><a href="https://hamuzon.github.io/QR/" class="link-button" target="_blank" rel="noopener noreferrer">🔳QR 🔗 - Hamuzon</a></li>
-        <li><a href="https://hamuzon.github.io/omikuji/" class="link-button" target="_blank" rel="noopener noreferrer">🍀おみくじ🔮 - Hamuzon</a></li>
-        <li><a href="https://hamuzon.github.io/dice/" class="link-button" target="_blank" rel="noopener noreferrer">🎲サイコロ🎯  - Hamuzon</a></li>
-        <li><a href="https://hamuzon.github.io/Short-Link/" class="link-button" target="_blank" rel="noopener noreferrer">🔗Short link creation service🔗  - Hamuzon</a></li>
+        <li><a href="./summer" class="tpww" onclick="location.reload()">Hamuzon-Website-List</a></li>
+        <li><a href="https://hamuzon.github.io/Time-Zone_app/" target="_blank" rel="noopener noreferrer">TimeZone - Hamuzon</a></li>
+        <li><a href="https://hamuzon.github.io/expo2025-counter/" target="_blank" rel="noopener noreferrer">Expo 2025 Countdown - Hamuzon</a></li>
+        <li><a href="https://hamuzon.github.io/binary-decimal-converter/" target="_blank" rel="noopener noreferrer">binary-decimal-converter - Hamuzon</a></li>
+        <li><a href="https://hamuzon.github.io/Device-info/" target="_blank" rel="noopener noreferrer">Device-info - Hamuzon</a></li>
+        <li><a href="https://hamuzon.github.io/text/" target="_blank" rel="noopener noreferrer">Text enlargement app - Hamuzon</a></li>
+        <li><a href="https://hamuzon.github.io/Calculator/" target="_blank" rel="noopener noreferrer">計算機 / Calculator - Hamuzon</a></li>
+        <li><a href="https://hamuzon.github.io/password/" target="_blank" rel="noopener noreferrer">🔑Password Generator Tool🗝️ - Hamuzon</a></li>
+        <li><a href="https://hamuzon.github.io/calendar/" target="_blank" rel="noopener noreferrer">🗓️カレンダー / calendar📅 - Hamuzon</a></li>
+        <li><a href="https://hamuzon.github.io/todo/" target="_blank" rel="noopener noreferrer">📝 TODO lists ✏ - Hamuzon</a></li>
+        <li><a href="https://hamuzon.github.io/QR/" target="_blank" rel="noopener noreferrer">🔳QR 🔗 - Hamuzon</a></li>
+        <li><a href="https://hamuzon.github.io/omikuji/" target="_blank" rel="noopener noreferrer">🍀おみくじ🔮 - Hamuzon</a></li>
+        <li><a href="https://hamuzon.github.io/dice/" target="_blank" rel="noopener noreferrer">🎲サイコロ🎯  - Hamuzon</a></li>
+        <li><a href="https://hamuzon.github.io/Short-Link/" target="_blank" rel="noopener noreferrer">🔗Short link creation service🔗  - Hamuzon</a></li>
       `;
       siteList.style.display = "grid";
       publicSiteList.style.display = "none";
@@ -172,7 +196,7 @@
       siteList.style.display = "none";
       publicSiteList.style.display = "grid";
       footer.innerHTML = `
-        <span style="display: block; padding: 0.5rem;">
+        <span style="display: block; padding: 0.5rem; user-select:none;">
           このサイトは公式ではなく、一部の情報は異なる場合があります。<br />
           This version may differ from the original official site.
         </span>
