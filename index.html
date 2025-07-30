@@ -17,14 +17,12 @@
       min-height: 100vh;
       color: #333;
     }
-
     .container {
       width: 90%;
       max-width: 1200px;
       margin: 0 auto;
       padding: 2rem 1rem;
     }
-
     h1 {
       text-align: center;
       font-size: 2rem;
@@ -32,17 +30,14 @@
       text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
       margin-bottom: 2rem;
     }
-
     h1 a.tpww {
       color: #fff8dd;
       text-decoration: none;
       cursor: pointer;
     }
-
     h1 a.tpww:hover {
       text-decoration: underline;
     }
-
     ul {
       padding: 0;
       margin: 0;
@@ -51,11 +46,9 @@
       gap: 1rem;
       list-style: none;
     }
-
     li {
       margin: 0;
     }
-
     a {
       display: block;
       background: rgba(20, 20, 20, 0.15);
@@ -72,29 +65,24 @@
       transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
       word-break: break-word;
     }
-
     a:hover {
       background: rgba(30, 30, 30, 0.3);
       transform: translateY(-4px);
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
     }
-
     footer {
       text-align: center;
       padding: 1rem;
       color: #f0f0f0;
       font-size: 0.85rem;
     }
-
     footer a {
       color: #fff8dd;
       text-decoration: underline;
     }
-
     #public-site-list {
       display: none;
     }
-
     @media (max-width: 480px) {
       h1 {
         font-size: 1.5rem;
@@ -111,9 +99,8 @@
 <body>
   <div class="container">
     <h1>
-      <a href="./" class="tpww" onclick="location.reload()">Website List</a>
+      <a href="/summer" class="tpww">Website List</a>
     </h1>
-
     <ul id="site-list"></ul>
     <ul id="public-site-list" style="display:none;"></ul>
   </div>
@@ -132,9 +119,7 @@
     </span>
   </footer>
 
-  <!-- sites.js を先に読み込み -->
   <script src="sites.js"></script>
-
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const currentHost = window.location.hostname;
@@ -147,12 +132,16 @@
       function createLinkItem({ href, text, className, reload }) {
         const li = document.createElement("li");
         const a = document.createElement("a");
-        a.href = href;
+        if ((href === "https://home.hamusata.f5.si/" || href === "./") && text.includes("Website-List")) {
+          a.href = "/summer";
+        } else {
+          a.href = href;
+        }
         a.textContent = text;
         a.target = "_blank";
         a.rel = "noopener noreferrer";
         if (className) a.className = className;
-        if (reload) {
+        if (reload && !a.href.includes("/summer")) {
           a.onclick = (e) => {
             e.preventDefault();
             location.reload();
@@ -195,7 +184,6 @@
         `;
       }
 
-      // コピーライト年表示制御
       const baseYear = 2025;
       const currentYear = new Date().getFullYear();
       const yearDisplay = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;

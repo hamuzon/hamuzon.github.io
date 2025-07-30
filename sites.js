@@ -2,7 +2,7 @@
 
 const sitesData = {
   homeHamusata: [
-    { href: "https://home.hamusata.f5.si/summer", text: "Hamusata-Website-List", className: "tpww", reload: true },
+    { href: "https://home.hamusata.f5.si/", text: "Hamusata-Website-List", className: "tpww", reload: true },
     { href: "https://YouTube.hamusata.f5.si", text: "YouTube / Local PC Service by Cloudflare Tunnel" },
     { href: "https://scratch-user-info.hamusata.f5.si", text: "Scratch User & Project Info / Local PC Service by Cloudflare Tunnel" },
     { href: "https://hamusata.f5.si", text: "Time Zone / Local PC Service by Cloudflare Tunnel" },
@@ -22,7 +22,7 @@ const sitesData = {
     { href: "https://dice.hamusata.f5.si", text: "🎲サイコロ🎯 Hamusata / Hosted by GitHub" },
   ],
   hamuzonGitHubIO: [
-    { href: "./summer", text: "Hamuzon-Website-List", className: "tpww", reload: true },
+    { href: "./", text: "Hamuzon-Website-List", className: "tpww", reload: true },
     { href: "https://hamuzon.github.io/Time-Zone_app/", text: "TimeZone - Hamuzon" },
     { href: "https://hamuzon.github.io/expo2025-counter/", text: "Expo 2025 Countdown - Hamuzon" },
     { href: "https://hamuzon.github.io/binary-decimal-converter/", text: "binary-decimal-converter - Hamuzon" },
