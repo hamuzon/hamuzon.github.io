@@ -147,10 +147,10 @@
 
   <footer id="main-footer">
     <span id="footer-hamusata">
-      &copy; 2025 <a href="https://home.hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a>
+      &copy; <span id="year-hamusata"></span> <a href="https://home.hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a>
     </span>
     <span id="footer-hamuzon" style="display: none;">
-      &copy; 2025 <a href="https://github.com/Hamuzon" target="_blank" rel="noopener noreferrer">@hamuzon</a>
+      &copy; <span id="year-hamuzon"></span> <a href="https://github.com/Hamuzon" target="_blank" rel="noopener noreferrer">@hamuzon</a>
     </span>
     <br />
     <span id="default-message">
@@ -202,6 +202,13 @@
         </span>
       `;
     }
+
+    // コピーライト年表示制御
+    const baseYear = 2025;
+    const currentYear = new Date().getFullYear();
+    const yearDisplay = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
+    document.getElementById("year-hamusata").textContent = yearDisplay;
+    document.getElementById("year-hamuzon").textContent = yearDisplay;
   </script>
 </body>
 </html>
