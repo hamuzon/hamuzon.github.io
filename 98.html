@@ -11,99 +11,244 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jdan/98.css@v0.4.0/dist/98.css" />
 
   <style>
-    /* 98.cssに合わせて全体中央寄せと幅調整 */
-    body {
-      margin: 2rem;
-      background-color: #008080; /* Windows 98デスクトップ風 */
-      display: flex;
-      justify-content: center;
-      min-height: 100vh;
-    }
+  /* 背景と全体配置 */
+  body {
+    margin: 1rem;
+    background-color: #008080; /* Windows 98デスクトップ風 */
+    font-family: 'MS PGothic', 'MS UI Gothic', monospace, sans-serif;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    user-select: text; /* 全体テキスト選択可能 */
+  }
 
-    .container {
-      width: 800px;
-      background: #c0c0c0;
-      padding: 1rem;
-      box-sizing: border-box;
-    }
+  main.container.window {
+    width: 820px;
+    background: #c0c0c0;
+    padding: 1rem 1.25rem 1.25rem 1.25rem;
+    box-sizing: border-box;
+    border: 2px solid #fff;
+    box-shadow:
+      inset 1px 1px 0 #fff,
+      inset -1px -1px 0 #404040,
+      2px 2px 0 #404040;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-    h1 {
-      /* 98.cssのwindowタイトル風にするため下記を追加 */
-      margin-bottom: 1rem;
-      font-weight: bold;
-      user-select: none;
-    }
+  header.title-bar {
+    user-select: none;
+    padding: 0 8px;
+    height: 27px;
+    line-height: 27px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, #000080, #00004d);
+    color: white;
+    font-weight: bold;
+    border-bottom: 2px solid #404040;
+    border-top: 2px solid #8080ff;
+    border-left: 2px solid #8080ff;
+    border-right: 2px solid #404040;
+    box-sizing: border-box;
+    width: 100%;
+  }
+  .title-bar-text {
+    font-size: 14px;
+    padding-left: 4px;
+  }
+  .title-bar-close {
+    width: 24px;
+    height: 24px;
+    background-color: #c0c0c0;
+    border: 2px outset buttonface;
+    box-sizing: border-box;
+    cursor: pointer;
+    position: relative;
+    margin-right: 2px;
+    padding: 0;
+  }
+  .title-bar-close::before, .title-bar-close::after {
+    content: "";
+    position: absolute;
+    top: 6px;
+    left: 5px;
+    width: 14px;
+    height: 2px;
+    background-color: #404040;
+    transform-origin: center;
+  }
+  .title-bar-close::before {
+    transform: rotate(45deg);
+  }
+  .title-bar-close::after {
+    transform: rotate(-45deg);
+  }
+  .title-bar-close:hover {
+    background-color: #000080;
+    border-style: inset;
+  }
 
+  /* h1 とリンク中央揃え、省略なしに */
+  h1 {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: black;
+    margin: 1rem 0 1.5rem 0;
+    user-select: text;
+    width: 100%;
+    text-align: center;
+    white-space: normal;       /* 折返し有効 */
+    overflow-wrap: break-word; /* 長い単語も改行 */
+  }
+  h1 a {
+    color: black;
+    text-decoration: none;
+    border: 2px outset buttonface;
+    padding: 4px 10px;
+    display: inline-block;
+    background-color: #c0c0c0;
+    white-space: normal;       /* 折返し有効 */
+    overflow-wrap: break-word; /* 長い単語も改行 */
+    user-select: text;
+    max-width: 100%;
+  }
+  h1 a:hover, h1 a:focus {
+    background-color: #000080;
+    color: white;
+    border-style: inset;
+    outline: none;
+  }
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 8px;
+    width: 100%;
+  }
+  li {
+    margin: 0;
+  }
+  a {
+    display: block;
+    padding: 6px 10px;
+    color: black;
+    text-decoration: none;
+    background-color: #c0c0c0;
+    border: 2px outset buttonface;
+    box-sizing: border-box;
+    user-select: text;
+    font-size: 14px;
+    transition: background-color 0.15s ease, color 0.15s ease, border-style 0.15s ease;
+  }
+  a:hover, a:focus {
+    background-color: #000080;
+    color: white;
+    border-style: inset;
+    outline: none;
+  }
+
+  /* フッターを© 年数 ユーザー名リンクの横並び1列に */
+  footer {
+    margin-top: 2.5rem;
+    padding: 1rem 1.5rem;
+    background-color: #d0d0d0;
+    border-top: 3px solid #b0b0b0;
+    border-bottom: 3px solid #909090;
+    font-size: 0.8rem;
+    color: #202020;
+    font-family: 'MS PGothic', 'MS UI Gothic', monospace, sans-serif;
+    box-shadow: inset 0 1px 3px rgba(255,255,255,0.7);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    user-select: text;
+    flex-wrap: wrap;
+  }
+  footer span#year-hamusata {
+    user-select: text;
+  }
+  footer a {
+    color: #202020;
+    text-decoration: underline;
+    font-weight: 600;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    user-select: text;
+    white-space: nowrap;
+  }
+  footer a:hover, footer a:focus {
+    color: #000080;
+    text-decoration: none;
+    outline: none;
+  }
+
+  /* フッターの補足メッセージは1行下に */
+  #default-message {
+    width: 100%;
+    margin-top: 0.5rem;
+    text-align: center;
+    font-size: 0.7rem;
+    color: #404040;
+  }
+
+  #public-site-list {
+    display: none;
+    width: 100%;
+  }
+
+  @media (max-width: 520px) {
+    main.container.window {
+      width: 100%;
+      margin: 1rem;
+    }
     ul {
-      list-style: none;
-      padding-left: 0;
-      margin: 0;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 0.5rem;
+      grid-template-columns: 1fr !important;
     }
-
-    li {
-      margin: 0;
-    }
-
-    a {
-      /* 98.cssのbuttonリンク風に */
-      display: block;
-      padding: 6px 10px;
-      color: black;
-      text-decoration: none;
-      background-color: #c0c0c0;
-      border: 2px outset buttonface;
-      box-sizing: border-box;
-      user-select: none;
-    }
-    a:hover, a:focus {
-      background-color: #000080;
-      color: white;
-      border-style: inset;
-      outline: none;
-    }
-
     footer {
-      margin-top: 2rem;
-      padding: 0.5rem;
-      background-color: #c0c0c0;
-      border-top: 2px solid buttonhighlight;
-      border-bottom: 2px solid buttonshadow;
-      font-size: 0.75rem;
-      text-align: center;
-      user-select: none;
+      font-size: 0.7rem;
+      padding: 0.6rem 1rem;
+      border-top-width: 2px;
+      border-bottom-width: 2px;
+      gap: 0.3rem;
     }
-
-    footer a {
-      color: black;
-      text-decoration: underline;
+    h1 {
+      font-size: 1.3rem;
     }
-
-    /* 非表示要素は非表示のまま */
-    #public-site-list {
-      display: none;
+    a {
+      font-size: 13px;
+      padding: 5px 8px;
     }
-
-    /* 小さい画面対応：列を1列に */
-    @media (max-width: 480px) {
-      .container {
-        width: 100%;
-        margin: 1rem;
-      }
-      ul {
-        grid-template-columns: 1fr !important;
-      }
-      footer {
-        font-size: 0.65rem;
-      }
+    header.title-bar {
+      height: 24px;
+      line-height: 24px;
+      font-size: 13px;
     }
+    .title-bar-close {
+      width: 20px;
+      height: 20px;
+    }
+    .title-bar-close::before, .title-bar-close::after {
+      top: 5px;
+      left: 4px;
+      width: 12px;
+      height: 2px;
+    }
+  }
   </style>
+
 </head>
 <body>
   <main class="container window" role="main" aria-label="Website List Window">
-    <header class="title-bar">
+    <header class="title-bar" role="banner">
       <p class="title-bar-text">Website List</p>
       <button class="title-bar-close" aria-label="Close"></button>
     </header>
@@ -113,7 +258,7 @@
     </h1>
 
     <ul id="site-list" class="field-row wrap gap-2">
-      <li><a href="https://home.hamusata.f5.si/summer" class="tpww" onclick="location.reload()">Hamusata-Website-List</a></li>
+      <li><a href="https://home.hamusata.f5.si/" class="tpww" onclick="location.reload()">Hamusata-Website-List</a></li>
       <li><a href="https://YouTube.hamusata.f5.si" target="_blank" rel="noopener noreferrer">YouTube / Local PC Service by Cloudflare Tunnel</a></li>
       <li><a href="https://scratch-user-info.hamusata.f5.si" target="_blank" rel="noopener noreferrer">Scratch User & Project Info / Local PC Service by Cloudflare Tunnel</a></li>
       <li><a href="https://hamusata.f5.si" target="_blank" rel="noopener noreferrer">Time Zone / Local PC Service by Cloudflare Tunnel</a></li>
@@ -143,18 +288,14 @@
       <li><a href="https://www.discord.com" target="_blank" rel="noopener noreferrer">Discord</a></li>
     </ul>
 
-    <footer id="main-footer" class="field-row" style="margin-top: 2rem; justify-content: center;">
-      <span id="footer-hamusata">
-        &copy; <span id="year-hamusata"></span> <a href="https://home.hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a>
-      </span>
-      <span id="footer-hamuzon" style="display: none;">
-        &copy; <span id="year-hamuzon"></span> <a href="https://github.com/Hamuzon" target="_blank" rel="noopener noreferrer">@Hamuzon</a>
-      </span>
-      <br />
-      <span id="default-message" style="font-size: 0.75rem; user-select:none;">
+    <footer id="main-footer" role="contentinfo" aria-label="Footer">
+      <span>&copy;</span>
+      <span id="year-hamusata"></span>
+      <a href="https://home.hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a>
+      <div id="default-message">
         ※一部のサイトは現在アクセスできない場合があります。<br />
         Some sites may be temporarily unavailable.
-      </span>
+      </div>
     </footer>
   </main>
 
@@ -162,18 +303,15 @@
     const currentHost = window.location.hostname;
     const siteList = document.getElementById("site-list");
     const publicSiteList = document.getElementById("public-site-list");
-    const footerHamusata = document.getElementById("footer-hamusata");
-    const footerHamuzon = document.getElementById("footer-hamuzon");
     const footer = document.getElementById("main-footer");
 
     if (currentHost === "home.hamusata.f5.si") {
       siteList.style.display = "grid";
       publicSiteList.style.display = "none";
-      footerHamusata.style.display = "inline";
-      footerHamuzon.style.display = "none";
+      footer.style.display = "flex";
     } else if (currentHost === "hamuzon.github.io") {
       siteList.innerHTML = `
-        <li><a href="./summer" class="tpww" onclick="location.reload()">Hamuzon-Website-List</a></li>
+        <li><a href="./" class="tpww" onclick="location.reload()">Hamuzon-Website-List</a></li>
         <li><a href="https://hamuzon.github.io/Time-Zone_app/" target="_blank" rel="noopener noreferrer">TimeZone - Hamuzon</a></li>
         <li><a href="https://hamuzon.github.io/expo2025-counter/" target="_blank" rel="noopener noreferrer">Expo 2025 Countdown - Hamuzon</a></li>
         <li><a href="https://hamuzon.github.io/binary-decimal-converter/" target="_blank" rel="noopener noreferrer">binary-decimal-converter - Hamuzon</a></li>
@@ -190,17 +328,17 @@
       `;
       siteList.style.display = "grid";
       publicSiteList.style.display = "none";
-      footerHamusata.style.display = "none";
-      footerHamuzon.style.display = "inline";
+      footer.style.display = "flex";
     } else {
       siteList.style.display = "none";
       publicSiteList.style.display = "grid";
       footer.innerHTML = `
-        <span style="display: block; padding: 0.5rem; user-select:none;">
+        <span style="display: block; padding: 0.5rem; text-align:center;">
           このサイトは公式ではなく、一部の情報は異なる場合があります。<br />
           This version may differ from the original official site.
         </span>
       `;
+      footer.style.display = "block";
     }
 
     // コピーライト年表示制御
@@ -208,7 +346,11 @@
     const currentYear = new Date().getFullYear();
     const yearDisplay = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
     document.getElementById("year-hamusata").textContent = yearDisplay;
-    document.getElementById("year-hamuzon").textContent = yearDisplay;
+
+    // タイトルバーの閉じるボタン動作（例: 非表示）
+    document.querySelector(".title-bar-close").addEventListener("click", () => {
+      document.querySelector("main.container.window").style.display = "none";
+    });
   </script>
 </body>
 </html>
