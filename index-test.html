@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Website List</title>
+  <meta name="description" content="homepageのリンクListsです" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    html, body {
+      margin: 0; padding: 0;
+      font-family: 'Inter', 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif;
+      background: linear-gradient(to bottom, #ffcf91 0%, #a96bf8 100%);
+      min-height: 100vh;
+      color: #333;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      color: #f0f0f0;
+      text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+      margin-bottom: 2rem;
+    }
+
+    h1 a.tpww {
+      color: #fff8dd;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    h1 a.tpww:hover {
+      text-decoration: underline;
+    }
+
+    ul {
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+      list-style: none;
+    }
+
+    li {
+      margin: 0;
+    }
+
+    a {
+      display: block;
+      background: rgba(20, 20, 20, 0.15);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #ddd;
+      text-decoration: none;
+      padding: 1rem;
+      border-radius: 16px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+      transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      word-break: break-word;
+    }
+
+    a:hover {
+      background: rgba(30, 30, 30, 0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      color: #f0f0f0;
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: #fff8dd;
+      text-decoration: underline;
+    }
+
+    #public-site-list {
+      display: none;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+      footer {
+        font-size: 0.75rem;
+      }
+      ul {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>
+      <a href="./" class="tpww" onclick="location.reload()">Website List</a>
+    </h1>
+
+    <ul id="site-list"></ul>
+    <ul id="public-site-list" style="display:none;"></ul>
+  </div>
+
+  <footer id="main-footer">
+    <span id="footer-hamusata">
+      &copy; <span id="year-hamusata"></span> <a href="https://home.hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a>
+    </span>
+    <span id="footer-hamuzon" style="display: none;">
+      &copy; <span id="year-hamuzon"></span> <a href="https://github.com/Hamuzon" target="_blank" rel="noopener noreferrer">@hamuzon</a>
+    </span>
+    <br />
+    <span id="default-message">
+      ※一部のサイトは現在アクセスできない場合があります。<br />
+      Some sites may be temporarily unavailable.
+    </span>
+  </footer>
+
+  <!-- sites.js を先に読み込み -->
+  <script src="sites.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const currentHost = window.location.hostname;
+      const siteList = document.getElementById("site-list");
+      const publicSiteList = document.getElementById("public-site-list");
+      const footerHamusata = document.getElementById("footer-hamusata");
+      const footerHamuzon = document.getElementById("footer-hamuzon");
+      const footer = document.getElementById("main-footer");
+
+      function createLinkItem({ href, text, className, reload }) {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = href;
+        a.textContent = text;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        if (className) a.className = className;
+        if (reload) {
+          a.onclick = (e) => {
+            e.preventDefault();
+            location.reload();
+          };
+        }
+        li.appendChild(a);
+        return li;
+      }
+
+      if (currentHost === "home.hamusata.f5.si") {
+        siteList.innerHTML = "";
+        sitesData.homeHamusata.forEach(site => {
+          siteList.appendChild(createLinkItem(site));
+        });
+        siteList.style.display = "grid";
+        publicSiteList.style.display = "none";
+        footerHamusata.style.display = "inline";
+        footerHamuzon.style.display = "none";
+      } else if (currentHost === "hamuzon.github.io") {
+        siteList.innerHTML = "";
+        sitesData.hamuzonGitHubIO.forEach(site => {
+          siteList.appendChild(createLinkItem(site));
+        });
+        siteList.style.display = "grid";
+        publicSiteList.style.display = "none";
+        footerHamusata.style.display = "none";
+        footerHamuzon.style.display = "inline";
+      } else {
+        publicSiteList.innerHTML = "";
+        sitesData.publicSites.forEach(site => {
+          publicSiteList.appendChild(createLinkItem(site));
+        });
+        siteList.style.display = "none";
+        publicSiteList.style.display = "grid";
+        footer.innerHTML = `
+          <span style="display: block; padding: 0.5rem;">
+            このサイトは公式ではなく、一部の情報は異なる場合があります。<br />
+            This version may differ from the original official site.
+          </span>
+        `;
+      }
+
+      // コピーライト年表示制御
+      const baseYear = 2025;
+      const currentYear = new Date().getFullYear();
+      const yearDisplay = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
+      document.getElementById("year-hamusata").textContent = yearDisplay;
+      document.getElementById("year-hamuzon").textContent = yearDisplay;
+    });
+  </script>
+</body>
+</html>
