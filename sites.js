@@ -1,8 +1,6 @@
-// sites.js
-
 const sitesData = {
   homeHamusata: [
-    { href: "https://home.hamusata.f5.si/", text: "Hamusata-Website-List", className: "tpww", reload: true },
+    { href: "https://home.hamusata.f5.si/", text: "Hamusata-Website-List", className: "tpww", openInSameTab: true },
     { href: "https://YouTube.hamusata.f5.si", text: "YouTube / Local PC Service by Cloudflare Tunnel" },
     { href: "https://scratch-user-info.hamusata.f5.si", text: "Scratch User & Project Info / Local PC Service by Cloudflare Tunnel" },
     { href: "https://hamusata.f5.si", text: "Time Zone / Local PC Service by Cloudflare Tunnel" },
@@ -22,7 +20,7 @@ const sitesData = {
     { href: "https://dice.hamusata.f5.si", text: "🎲サイコロ🎯 Hamusata / Hosted by GitHub" },
   ],
   hamuzonGitHubIO: [
-    { href: "./", text: "Hamuzon-Website-List", className: "tpww", reload: true },
+    { href: "./", text: "Hamuzon-Website-List", className: "tpww", openInSameTab: true },
     { href: "https://hamuzon.github.io/Time-Zone_app/", text: "TimeZone - Hamuzon" },
     { href: "https://hamuzon.github.io/expo2025-counter/", text: "Expo 2025 Countdown - Hamuzon" },
     { href: "https://hamuzon.github.io/binary-decimal-converter/", text: "binary-decimal-converter - Hamuzon" },
@@ -54,22 +52,16 @@ const sitesData = {
   let newPas = "";
 
   if (path === "") {
-    // トップ → summer に切り替え
     newPas = "summer";
   } else if (path === "summer") {
-    // summer → 98 に切り替え
     newPas = "98";
   } else if (path === "98") {
-    // 98 → トップに戻す（空文字）
     newPas = "";
   } else {
-    // その他はトップ扱い
     newPas = "";
   }
 
-  // hamuzonGitHubIO の先頭リンクを書き換え
+  // 先頭リンクの href を切り替え
   sitesData.hamuzonGitHubIO[0].href = newPas === "" ? "./" : `./${newPas}`;
-
-  // homeHamusata の先頭リンクを書き換え
   sitesData.homeHamusata[0].href = newPas === "" ? "https://home.hamusata.f5.si/" : `https://home.hamusata.f5.si/${newPas}`;
 })();
