@@ -95,7 +95,6 @@
       display: none;
     }
 
-    /* 花火ON/OFFボタン */
     #fireworks-toggle {
       position: fixed;
       top: 1rem;
@@ -133,10 +132,8 @@
   </style>
 </head>
 <body>
-  <!-- 花火用キャンバス -->
   <canvas id="fireworksCanvas" style="position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9999;"></canvas>
 
-  <!-- 花火ON/OFFボタン -->
   <button id="fireworks-toggle">花火ON</button>
 
   <div class="container">
@@ -177,10 +174,10 @@
 
   <footer id="main-footer">
     <span id="footer-hamusata">
-      &copy; 2025 <a href="https://home.hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a>
+      &copy; <span id="year-hamusata">2025</span> <a href="https://home.hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a>
     </span>
     <span id="footer-hamuzon" style="display: none;">
-      &copy; 2025 <a href="https://github.com/Hamuzon" target="_blank" rel="noopener noreferrer">@hamuzon</a>
+      &copy; <span id="year-hamuzon">2025</span> <a href="https://github.com/Hamuzon" target="_blank" rel="noopener noreferrer">@hamuzon</a>
     </span>
     <br />
     <span id="default-message">
@@ -232,13 +229,18 @@
         </span>
       `;
     }
+
+    // コピーライト年 自動設定
+    const baseYear = 2025;
+    const currentYear = new Date().getFullYear();
+    const yearText = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
+    document.getElementById("year-hamusata").textContent = yearText;
+    document.getElementById("year-hamuzon").textContent = yearText;
   </script>
 
-  <!-- fireworks.js外部スクリプト -->
   <script src="fireworks.js"></script>
 
   <script>
-    // 花火ON/OFF切替処理
     const toggleBtn = document.getElementById('fireworks-toggle');
     let fireworksOn = true;
 
@@ -253,7 +255,6 @@
       }
     });
 
-    // ページ読み込み時はONで開始
     window.addEventListener('load', () => {
       window.fireworksControl && window.fireworksControl.start();
     });
