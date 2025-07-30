@@ -46,9 +46,8 @@ const sitesData = {
   ]
 };
 
-// 動的に先頭リンクのhrefを切り替える処理
 (function updateBaseLink() {
-  const path = window.location.pathname.replace(/^\/|\/$/g, ""); // 先頭・末尾のスラッシュ除去
+  const path = window.location.pathname.replace(/^\/|\/$/g, "");
   let newPas = "";
 
   if (path === "") {
@@ -65,21 +64,18 @@ const sitesData = {
   sitesData.homeHamusata[0].href = newPas === "" ? "https://home.hamusata.f5.si/" : `https://home.hamusata.f5.si/${newPas}`;
 })();
 
-// リンク要素作成関数
 function createLinkItem({ href, text, className, openInSameTab }) {
   const li = document.createElement("li");
   const a = document.createElement("a");
   a.href = href;
   a.textContent = text;
   a.rel = "noopener noreferrer";
-
-  if (openInSameTab) {
-    a.target = "_self"; // 同じタブで開く
-  } else {
-    a.target = "_blank"; // 新しいタブで開く
-  }
-
+  a.target = "_self";
   if (className) a.className = className;
+  a.addEventListener("click", e => {
+    e.preventDefault();
+    location.href = href; 
+  });
   li.appendChild(a);
   return li;
 }
