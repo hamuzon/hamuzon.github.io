@@ -68,14 +68,15 @@ function createLinkItem({ href, text, className, openInSameTab }) {
   const li = document.createElement("li");
   const a = document.createElement("a");
   a.href = href;
-  a.textContent = text;
+  a.textContent = text || href;
   a.rel = "noopener noreferrer";
-  a.target = "_self";
   if (className) a.className = className;
-  a.addEventListener("click", e => {
-    e.preventDefault();
-    location.href = href; 
-  });
+  if (openInSameTab) {
+    a.target = "_self";
+    a.setAttribute("onclick", "location.reload(); return false;");
+  } else {
+    a.target = "_blank";
+  }
   li.appendChild(a);
   return li;
 }
