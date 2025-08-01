@@ -46,6 +46,7 @@ const sitesData = {
   ]
 };
 
+// ページ遷移先の調整
 (function updateBaseLink() {
   const path = window.location.pathname.replace(/^\/|\/$/g, "");
   let newPas = "";
@@ -64,14 +65,18 @@ const sitesData = {
   sitesData.homeHamusata[0].href = newPas === "" ? "https://home.hamusata.f5.si/" : `https://home.hamusata.f5.si/${newPas}`;
 })();
 
-function createLinkItem({ href, text, className }) {
+// <li>リンク生成関数（openInSameTab に対応）
+function createLinkItem({ href, text, className, openInSameTab }) {
   const li = document.createElement("li");
   const a = document.createElement("a");
   a.href = href;
   a.textContent = text || href;
   a.rel = "noopener noreferrer";
   if (className) a.className = className;
-  a.target = "_self"; 
+
+  // 開くタブの制御
+  a.target = openInSameTab ? "_self" : "_blank";
+
   li.appendChild(a);
   return li;
 }
