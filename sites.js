@@ -47,25 +47,6 @@ const sitesData = {
   ]
 };
 
-// ページ遷移先の調整
-(function updateBaseLink() {
-  const path = window.location.pathname.replace(/^\/|\/$/g, "");
-  let newPas = "";
-
-  if (path === "") {
-    newPas = "summer";
-  } else if (path === "summer") {
-    newPas = "98";
-  } else if (path === "98") {
-    newPas = "";
-  } else {
-    newPas = "";
-  }
-
-  sitesData.hamuzonGitHubIO[0].href = newPas === "" ? "./" : `./${newPas}`;
-  sitesData.homeHamusata[0].href = newPas === "" ? "https://home.hamusata.f5.si/" : `https://home.hamusata.f5.si/${newPas}`;
-})();
-
 // <li>リンク生成関数（openInSameTab に対応）
 function createLinkItem({ href, text, className, openInSameTab }) {
   const li = document.createElement("li");
