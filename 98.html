@@ -237,7 +237,7 @@
     </header>
 
     <h1>
-      <a href="./" class="tpww" onclick="location.reload()">Website List</a>
+      <a href="./pixel" class="tpww" onclick="location.reload()">Website List</a>
     </h1>
 
     <ul id="site-list" class="field-row wrap gap-2"></ul>
@@ -291,7 +291,7 @@
 
     // ホストごとにリンクリストを切り替え
     if (currentHost === "home.hamusata.f5.si") {
-      siteList.innerHTML = "/Pixel";
+      siteList.innerHTML = "";
       sitesData.homeHamusata.forEach(site => {
         siteList.appendChild(createLinkItem(site));
       });
@@ -300,7 +300,7 @@
       footer.style.display = "flex";
 
     } else if (currentHost === "hamuzon.github.io") {
-      siteList.innerHTML = "/Pixel";
+      siteList.innerHTML = "";
       sitesData.hamuzonGitHubIO.forEach(site => {
         siteList.appendChild(createLinkItem(site));
       });
