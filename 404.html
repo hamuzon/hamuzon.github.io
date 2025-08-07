@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>404 エラーコード - Error</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <style>
+    :root {
+      --bg: #1c1c1c;
+      --text: #dcdcdc;
+      --border: #3a3a3a;
+      --device-bg: #2a2a2a;
+      --status-bg: #333333;
+      --status-text: #aaaaaa;
+      --input-bg: #252525;
+      --button-bg: #3c3c3c;
+      --button-hover: #505050;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f7f3e9;
+        --text: #3b2f2f;
+        --border: #b7a98c;
+        --device-bg: #fffdf7;
+        --status-bg: #f2e8d5;
+        --status-text: #5c4b3b;
+        --input-bg: #fffaf3;
+        --button-bg: #d8c6a1;
+        --button-hover: #c5b38f;
+      }
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      padding: 2rem;
+      background-image: radial-gradient(circle at center, rgba(255 255 255 / 0.05), transparent 70%);
+    }
+    h1 {
+      font-size: 5rem;
+      margin-bottom: 0.3em;
+      letter-spacing: 0.15em;
+    }
+    p {
+      font-size: 1.2rem;
+      margin: 0.3em 0;
+      color: var(--text);
+      opacity: 0.9;
+    }
+    .subtext {
+      font-size: 1rem;
+      color: var(--status-text);
+      margin-top: 0.5em;
+      opacity: 0.8;
+    }
+    a.back {
+      margin-top: 2rem;
+      padding: 0.75em 2em;
+      background-color: var(--button-bg);
+      color: var(--text);
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    a.back:hover {
+      background-color: var(--button-hover);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.8);
+    }
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 3.5rem;
+      }
+      p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>404 - error</h1>
+  <p>エラーが発生しました: 見つかりません</p>
+  <p class="subtext">Sorry, Not Found.</p>
+  <a id="backLink" class="back" href="/">トップページへ戻る</a>
+
+  <script>
+    (function() {
+      const path = location.pathname.toLowerCase();
+
+      let backUrl = "/";
+
+      if (path.startsWith("/blog")) {
+        backUrl = "/blog-home";
+      } else if (path.startsWith("/products")) {
+        backUrl = "/shop";
+      } else if (path.startsWith("/about")) {
+        backUrl = "/company-info";
+      }
+
+      const backLinkEl = document.getElementById("backLink");
+      if (backLinkEl) {
+        backLinkEl.href = backUrl;
+      }
+    })();
+  </script>
+</body>
+</html>

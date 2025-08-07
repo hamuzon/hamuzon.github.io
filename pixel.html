@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Website List</title>
+  <meta name="description" content="homepageのリンクListsです" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <!-- ピクセルフォント -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    html, body {
+      margin: 0; padding: 0;
+      font-family: 'Press Start 2P', monospace, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0a122a; /* とても濃いネイビー */
+      color: #fefefe; /* 白系の明るい文字 */
+      min-height: 100vh;
+      user-select: none;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 900px;
+      margin: 3rem auto 4rem;
+      padding: 2.5rem 2.5rem;
+      background-color: #151c3a; /* 濃紺 */
+      border: 4px solid #7fc7ff; /* 明るい水色ボーダー */
+      border-radius: 10px;
+      box-shadow:
+        0 0 15px #7fc7ff88,
+        inset 0 0 10px #0a122a;
+      user-select: text;
+    }
+    h1 {
+      font-size: 1.6rem;
+      text-align: center;
+      margin-bottom: 3.5rem;
+      color: #a0d8ff; /* 明るい水色寄り白 */
+      letter-spacing: 0.3em;
+      text-shadow:
+        1px 1px 0 #000a,
+        2px 2px 4px #000f;
+      user-select: text;
+    }
+    h1 a.tpww {
+      color: #a0d8ff;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.25s ease;
+    }
+    h1 a.tpww:hover {
+      color: #d0f0ff;
+      text-decoration: underline;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem 2rem;
+    }
+    li {
+      margin: 0;
+    }
+    a {
+      display: block;
+      background-color: #5aaeff; /* 明るい青系 */
+      color: #fefefe; /* 白 */
+      font-weight: 900;
+      font-size: 0.85rem;
+      padding: 1.75rem 1.2rem;
+      border-radius: 8px;
+      text-align: center;
+      text-decoration: none;
+      box-shadow: 0 5px 10px #2a69b8cc;
+      transition:
+        background-color 0.3s ease,
+        color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.2s ease;
+      word-break: break-word;
+      user-select: text;
+      letter-spacing: 0.2em;
+      text-shadow: 0 0 2px #145f9a;
+    }
+    a:hover, a:focus {
+      background-color: #87bfff; /* 明るい水色 */
+      color: #0a122a; /* 濃いネイビー */
+      box-shadow: 0 8px 20px #58a0ffdd;
+      transform: translateY(-4px);
+      outline: none;
+    }
+    footer {
+      text-align: center;
+      padding: 1.2rem 1.5rem;
+      color: #a0d8ff;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      user-select: none;
+      font-weight: 700;
+      text-shadow: 1px 1px 1px #000a;
+    }
+    footer a {
+      color: #d0f0ff;
+      text-decoration: underline;
+      font-weight: 700;
+      transition: color 0.3s ease;
+    }
+    footer a:hover {
+      color: #f0fbff;
+    }
+    #public-site-list {
+      display: none;
+    }
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.2rem;
+        letter-spacing: 0.25em;
+      }
+      a {
+        font-size: 0.75rem;
+        padding: 1.5rem 1rem;
+      }
+      footer {
+        font-size: 0.65rem;
+      }
+      ul {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" role="main" aria-label="Website List Container">
+    <h1>
+      <a href="/" class="tpww" aria-label="Website List">Website List</a>
+    </h1>
+    <ul id="site-list" aria-label="Site List"></ul>
+    <ul id="public-site-list" style="display:none;" aria-label="Public Site List"></ul>
+  </div>
+
+  <footer id="main-footer" role="contentinfo" aria-label="Footer">
+    <span id="footer-hamusata">
+      &copy; <span id="year-hamusata"></span> <a href="https://home.hamusata.f5.si" target="_blank" rel="noopener noreferrer" aria-label="hamusata homepage">@hamusata</a>
+    </span>
+    <span id="footer-hamuzon" style="display: none;">
+      &copy; <span id="year-hamuzon"></span> <a href="https://github.com/Hamuzon" target="_blank" rel="noopener noreferrer" aria-label="Hamuzon GitHub">@Hamuzon</a>
+    </span>
+    <br />
+    <span id="default-message" style="font-size: 0.6rem; color: #a8cfffcc; user-select:none;">
+      ※一部のサイトは現在アクセスできない場合があります。<br />
+      Some sites may be temporarily unavailable.
+    </span>
+  </footer>
+
+  <script src="sites.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const currentHost = window.location.hostname;
+      const siteList = document.getElementById("site-list");
+      const publicSiteList = document.getElementById("public-site-list");
+      const footerHamusata = document.getElementById("footer-hamusata");
+      const footerHamuzon = document.getElementById("footer-hamuzon");
+      const footer = document.getElementById("main-footer");
+
+      function createLinkItem({ href, text, className, openInSameTab }) {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        if ((href === "https://home.hamusata.f5.si/" || href === "./") && text.includes("Website-List")) {
+          a.href = "/";
+        } else {
+          a.href = href;
+        }
+        a.textContent = text;
+        a.target = openInSameTab ? "_self" : "_blank";
+        a.rel = "noopener noreferrer";
+        if (className) a.className = className;
+        if (openInSameTab) {
+          a.setAttribute("onclick", "location.reload(); return false;");
+        }
+        li.appendChild(a);
+        return li;
+      }
+
+      if (currentHost === "home.hamusata.f5.si") {
+        siteList.innerHTML = "";
+        sitesData.homeHamusata.forEach(site => {
+          siteList.appendChild(createLinkItem(site));
+        });
+        siteList.style.display = "grid";
+        publicSiteList.style.display = "none";
+        footerHamusata.style.display = "inline";
+        footerHamuzon.style.display = "none";
+      } else if (currentHost === "hamuzon.github.io") {
+        siteList.innerHTML = "";
+        sitesData.hamuzonGitHubIO.forEach(site => {
+          siteList.appendChild(createLinkItem(site));
+        });
+        siteList.style.display = "grid";
+        publicSiteList.style.display = "none";
+        footerHamusata.style.display = "none";
+        footerHamuzon.style.display = "inline";
+      } else {
+        publicSiteList.innerHTML = "";
+        sitesData.publicSites.forEach(site => {
+          publicSiteList.appendChild(createLinkItem(site));
+        });
+        siteList.style.display = "none";
+        publicSiteList.style.display = "grid";
+        footer.innerHTML = `
+          <span style="display: block; padding: 0.5rem; font-family: 'Press Start 2P', monospace; color: #a8cfff;">
+            このサイトは公式ではなく、一部の情報は異なる場合があります。<br />
+            This version may differ from the original official site.
+          </span>
+        `;
+      }
+
+      const baseYear = 2025;
+      const currentYear = new Date().getFullYear();
+      const yearDisplay = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
+      document.getElementById("year-hamusata").textContent = yearDisplay;
+      document.getElementById("year-hamuzon").textContent = yearDisplay;
+    });
+  </script>
+</body>
+</html>
