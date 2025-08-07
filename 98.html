@@ -291,7 +291,7 @@
 
     // ホストごとにリンクリストを切り替え
     if (currentHost === "home.hamusata.f5.si") {
-      siteList.innerHTML = "home.hamusata.f5.si/Pixel";
+      siteList.innerHTML = "/Pixel";
       sitesData.homeHamusata.forEach(site => {
         siteList.appendChild(createLinkItem(site));
       });
@@ -300,7 +300,7 @@
       footer.style.display = "flex";
 
     } else if (currentHost === "hamuzon.github.io") {
-      siteList.innerHTML = "hamuzon.github.io/Pixel";
+      siteList.innerHTML = "/Pixel";
       sitesData.hamuzonGitHubIO.forEach(site => {
         siteList.appendChild(createLinkItem(site));
       });
