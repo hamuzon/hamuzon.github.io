@@ -48,17 +48,17 @@ const sitesData = {
 };
 
 // <li>リンク生成関数（openInSameTab に対応）
-function createLinkItem({ href, text, className, openInSameTab }) {
-  const li = document.createElement("li");
-  const a = document.createElement("a");
-  a.href = href;
-  a.textContent = text || href;
-  a.rel = "noopener noreferrer";
-  if (className) a.className = className;
+//function createLinkItem({ href, text, className, openInSameTab }) {
+  //const li = document.createElement("li");
+  //const a = document.createElement("a");
+  //a.href = href;
+  //a.textContent = text || href;
+  //a.rel = "noopener noreferrer";
+  //if (className) a.className = className;
 
   // 開くタブの制御
-  a.target = openInSameTab ? "_self" : "_blank";
+  //a.target = openInSameTab ? "_self" : "_blank";
 
-  li.appendChild(a);
-  return li;
-    }
+  //li.appendChild(a);
+  //return li;
+    //}
