@@ -132,24 +132,24 @@
       function createLinkItem({ href, text, className, openInSameTab }) {
         const li = document.createElement("li");
         const a = document.createElement("a");
+
+        // 特定リンクの置き換え
         if ((href === "https://home.hamusata.f5.si/" || href === "./") && text.includes("Website-List")) {
           a.href = "/summer";
         } else {
           a.href = href;
         }
+
         a.textContent = text;
         a.target = openInSameTab ? "_self" : "_blank";
         a.rel = "noopener noreferrer";
         if (className) a.className = className;
-        if (openInSameTab) {
-          a.setAttribute("onclick", "location.reload(); return false;");
-        }
+
         li.appendChild(a);
         return li;
       }
 
       if (currentHost === "home.hamusata.f5.si") {
-        siteList.innerHTML = "";
         sitesData.homeHamusata.forEach(site => {
           siteList.appendChild(createLinkItem(site));
         });
@@ -158,7 +158,6 @@
         footerHamusata.style.display = "inline";
         footerHamuzon.style.display = "none";
       } else if (currentHost === "hamuzon.github.io") {
-        siteList.innerHTML = "";
         sitesData.hamuzonGitHubIO.forEach(site => {
           siteList.appendChild(createLinkItem(site));
         });
@@ -167,7 +166,6 @@
         footerHamusata.style.display = "none";
         footerHamuzon.style.display = "inline";
       } else {
-        publicSiteList.innerHTML = "";
         sitesData.publicSites.forEach(site => {
           publicSiteList.appendChild(createLinkItem(site));
         });
@@ -181,6 +179,7 @@
         `;
       }
 
+      // 年の表示処理
       const baseYear = 2025;
       const currentYear = new Date().getFullYear();
       const yearDisplay = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
