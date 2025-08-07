@@ -124,7 +124,7 @@
 
   <div class="container">
     <h1>
-      <a href="./98" class="tpww" onclick="location.reload()">Website List</a>
+      <a href="./98" class="tpww">Website List</a>
     </h1>
 
     <ul id="site-list"></ul>
@@ -145,13 +145,9 @@
     </span>
   </footer>
 
-  <!-- sites.js を外部ファイルとして読み込む -->
   <script src="sites.js"></script>
 
   <script>
-    // sites.jsの sitesData と createLinkItem を利用する想定
-
-    // DOM準備後に実行
     document.addEventListener("DOMContentLoaded", () => {
       const currentHost = window.location.hostname;
       const siteList = document.getElementById("site-list");
@@ -160,25 +156,26 @@
       const footerHamuzon = document.getElementById("footer-hamuzon");
       const footer = document.getElementById("main-footer");
 
-      // もしsites.jsにcreateLinkItem関数がなければ、こちらの関数を使う（重複回避）
       const safeCreateLinkItem = typeof createLinkItem === "function" ? createLinkItem : function({ href, text, className, openInSameTab }) {
         const li = document.createElement("li");
         const a = document.createElement("a");
-        a.href = href;
+
+        // リダイレクト処理（./ や https://home.hamusata.f5.si/）
+        if ((href === "https://home.hamusata.f5.si/" || href === "./") && text.includes("Website-List")) {
+          a.href = "/summer";
+        } else {
+          a.href = href;
+        }
+
         a.textContent = text || href;
         a.rel = "noopener noreferrer";
         if (className) a.className = className;
-        if (openInSameTab) {
-          a.target = "_self";
-          a.setAttribute("onclick", "location.reload(); return false;");
-        } else {
-          a.target = "_blank";
-        }
+        a.target = openInSameTab ? "_self" : "_blank";
+
         li.appendChild(a);
         return li;
       };
 
-      // ホストによる表示切替
       if (currentHost === "home.hamusata.f5.si") {
         siteList.innerHTML = "";
         sitesData.homeHamusata.forEach(site => {
@@ -216,7 +213,6 @@
         `;
       }
 
-      // コピーライト年 自動設定
       const baseYear = 2025;
       const currentYear = new Date().getFullYear();
       const yearText = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
