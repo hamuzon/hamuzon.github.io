@@ -197,7 +197,7 @@
 </main>
 
 <script>
- (() => {
+(() => {
   const APP_NAME = "PixelDraw";
   const APP_VERSION = "1.0";
   const WIDTH = 16;
@@ -258,14 +258,9 @@
   }
 
   function paintPixel(pixel){
-    if(currentColor === null){
-      pixel.style.backgroundColor = "transparent";
-    } else {
-      pixel.style.backgroundColor = currentColor;
-    }
+    pixel.style.backgroundColor = currentColor === null ? "transparent" : currentColor;
   }
 
-  // 描画時にローカル保存呼び出し用
   function onDrawChange() {
     saveToLocalStorage();
   }
@@ -288,53 +283,14 @@
 
   resetBtn.addEventListener("click", () => {
     if(confirm("本当にボードをリセットして全てクリアしますか？")){
-      canvasEl.querySelectorAll(".pixel").forEach(p => {
-        p.style.backgroundColor = "transparent";
-      });
+      canvasEl.querySelectorAll(".pixel").forEach(p => p.style.backgroundColor = "transparent");
       localStorage.removeItem("pixelDrawingData");
       titleInput.value = "";
     }
   });
 
   saveBtn.addEventListener("click", () => {
-    const pixels = canvasEl.querySelectorAll(".pixel");
-    const pixelData = [];
-    pixels.forEach((p, i) => {
-      const bg = p.style.backgroundColor;
-      if(bg !== "" && bg !== "transparent"){
-        const x = i % WIDTH;
-        const y = Math.floor(i / WIDTH);
-        pixelData.push({x, y, color: bg});
-      }
-    });
-
-    const dataObj = {
-      app: APP_NAME,
-      version: APP_VERSION,
-      width: WIDTH,
-      height: HEIGHT,
-      title: titleInput.value.trim() || undefined,
-      pixels: pixelData
-    };
-
-    const jsonStr = JSON.stringify(dataObj, null, 2);
-    localStorage.setItem("pixelDrawingData", jsonStr);
-
-    const dt = new Date();
-    const pad = n => n.toString().padStart(2,"0");
-    const filename = `${APP_NAME}-${APP_VERSION}_${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}_${pad(dt.getHours())}-${pad(dt.getMinutes())}-${pad(dt.getSeconds())}.json`;
-
-    const blob = new Blob([jsonStr], {type:"application/json"});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-
-    alert("作品を保存しました。");
+    downloadJson();
   });
 
   loadBtn.addEventListener("click", () => {
@@ -344,40 +300,26 @@
 
   fileLoadInput.addEventListener("change", e => {
     const file = e.target.files[0];
-    if(!file) return;
-    if(!file.name.endsWith(".json")){
-      alert("JSONファイルを選択してください。");
-      return;
-    }
+    if(!file) return alert("ファイルが選択されていません。");
+    if(!file.name.endsWith(".json")) return alert("JSONファイルを選択してください。");
     const reader = new FileReader();
-    reader.onload = (ev) => {
+    reader.onload = ev => {
       try {
         const data = JSON.parse(ev.target.result);
-        if(
-          !data.app || !data.version ||
-          data.width !== WIDTH || data.height !== HEIGHT ||
-          !Array.isArray(data.pixels)
-        ){
-          alert("JSONデータの形式が不正です。");
-          return;
+        if(data.app !== APP_NAME || data.version !== APP_VERSION || data.width !== WIDTH || data.height !== HEIGHT || !Array.isArray(data.pixels)){
+          return alert("JSONデータの形式が不正です。");
         }
         titleInput.value = data.title || "";
-
-        canvasEl.querySelectorAll(".pixel").forEach(p=>{
-          p.style.backgroundColor = "transparent";
-        });
-
+        canvasEl.querySelectorAll(".pixel").forEach(p => p.style.backgroundColor = "transparent");
         data.pixels.forEach(({x,y,color}) => {
-          if(x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT && typeof color === "string"){
-            const index = y * WIDTH + x;
-            const pixel = canvasEl.querySelector(`.pixel[data-index="${index}"]`);
-            if(pixel){
-              pixel.style.backgroundColor = color;
-            }
+          if(x>=0 && x<WIDTH && y>=0 && y<HEIGHT && typeof color === "string"){
+            const idx = y*WIDTH + x;
+            const pixel = canvasEl.querySelector(`.pixel[data-index="${idx}"]`);
+            if(pixel) pixel.style.backgroundColor = color;
           }
         });
         alert("作品を読み込みました。");
-        saveToLocalStorage(); // 読み込み後も自動保存状態へ
+        saveToLocalStorage();
       } catch {
         alert("JSONファイルの読み込みに失敗しました。");
       }
@@ -390,24 +332,14 @@
     if(saved){
       try {
         const data = JSON.parse(saved);
-        if(
-          data.app === APP_NAME &&
-          data.version === APP_VERSION &&
-          data.width === WIDTH &&
-          data.height === HEIGHT &&
-          Array.isArray(data.pixels)
-        ){
+        if(data.app === APP_NAME && data.version === APP_VERSION && data.width === WIDTH && data.height === HEIGHT && Array.isArray(data.pixels)){
           titleInput.value = data.title || "";
-          canvasEl.querySelectorAll(".pixel").forEach(p=>{
-            p.style.backgroundColor = "transparent";
-          });
+          canvasEl.querySelectorAll(".pixel").forEach(p => p.style.backgroundColor = "transparent");
           data.pixels.forEach(({x,y,color}) => {
-            if(x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT && typeof color === "string"){
-              const index = y * WIDTH + x;
-              const pixel = canvasEl.querySelector(`.pixel[data-index="${index}"]`);
-              if(pixel){
-                pixel.style.backgroundColor = color;
-              }
+            if(x>=0 && x<WIDTH && y>=0 && y<HEIGHT && typeof color === "string"){
+              const idx = y*WIDTH + x;
+              const pixel = canvasEl.querySelector(`.pixel[data-index="${idx}"]`);
+              if(pixel) pixel.style.backgroundColor = color;
             }
           });
         }
@@ -415,18 +347,12 @@
     }
   });
 
-  createPalette();
+  titleInput.addEventListener("input", () => saveToLocalStorage());
 
-  // タイトル入力変更時も自動保存
-  titleInput.addEventListener("input", () => {
-    saveToLocalStorage();
-  });
-
-  // 画像保存ボタン押下で形式選択リスト表示
   imgSaveBtn.addEventListener("click", () => {
     const formats = ["png", "jpeg", "svg"];
     const oldSelect = document.getElementById("img-format-select");
-    if (oldSelect) oldSelect.remove();
+    if(oldSelect) oldSelect.remove();
 
     const select = document.createElement("select");
     select.id = "img-format-select";
@@ -437,9 +363,9 @@
       select.appendChild(option);
     });
 
-    const saveConfirmBtn = document.createElement("button");
-    saveConfirmBtn.textContent = "保存";
-    saveConfirmBtn.style.marginLeft = "8px";
+    const saveBtn = document.createElement("button");
+    saveBtn.textContent = "保存";
+    saveBtn.style.marginLeft = "8px";
 
     const wrapper = document.createElement("div");
     wrapper.style.position = "fixed";
@@ -451,82 +377,71 @@
     wrapper.style.padding = "12px";
     wrapper.style.zIndex = "9999";
     wrapper.appendChild(select);
-    wrapper.appendChild(saveConfirmBtn);
+    wrapper.appendChild(saveBtn);
     document.body.appendChild(wrapper);
 
-    saveConfirmBtn.addEventListener("click", () => {
-      const format = select.value;
-      saveImage(format);
+    saveBtn.addEventListener("click", () => {
+      saveImage(select.value);
       wrapper.remove();
     });
 
     wrapper.addEventListener("click", e => {
-      if (e.target === wrapper) wrapper.remove();
+      if(e.target === wrapper) wrapper.remove();
     });
   });
 
-  // RGB to HEX変換関数
   function rgbToHex(rgb) {
-    const result = /^rgba?\((\d+),\s*(\d+),\s*(\d+)/i.exec(rgb);
-    if (!result) return rgb;
-    return "#" + [1, 2, 3].map(i => {
-      const hex = parseInt(result[i]).toString(16);
-      return hex.length === 1 ? "0" + hex : hex;
+    const m = /^rgba?\((\d+),\s*(\d+),\s*(\d+)/i.exec(rgb);
+    if(!m) return rgb;
+    return "#" + [1,2,3].map(i => {
+      const h = parseInt(m[i]).toString(16);
+      return h.length === 1 ? "0"+h : h;
     }).join("");
   }
 
-  // 画像保存処理
   function saveImage(format) {
-    if (format === "svg") {
-      const svgText = generateSvg();
-      saveSvg(svgText, `${APP_NAME}-${APP_VERSION}_${getFilenameTimestamp()}.svg`);
+    if(format === "svg"){
+      const svg = generateSvg();
+      saveSvg(svg, `${APP_NAME}-${APP_VERSION}_${getTimestamp()}.svg`);
       return;
     }
     const cvs = document.createElement("canvas");
     cvs.width = WIDTH;
     cvs.height = HEIGHT;
     const ctx = cvs.getContext("2d");
-    ctx.clearRect(0, 0, WIDTH, HEIGHT);
-
-    const pixels = canvasEl.querySelectorAll(".pixel");
-    pixels.forEach((p, i) => {
+    ctx.clearRect(0,0,WIDTH,HEIGHT);
+    canvasEl.querySelectorAll(".pixel").forEach((p,i) => {
       const bg = p.style.backgroundColor;
-      if (bg && bg !== "transparent" && bg !== "") {
+      if(bg && bg !== "transparent" && bg !== ""){
         const x = i % WIDTH;
         const y = Math.floor(i / WIDTH);
         ctx.fillStyle = bg;
-        ctx.fillRect(x, y, 1, 1);
+        ctx.fillRect(x,y,1,1);
       }
     });
-
-    const mime = (format === "jpeg") ? "image/jpeg" : "image/png";
-    cvs.toBlob(blob => {
-      downloadBlob(blob, `${APP_NAME}-${APP_VERSION}_${getFilenameTimestamp()}.${format}`);
-    }, mime, 0.92);
+    const mime = format === "jpeg" ? "image/jpeg" : "image/png";
+    cvs.toBlob(blob => downloadBlob(blob, `${APP_NAME}-${APP_VERSION}_${getTimestamp()}.${format}`), mime, 0.92);
   }
 
-  // SVG生成
-  function generateSvg() {
-    const pixels = canvasEl.querySelectorAll(".pixel");
+  function generateSvg(){
     const rects = [];
-    pixels.forEach((p, i) => {
+    canvasEl.querySelectorAll(".pixel").forEach((p,i) => {
       const color = p.style.backgroundColor;
-      if (color && color !== "transparent" && color !== "") {
-        const hexColor = rgbToHex(color);
+      if(color && color !== "transparent" && color !== ""){
+        const hex = rgbToHex(color);
         const x = i % WIDTH;
         const y = Math.floor(i / WIDTH);
-        rects.push(`<rect x="${x}" y="${y}" width="1" height="1" fill="${hexColor}" />`);
+        rects.push(`<rect x="${x}" y="${y}" width="1" height="1" fill="${hex}"/>`);
       }
     });
     return `<?xml version="1.0" encoding="UTF-8"?>
 <svg width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
-  ${rects.join("\n  ")}
+${rects.join("\n")}
 </svg>`;
   }
 
-  // SVG保存用
-  function saveSvg(svgText, filename) {
-    const blob = new Blob([svgText], { type: "image/svg+xml;charset=utf-8" });
+  function saveSvg(svgText, filename){
+    const blob = new Blob([svgText], {type:"image/svg+xml;charset=utf-8"});
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -537,8 +452,7 @@
     URL.revokeObjectURL(url);
   }
 
-  // Blobダウンロード用
-  function downloadBlob(blob, filename) {
+  function downloadBlob(blob, filename){
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -549,20 +463,17 @@
     URL.revokeObjectURL(url);
   }
 
-  // ローカルストレージに保存
-  function saveToLocalStorage() {
-    const pixels = canvasEl.querySelectorAll(".pixel");
+  function saveToLocalStorage(){
     const pixelData = [];
-    pixels.forEach((p, i) => {
+    canvasEl.querySelectorAll(".pixel").forEach((p,i) => {
       const bg = p.style.backgroundColor;
       if(bg !== "" && bg !== "transparent"){
         const x = i % WIDTH;
         const y = Math.floor(i / WIDTH);
-        pixelData.push({x, y, color: bg});
+        pixelData.push({x,y,color:bg});
       }
     });
-
-    const dataObj = {
+    const data = {
       app: APP_NAME,
       version: APP_VERSION,
       width: WIDTH,
@@ -570,18 +481,51 @@
       title: titleInput.value.trim() || undefined,
       pixels: pixelData
     };
-    localStorage.setItem("pixelDrawingData", JSON.stringify(dataObj));
+    localStorage.setItem("pixelDrawingData", JSON.stringify(data));
   }
 
-  // 日付フォーマット取得
-  function getFilenameTimestamp() {
+  function downloadJson(){
+    const pixels = canvasEl.querySelectorAll(".pixel");
+    const pixelData = [];
+    pixels.forEach((p,i) => {
+      const bg = p.style.backgroundColor;
+      if(bg !== "" && bg !== "transparent"){
+        const x = i % WIDTH;
+        const y = Math.floor(i / WIDTH);
+        pixelData.push({x,y,color:bg});
+      }
+    });
+    const data = {
+      app: APP_NAME,
+      version: APP_VERSION,
+      width: WIDTH,
+      height: HEIGHT,
+      title: titleInput.value.trim() || undefined,
+      pixels: pixelData
+    };
+    const jsonStr = JSON.stringify(data, null, 2);
+    const blob = new Blob([jsonStr], {type:"application/json"});
     const dt = new Date();
-    const pad = n => n.toString().padStart(2, "0");
-    return `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}-${pad(dt.getDate())}_${pad(dt.getHours())}-${pad(dt.getMinutes())}-${pad(dt.getSeconds())}`;
+    const pad = n => n.toString().padStart(2,"0");
+    const filename = `${APP_NAME}-${APP_VERSION}_${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}_${pad(dt.getHours())}-${pad(dt.getMinutes())}-${pad(dt.getSeconds())}.json`;
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    alert("作品を保存しました。");
+  }
+
+  function getTimestamp(){
+    const dt = new Date();
+    const pad = n => n.toString().padStart(2,"0");
+    return `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}_${pad(dt.getHours())}-${pad(dt.getMinutes())}-${pad(dt.getSeconds())}`;
   }
 
   createPalette();
-
 })();
 </script>
 </body>
