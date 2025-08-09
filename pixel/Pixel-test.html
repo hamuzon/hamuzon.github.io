@@ -199,19 +199,24 @@
 <script>
 (() => {
   const APP_NAME = "PixelDraw";
-  const APP_VERSION = "2.0";
+  const SUPPORTED_VERSIONS = ["1.0", "2.0"];
+  const CURRENT_VERSION = "2.0";
+
   const WIDTH = 16;
   const HEIGHT = 16;
-  const colors = [
+
+  const DEFAULT_PALETTE = [
     "#000000",
     "#ff0000",
     "#00ff00",
     "#0000ff",
     "#ffff00",
     "#ffffff",
-    null
+    "transparent"
   ];
-  let currentColor = colors[0];
+
+  let palette = [...DEFAULT_PALETTE];
+  let currentColor = palette[0];
   let isDrawing = false;
 
   const paletteEl = document.getElementById("palette");
@@ -223,22 +228,23 @@
   const fileLoadInput = document.getElementById("file-load");
   const titleInput = document.getElementById("titleInput");
 
-  // ピクセル生成
-  for(let i=0; i<WIDTH*HEIGHT; i++){
-    const pixel = document.createElement("div");
-    pixel.classList.add("pixel");
-    pixel.dataset.index = i;
-    pixel.style.backgroundColor = "transparent";
-    canvasEl.appendChild(pixel);
+  function createPixels(){
+    canvasEl.innerHTML = "";
+    for(let i=0; i < WIDTH*HEIGHT; i++){
+      const pixel = document.createElement("div");
+      pixel.classList.add("pixel");
+      pixel.dataset.index = i;
+      pixel.style.backgroundColor = "transparent";
+      canvasEl.appendChild(pixel);
+    }
   }
 
-  // パレット生成
   function createPalette(){
     paletteEl.innerHTML = "";
-    colors.forEach((c) => {
+    palette.forEach((c) => {
       const btn = document.createElement("div");
       btn.className = "color-btn";
-      if(c === null){
+      if(c === "transparent" || c === null){
         btn.classList.add("transparent");
         btn.title = "透明（クリア）";
       } else {
@@ -258,7 +264,7 @@
   }
 
   function paintPixel(pixel){
-    pixel.style.backgroundColor = currentColor === null ? "transparent" : currentColor;
+    pixel.style.backgroundColor = currentColor === "transparent" ? "transparent" : currentColor;
   }
 
   function onDrawChange() {
@@ -284,7 +290,7 @@
   resetBtn.addEventListener("click", () => {
     if(confirm("本当にボードをリセットして全てクリアしますか？")){
       canvasEl.querySelectorAll(".pixel").forEach(p => p.style.backgroundColor = "transparent");
-      localStorage.removeItem("pixelDrawingData");
+      localStorage.removeItem(getStorageKey());
       titleInput.value = "";
     }
   });
@@ -306,18 +312,19 @@
     reader.onload = ev => {
       try {
         const data = JSON.parse(ev.target.result);
-        if(data.app !== APP_NAME || data.version !== APP_VERSION || data.width !== WIDTH || data.height !== HEIGHT || !Array.isArray(data.pixels)){
-          return alert("JSONデータの形式が不正です。");
+        if(!data.app || data.app !== APP_NAME){
+          return alert("このアプリのJSONではありません。");
         }
-        titleInput.value = data.title || "";
-        canvasEl.querySelectorAll(".pixel").forEach(p => p.style.backgroundColor = "transparent");
-        data.pixels.forEach(({x,y,color}) => {
-          if(x>=0 && x<WIDTH && y>=0 && y<HEIGHT && typeof color === "string"){
-            const idx = y*WIDTH + x;
-            const pixel = canvasEl.querySelector(`.pixel[data-index="${idx}"]`);
-            if(pixel) pixel.style.backgroundColor = color;
-          }
-        });
+        if(!SUPPORTED_VERSIONS.includes(data.version)){
+          return alert(`対応していないバージョンです: ${data.version}`);
+        }
+        if(data.width !== WIDTH || data.height !== HEIGHT){
+          return alert("キャンバスサイズが異なります。");
+        }
+        if(data.version === "1.0"){
+          convertV1ToV2(data);
+        }
+        loadFromData(data);
         alert("作品を読み込みました。");
         saveToLocalStorage();
       } catch {
@@ -328,20 +335,15 @@
   });
 
   window.addEventListener("load", () => {
-    const saved = localStorage.getItem("pixelDrawingData");
+    const saved = localStorage.getItem(getStorageKey());
     if(saved){
       try {
         const data = JSON.parse(saved);
-        if(data.app === APP_NAME && data.version === APP_VERSION && data.width === WIDTH && data.height === HEIGHT && Array.isArray(data.pixels)){
-          titleInput.value = data.title || "";
-          canvasEl.querySelectorAll(".pixel").forEach(p => p.style.backgroundColor = "transparent");
-          data.pixels.forEach(({x,y,color}) => {
-            if(x>=0 && x<WIDTH && y>=0 && y<HEIGHT && typeof color === "string"){
-              const idx = y*WIDTH + x;
-              const pixel = canvasEl.querySelector(`.pixel[data-index="${idx}"]`);
-              if(pixel) pixel.style.backgroundColor = color;
-            }
-          });
+        if(data.app === APP_NAME && SUPPORTED_VERSIONS.includes(data.version) && data.width === WIDTH && data.height === HEIGHT){
+          if(data.version === "1.0"){
+            convertV1ToV2(data);
+          }
+          loadFromData(data);
         }
       } catch {}
     }
@@ -406,7 +408,7 @@
       }
     });
     const mime = format === "jpeg" ? "image/jpeg" : "image/png";
-    cvs.toBlob(blob => downloadBlob(blob, `${APP_NAME}-${APP_VERSION}_${getTimestamp()}.${format}`), mime, 0.92);
+    cvs.toBlob(blob => downloadBlob(blob, `${APP_NAME}-${CURRENT_VERSION}_${getTimestamp()}.${format}`), mime, 0.92);
   }
 
   function downloadBlob(blob, filename){
@@ -421,50 +423,17 @@
   }
 
   function saveToLocalStorage(){
-    const pixelData = [];
-    canvasEl.querySelectorAll(".pixel").forEach((p,i) => {
-      const bg = p.style.backgroundColor;
-      if(bg !== "" && bg !== "transparent"){
-        const x = i % WIDTH;
-        const y = Math.floor(i / WIDTH);
-        pixelData.push({x,y,color:bg});
-      }
-    });
-    const data = {
-      app: APP_NAME,
-      version: APP_VERSION,
-      width: WIDTH,
-      height: HEIGHT,
-      title: titleInput.value.trim() || undefined,
-      pixels: pixelData
-    };
-    localStorage.setItem("pixelDrawingData", JSON.stringify(data));
+    const data = gatherData();
+    localStorage.setItem(getStorageKey(), JSON.stringify(data));
   }
 
   function downloadJson(){
-    const pixels = canvasEl.querySelectorAll(".pixel");
-    const pixelData = [];
-    pixels.forEach((p,i) => {
-      const bg = p.style.backgroundColor;
-      if(bg !== "" && bg !== "transparent"){
-        const x = i % WIDTH;
-        const y = Math.floor(i / WIDTH);
-        pixelData.push({x,y,color:bg});
-      }
-    });
-    const data = {
-      app: APP_NAME,
-      version: APP_VERSION,
-      width: WIDTH,
-      height: HEIGHT,
-      title: titleInput.value.trim() || undefined,
-      pixels: pixelData
-    };
+    const data = gatherData();
     const jsonStr = JSON.stringify(data, null, 2);
     const blob = new Blob([jsonStr], {type:"application/json"});
     const dt = new Date();
     const pad = n => n.toString().padStart(2,"0");
-    const filename = `${APP_NAME}-${APP_VERSION}_${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}_${pad(dt.getHours())}-${pad(dt.getMinutes())}-${pad(dt.getSeconds())}.json`;
+    const filename = `${APP_NAME}-${CURRENT_VERSION}_${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}_${pad(dt.getHours())}-${pad(dt.getMinutes())}-${pad(dt.getSeconds())}.json`;
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -476,13 +445,84 @@
     alert("作品を保存しました。");
   }
 
-  function getTimestamp(){
-    const dt = new Date();
-    const pad = n => n.toString().padStart(2,"0");
-    return `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}_${pad(dt.getHours())}-${pad(dt.getMinutes())}-${pad(dt.getSeconds())}`;
+  function gatherData(){
+    const pixels = [];
+    canvasEl.querySelectorAll(".pixel").forEach((p,i) => {
+      const bg = p.style.backgroundColor;
+      if(bg === "" || bg === "transparent"){
+        pixels.push("transparent");
+      } else {
+        pixels.push(bg);
+      }
+    });
+    return {
+      app: APP_NAME,
+      version: CURRENT_VERSION,
+      width: WIDTH,
+      height: HEIGHT,
+      palette,
+      title: titleInput.value.trim() || undefined,
+      pixels
+    };
   }
 
+  function loadFromData(data){
+    if(data.palette && Array.isArray(data.palette)){
+      palette = [...data.palette];
+    } else {
+      palette = [...DEFAULT_PALETTE];
+    }
+    createPalette();
+    titleInput.value = data.title || "";
+    if(!Array.isArray(data.pixels) || data.pixels.length !== WIDTH * HEIGHT){
+      alert("ピクセルデータの形式が不正です。");
+      return;
+    }
+    data.pixels.forEach((col,i) => {
+      const pixel = canvasEl.querySelector(`.pixel[data-index="${i}"]`);
+      if(!pixel) return;
+      if(col === "transparent" || col === null){
+        pixel.style.backgroundColor = "transparent";
+      } else {
+        pixel.style.backgroundColor = col;
+      }
+    });
+  }
+
+  function convertV1ToV2(dataV1){
+    let paletteFromV1 = [
+      "#000000",
+      "#ff0000",
+      "#00ff00",
+      "#0000ff",
+      "#ffff00",
+      "#ffffff",
+      "transparent"
+    ];
+    let pixelsV2 = [];
+    for(let i=0; i<WIDTH*HEIGHT; i++){
+      let px = dataV1.pixels[i];
+      if(typeof px === "string" && px.startsWith("#")){
+        pixelsV2.push(px);
+      } else if(typeof px === "number"){
+        let col = paletteFromV1[px] ?? "transparent";
+        pixelsV2.push(col);
+      } else {
+        pixelsV2.push("transparent");
+      }
+    }
+    dataV1.version = "2.0";
+    dataV1.palette = paletteFromV1;
+    dataV1.pixels = pixelsV2;
+  }
+
+  function getStorageKey(){
+    return APP_NAME + "-" + CURRENT_VERSION + "-data";
+  }
+
+  createPixels();
   createPalette();
+
 })();
 </script>
 </body>
