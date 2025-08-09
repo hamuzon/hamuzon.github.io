@@ -7,65 +7,69 @@
 <link rel="stylesheet" href="https://unpkg.com/98.css" />
 <style>
   body {
-    margin: 20px;
     background: #008080;
     font-family: "MS Gothic", monospace;
     user-select: none;
     display: flex;
     justify-content: center;
+    padding: 20px;
+  }
+  main.window {
+    background: #c0c0c0;
+    border: 2px solid #000;
+    box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #404040;
+    padding: 16px;
+    width: 960px;
+    max-width: 100%;
   }
   h1 {
-    text-align: center;
-    margin-bottom: 1rem;
+    font-weight: normal;
     color: #000080;
-    text-shadow: 1px 1px white;
-  }
-  .window {
-    padding: 1rem;
-    max-width: 960px;
-    width: 100%;
-    box-sizing: border-box;
+    text-shadow: 1px 1px 0 #fff;
+    margin-bottom: 1rem;
   }
   #app-container {
     display: flex;
+    gap: 16px;
     flex-wrap: wrap;
-    gap: 1rem;
     justify-content: center;
   }
   #palette {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    max-width: 200px;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, 36px);
+    grid-gap: 6px;
+    border: 2px outset buttonface;
+    padding: 8px;
+    background: #c0c0c0;
   }
   .color-btn {
     width: 36px;
     height: 36px;
-    border: 2px solid black;
     cursor: pointer;
+    border: 2px outset buttonface;
     box-sizing: border-box;
-    border-radius: 0;
-    flex-shrink: 0;
+    background-clip: padding-box;
   }
   .color-btn.selected {
-    outline: 3px solid #0000ff;
-    outline-offset: 2px;
+    border-style: inset;
+    outline: 2px solid #000080;
+    outline-offset: 1px;
   }
   .color-btn.transparent {
     background:
-      linear-gradient(45deg, #ccc 25%, transparent 25%), 
-      linear-gradient(-45deg, #ccc 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, #ccc 75%),
-      linear-gradient(-45deg, transparent 75%, #ccc 75%);
-    background-size: 12px 12px;
-    background-position: 0 0, 0 6px, 6px -6px, -6px 0px;
+      repeating-linear-gradient(
+        45deg,
+        #ccc,
+        #ccc 4px,
+        #fff 4px,
+        #fff 8px
+      );
     position: relative;
   }
   .color-btn.transparent::after {
     content: "T";
     position: absolute;
-    top: 6px;
+    top: 8px;
     left: 12px;
     font-weight: bold;
     color: black;
@@ -76,72 +80,75 @@
     display: grid;
     grid-template-columns: repeat(16, 28px);
     grid-template-rows: repeat(16, 28px);
-    gap: 1px;
-    border: 2px outset ButtonFace;
-    background:
-      linear-gradient(45deg, #ccc 25%, transparent 25%), 
-      linear-gradient(-45deg, #ccc 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, #ccc 75%),
-      linear-gradient(-45deg, transparent 75%, #ccc 75%);
-    background-size: 28px 28px;
-    background-position: 0 0, 0 14px, 14px -14px, -14px 0px;
-    touch-action: none;
+    gap: 2px;
+    border: 2px outset buttonface;
+    background-color: #c0c0c0;
   }
   .pixel {
     width: 28px;
     height: 28px;
     background-color: transparent;
-    border: 1px inset ButtonHighlight;
+    border: 2px inset buttonface;
     cursor: pointer;
     box-sizing: border-box;
+    transition: background-color 0.15s ease;
   }
+  .pixel:hover {
+    filter: brightness(0.85);
+  }
+
   #controls {
     margin-top: 1rem;
     text-align: center;
   }
   #controls button {
-    margin: 0 0.5rem;
-    min-width: 100px;
+    margin: 0 8px;
+    padding: 6px 16px;
+    font-family: "MS Gothic", monospace;
+    font-size: 1rem;
+    border: 2px outset buttonface;
+    cursor: pointer;
+    user-select: none;
   }
-  #file-load {
-    display: none;
+  #controls button:active {
+    border-style: inset;
+    background: #c0c0c0;
   }
-
-  @media (max-width: 700px) {
-    #app-container {
-      flex-direction: column;
-      align-items: center;
-    }
-    #palette {
-      max-width: 100%;
-      justify-content: center;
-    }
-    #canvas {
-      grid-template-columns: repeat(16, 20px);
-      grid-template-rows: repeat(16, 20px);
-      background-size: 20px 20px;
-    }
-    .pixel {
-      width: 20px;
-      height: 20px;
-    }
+  #controls button:focus-visible {
+    outline: 2px solid #000080;
+    outline-offset: 2px;
+  }
+  #title-label {
+    font-weight: bold;
+    margin-right: 8px;
+    color: #000080;
+    text-shadow: 1px 1px #fff;
+  }
+  #titleInput {
+    font-family: "MS Gothic", monospace;
+    font-size: 1rem;
+    border: 2px inset buttonface;
+    padding: 4px 8px;
+    width: 300px;
   }
 </style>
 </head>
 <body>
-  <main class="window">
-    <h1>Pixel Drawing</h1>
-    <section id="app-container" aria-label="Pixel drawing application">
-      <nav id="palette" role="list" aria-label="Color palette"></nav>
-      <div id="canvas" aria-label="Pixel drawing canvas" role="grid" tabindex="0"></div>
-    </section>
-    <section id="controls" aria-label="Controls">
-      <button id="btn-reset" class="button">Reset</button>
-      <button id="btn-save" class="button">Save JSON</button>
-      <button id="btn-load" class="button">Load JSON</button>
-      <input type="file" id="file-load" accept=".json" />
-    </section>
-  </main>
+<main class="window" role="main" aria-label="ピクセルお絵かきアプリ">
+  <h1>Pixel Drawing</h1>
+  <label id="title-label" for="titleInput">作品名（任意）:</label>
+  <input type="text" id="titleInput" placeholder="作品名を入力してください" autocomplete="off" />
+  <section id="app-container" aria-label="描画エリアとパレット">
+    <nav id="palette" role="list" aria-label="色パレット"></nav>
+    <div id="canvas" role="grid" aria-label="ピクセル描画キャンバス" tabindex="0"></div>
+  </section>
+  <section id="controls" aria-label="操作ボタン">
+    <button id="btn-reset" type="button">ボードをリセット</button>
+    <button id="btn-save" type="button">JSONで保存</button>
+    <button id="btn-load" type="button">JSON読み込み</button>
+    <input type="file" id="file-load" accept=".json" style="display:none" />
+  </section>
+</main>
 
 <script>
 (() => {
@@ -150,6 +157,7 @@
   const WIDTH = 16;
   const HEIGHT = 16;
 
+  // パレット色（nullは透明）
   const colors = [
     "#000000",
     "#ff0000",
@@ -157,7 +165,7 @@
     "#0000ff",
     "#ffff00",
     "#ffffff",
-    null // Transparent
+    null
   ];
   let currentColor = colors[0];
   let isDrawing = false;
@@ -168,8 +176,9 @@
   const saveBtn = document.getElementById("btn-save");
   const loadBtn = document.getElementById("btn-load");
   const fileLoadInput = document.getElementById("file-load");
+  const titleInput = document.getElementById("titleInput");
 
-  // Create pixels grid
+  // キャンバスのピクセルを作成
   for(let i=0; i<WIDTH*HEIGHT; i++){
     const pixel = document.createElement("div");
     pixel.classList.add("pixel");
@@ -178,6 +187,7 @@
     canvasEl.appendChild(pixel);
   }
 
+  // パレット作成
   function createPalette(){
     paletteEl.innerHTML = "";
     colors.forEach((c) => {
@@ -185,10 +195,10 @@
       btn.className = "color-btn";
       if(c === null){
         btn.classList.add("transparent");
-        btn.title = "Transparent (Clear)";
+        btn.title = "透明（クリア）";
       } else {
         btn.style.backgroundColor = c;
-        btn.title = `Color: ${c}`;
+        btn.title = `色: ${c}`;
       }
       btn.addEventListener("click", () => selectColor(c, btn));
       paletteEl.appendChild(btn);
@@ -225,21 +235,21 @@
   });
 
   resetBtn.addEventListener("click", () => {
-    if(confirm("Clear all pixels?")){
+    if(confirm("本当にボードをリセットして全てクリアしますか？")){
       canvasEl.querySelectorAll(".pixel").forEach(p => {
         p.style.backgroundColor = "transparent";
       });
+      localStorage.removeItem("pixelDrawingData");
+      titleInput.value = "";
     }
   });
 
   saveBtn.addEventListener("click", () => {
     const pixels = canvasEl.querySelectorAll(".pixel");
     const pixelData = [];
-
     pixels.forEach((p, i) => {
       const bg = p.style.backgroundColor;
       if(bg !== "" && bg !== "transparent"){
-        // 座標計算
         const x = i % WIDTH;
         const y = Math.floor(i / WIDTH);
         pixelData.push({x, y, color: bg});
@@ -251,18 +261,17 @@
       version: APP_VERSION,
       width: WIDTH,
       height: HEIGHT,
+      title: titleInput.value.trim() || undefined,
       pixels: pixelData
     };
 
     const jsonStr = JSON.stringify(dataObj, null, 2);
     localStorage.setItem("pixelDrawingData", jsonStr);
 
-    // ファイル名作成
     const dt = new Date();
     const pad = n => n.toString().padStart(2,"0");
     const filename = `${APP_NAME}-${APP_VERSION}_${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}_${pad(dt.getHours())}-${pad(dt.getMinutes())}-${pad(dt.getSeconds())}.json`;
 
-    // ダウンロード処理
     const blob = new Blob([jsonStr], {type:"application/json"});
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -273,7 +282,7 @@
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 
-    alert("Drawing saved locally and JSON file downloaded.");
+    alert("作品を保存しました。");
   });
 
   loadBtn.addEventListener("click", () => {
@@ -284,12 +293,10 @@
   fileLoadInput.addEventListener("change", e => {
     const file = e.target.files[0];
     if(!file) return;
-
     if(!file.name.endsWith(".json")){
-      alert("Please select a JSON file.");
+      alert("JSONファイルを選択してください。");
       return;
     }
-
     const reader = new FileReader();
     reader.onload = (ev) => {
       try {
@@ -299,13 +306,17 @@
           data.width !== WIDTH || data.height !== HEIGHT ||
           !Array.isArray(data.pixels)
         ){
-          alert("Invalid JSON data format.");
+          alert("JSONデータの形式が不正です。");
           return;
         }
-        // 全透明クリア
+        // タイトル表示
+        titleInput.value = data.title || "";
+
+        // クリア
         canvasEl.querySelectorAll(".pixel").forEach(p=>{
           p.style.backgroundColor = "transparent";
         });
+
         // 色付き復元
         data.pixels.forEach(({x,y,color}) => {
           if(x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT && typeof color === "string"){
@@ -316,10 +327,9 @@
             }
           }
         });
-        alert("Drawing loaded from file.");
-      } catch(err){
-        alert("Failed to parse JSON file.");
-        console.error(err);
+        alert("作品を読み込みました。");
+      } catch {
+        alert("JSONファイルの読み込みに失敗しました。");
       }
     };
     reader.readAsText(file);
@@ -338,11 +348,10 @@
           data.height === HEIGHT &&
           Array.isArray(data.pixels)
         ){
-          // 全透明クリア
+          titleInput.value = data.title || "";
           canvasEl.querySelectorAll(".pixel").forEach(p=>{
             p.style.backgroundColor = "transparent";
           });
-          // 色付き復元
           data.pixels.forEach(({x,y,color}) => {
             if(x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT && typeof color === "string"){
               const index = y * WIDTH + x;
