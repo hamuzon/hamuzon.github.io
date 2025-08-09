@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pixel Drawing</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jdan/98.css@v0.4.0/dist/98.css" />
+  <style>
+    body {
+      margin: 20px;
+      background: #008080;
+      font-family: "MS Gothic", monospace;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    #palette {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
+      gap: 0.5rem;
+    }
+    .color-btn {
+      width: 24px;
+      height: 24px;
+      border: 2px solid black;
+      cursor: pointer;
+    }
+    .color-btn.selected {
+      outline: 2px solid blue;
+      outline-offset: 2px;
+    }
+    .color-btn.eraser {
+      background: repeating-linear-gradient(
+        45deg,
+        #c0c0c0,
+        #c0c0c0 4px,
+        #909090 4px,
+        #909090 8px
+      );
+      position: relative;
+    }
+    .color-btn.eraser::after {
+      content: "×";
+      position: absolute;
+      top: 0;
+      left: 6px;
+      font-weight: bold;
+      color: black;
+      font-size: 18px;
+      user-select: none;
+    }
+    #canvas {
+      display: grid;
+      grid-template-columns: repeat(16, 20px);
+      grid-template-rows: repeat(16, 20px);
+      gap: 1px;
+      background: #000080;
+      margin: 0 auto 1rem;
+      width: fit-content;
+      border: 2px outset ButtonFace;
+    }
+    .pixel {
+      width: 20px;
+      height: 20px;
+      background: white;
+      border: 1px inset ButtonHighlight;
+      cursor: pointer;
+    }
+    #controls {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    button {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Pixel Drawing</h1>
+
+  <div id="palette" role="list" aria-label="Color palette"></div>
+
+  <div id="canvas" aria-label="Pixel drawing canvas" role="grid" tabindex="0"></div>
+
+  <div id="controls">
+    <button id="btn-reset" class="button">Reset</button>
+    <button id="btn-save" class="button">Save (JSON)</button>
+  </div>
+
+  <script>
+    (() => {
+      const colors = [
+        "#000000", "#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ffffff"
+      ];
+      let currentColor = colors[0];
+      let isDrawing = false;
+
+      const paletteEl = document.getElementById("palette");
+      const canvasEl = document.getElementById("canvas");
+      const resetBtn = document.getElementById("btn-reset");
+      const saveBtn = document.getElementById("btn-save");
+
+      // 16x16ピクセル作成
+      for (let i = 0; i < 256; i++) {
+        const pix = document.createElement("div");
+        pix.classList.add("pixel");
+        pix.dataset.index = i;
+        pix.style.background = "#ffffff";
+        canvasEl.appendChild(pix);
+      }
+
+      // パレット作成
+      function createPalette() {
+        paletteEl.innerHTML = "";
+        colors.forEach((c, i) => {
+          const btn = document.createElement("div");
+          btn.className = "color-btn";
+          btn.style.backgroundColor = c;
+          btn.title = `Color ${i+1}`;
+          btn.addEventListener("click", () => selectColor(c, btn));
+          paletteEl.appendChild(btn);
+          if (c === currentColor) btn.classList.add("selected");
+        });
+        const eraserBtn = document.createElement("div");
+        eraserBtn.className = "color-btn eraser";
+        eraserBtn.title = "Eraser";
+        eraserBtn.addEventListener("click", () => selectColor("eraser", eraserBtn));
+        paletteEl.appendChild(eraserBtn);
+      }
+
+      function selectColor(color, btnEl) {
+        currentColor = color;
+        paletteEl.querySelectorAll(".color-btn").forEach(b => b.classList.remove("selected"));
+        btnEl.classList.add("selected");
+      }
+
+      function paintPixel(pixel) {
+        if (currentColor === "eraser") {
+          pixel.style.backgroundColor = "#ffffff";
+        } else {
+          pixel.style.backgroundColor = currentColor;
+        }
+      }
+
+      canvasEl.addEventListener("mousedown", e => {
+        if (!e.target.classList.contains("pixel")) return;
+        isDrawing = true;
+        paintPixel(e.target);
+      });
+      canvasEl.addEventListener("mouseover", e => {
+        if (isDrawing && e.target.classList.contains("pixel")) {
+          paintPixel(e.target);
+        }
+      });
+      window.addEventListener("mouseup", () => {
+        isDrawing = false;
+      });
+
+      resetBtn.addEventListener("click", () => {
+        if (!confirm("Clear all pixels?")) return;
+        canvasEl.querySelectorAll(".pixel").forEach(p => {
+          p.style.backgroundColor = "#ffffff";
+        });
+      });
+
+      saveBtn.addEventListener("click", () => {
+        // JSONで保存：ピクセル背景色を配列にしてJSON文字列をローカルストレージに保存
+        const pixels = canvasEl.querySelectorAll(".pixel");
+        const data = [];
+        pixels.forEach(p => {
+          data.push(p.style.backgroundColor || "#ffffff");
+        });
+        const jsonStr = JSON.stringify(data);
+        localStorage.setItem("pixelDrawingData", jsonStr);
+        alert("Drawing saved to localStorage.");
+      });
+
+      // ページ読み込み時に保存データがあれば復元
+      window.addEventListener("load", () => {
+        const saved = localStorage.getItem("pixelDrawingData");
+        if (saved) {
+          try {
+            const data = JSON.parse(saved);
+            if (Array.isArray(data) && data.length === 256) {
+              const pixels = canvasEl.querySelectorAll(".pixel");
+              pixels.forEach((p, i) => {
+                p.style.backgroundColor = data[i] || "#ffffff";
+              });
+            }
+          } catch {
+            // 無視
+          }
+        }
+      });
+
+      createPalette();
+    })();
+  </script>
+</body>
+</html>
