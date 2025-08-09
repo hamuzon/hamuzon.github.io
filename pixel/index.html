@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Pixel Drawing Responsive UI</title>
+<title>Pixel Drawing</title>
 <link rel="stylesheet" href="https://unpkg.com/98.css" />
 <style>
   body {
@@ -103,8 +103,10 @@
     margin: 0 0.5rem;
     min-width: 100px;
   }
+  #file-load {
+    display: none;
+  }
 
-  /* レスポンシブ調整 */
   @media (max-width: 700px) {
     #app-container {
       flex-direction: column;
@@ -135,13 +137,19 @@
     </section>
     <section id="controls" aria-label="Controls">
       <button id="btn-reset" class="button">Reset</button>
-      <button id="btn-save" class="button">Save</button>
-      <button id="btn-load" class="button">Load</button>
+      <button id="btn-save" class="button">Save JSON</button>
+      <button id="btn-load" class="button">Load JSON</button>
+      <input type="file" id="file-load" accept=".json" />
     </section>
   </main>
 
 <script>
 (() => {
+  const APP_NAME = "PixelDraw";
+  const APP_VERSION = "1.0";
+  const WIDTH = 16;
+  const HEIGHT = 16;
+
   const colors = [
     "#000000",
     "#ff0000",
@@ -159,9 +167,10 @@
   const resetBtn = document.getElementById("btn-reset");
   const saveBtn = document.getElementById("btn-save");
   const loadBtn = document.getElementById("btn-load");
+  const fileLoadInput = document.getElementById("file-load");
 
-  // Create 256 pixels (16x16)
-  for(let i=0; i<256; i++){
+  // Create pixels grid
+  for(let i=0; i<WIDTH*HEIGHT; i++){
     const pixel = document.createElement("div");
     pixel.classList.add("pixel");
     pixel.dataset.index = i;
@@ -225,49 +234,126 @@
 
   saveBtn.addEventListener("click", () => {
     const pixels = canvasEl.querySelectorAll(".pixel");
-    const data = Array.from(pixels).map(p => {
+    const pixelData = [];
+
+    pixels.forEach((p, i) => {
       const bg = p.style.backgroundColor;
-      return (bg === "" || bg === "transparent") ? null : bg;
+      if(bg !== "" && bg !== "transparent"){
+        // 座標計算
+        const x = i % WIDTH;
+        const y = Math.floor(i / WIDTH);
+        pixelData.push({x, y, color: bg});
+      }
     });
-    localStorage.setItem("pixelDrawingData", JSON.stringify(data));
-    alert("Drawing saved.");
+
+    const dataObj = {
+      app: APP_NAME,
+      version: APP_VERSION,
+      width: WIDTH,
+      height: HEIGHT,
+      pixels: pixelData
+    };
+
+    const jsonStr = JSON.stringify(dataObj, null, 2);
+    localStorage.setItem("pixelDrawingData", jsonStr);
+
+    // ファイル名作成
+    const dt = new Date();
+    const pad = n => n.toString().padStart(2,"0");
+    const filename = `${APP_NAME}-${APP_VERSION}_${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}_${pad(dt.getHours())}-${pad(dt.getMinutes())}-${pad(dt.getSeconds())}.json`;
+
+    // ダウンロード処理
+    const blob = new Blob([jsonStr], {type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    alert("Drawing saved locally and JSON file downloaded.");
   });
 
   loadBtn.addEventListener("click", () => {
-    const saved = localStorage.getItem("pixelDrawingData");
-    if(!saved){
-      alert("No saved drawing found.");
-      return;
-    }
-    try{
-      const data = JSON.parse(saved);
-      if(!Array.isArray(data) || data.length !== 256){
-        alert("Invalid saved data.");
-        return;
-      }
-      const pixels = canvasEl.querySelectorAll(".pixel");
-      pixels.forEach((p,i) => {
-        p.style.backgroundColor = data[i] === null ? "transparent" : data[i];
-      });
-      alert("Drawing loaded.");
-    }catch{
-      alert("Failed to load drawing.");
-    }
+    fileLoadInput.value = null;
+    fileLoadInput.click();
   });
 
-  // Auto load on page load if present
+  fileLoadInput.addEventListener("change", e => {
+    const file = e.target.files[0];
+    if(!file) return;
+
+    if(!file.name.endsWith(".json")){
+      alert("Please select a JSON file.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const data = JSON.parse(ev.target.result);
+        if(
+          !data.app || !data.version ||
+          data.width !== WIDTH || data.height !== HEIGHT ||
+          !Array.isArray(data.pixels)
+        ){
+          alert("Invalid JSON data format.");
+          return;
+        }
+        // 全透明クリア
+        canvasEl.querySelectorAll(".pixel").forEach(p=>{
+          p.style.backgroundColor = "transparent";
+        });
+        // 色付き復元
+        data.pixels.forEach(({x,y,color}) => {
+          if(x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT && typeof color === "string"){
+            const index = y * WIDTH + x;
+            const pixel = canvasEl.querySelector(`.pixel[data-index="${index}"]`);
+            if(pixel){
+              pixel.style.backgroundColor = color;
+            }
+          }
+        });
+        alert("Drawing loaded from file.");
+      } catch(err){
+        alert("Failed to parse JSON file.");
+        console.error(err);
+      }
+    };
+    reader.readAsText(file);
+  });
+
+  // ページロード時にローカルストレージから自動復元
   window.addEventListener("load", () => {
     const saved = localStorage.getItem("pixelDrawingData");
     if(saved){
-      try{
+      try {
         const data = JSON.parse(saved);
-        if(Array.isArray(data) && data.length === 256){
-          const pixels = canvasEl.querySelectorAll(".pixel");
-          pixels.forEach((p,i)=>{
-            p.style.backgroundColor = data[i] === null ? "transparent" : data[i];
+        if(
+          data.app === APP_NAME &&
+          data.version === APP_VERSION &&
+          data.width === WIDTH &&
+          data.height === HEIGHT &&
+          Array.isArray(data.pixels)
+        ){
+          // 全透明クリア
+          canvasEl.querySelectorAll(".pixel").forEach(p=>{
+            p.style.backgroundColor = "transparent";
+          });
+          // 色付き復元
+          data.pixels.forEach(({x,y,color}) => {
+            if(x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT && typeof color === "string"){
+              const index = y * WIDTH + x;
+              const pixel = canvasEl.querySelector(`.pixel[data-index="${index}"]`);
+              if(pixel){
+                pixel.style.backgroundColor = color;
+              }
+            }
           });
         }
-      }catch{}
+      } catch {}
     }
   });
 
