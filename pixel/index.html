@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Pixel Drawing with 98.css</title>
-<!-- 98.css CDN -->
+<title>Pixel Drawing Responsive UI</title>
 <link rel="stylesheet" href="https://unpkg.com/98.css" />
 <style>
   body {
@@ -12,6 +11,8 @@
     background: #008080;
     font-family: "MS Gothic", monospace;
     user-select: none;
+    display: flex;
+    justify-content: center;
   }
   h1 {
     text-align: center;
@@ -19,19 +20,33 @@
     color: #000080;
     text-shadow: 1px 1px white;
   }
+  .window {
+    padding: 1rem;
+    max-width: 960px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  #app-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
   #palette {
     display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    max-width: 200px;
     justify-content: center;
-    gap: 0.6rem;
-    margin-bottom: 1rem;
   }
   .color-btn {
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
     border: 2px solid black;
     cursor: pointer;
     box-sizing: border-box;
     border-radius: 0;
+    flex-shrink: 0;
   }
   .color-btn.selected {
     outline: 3px solid #0000ff;
@@ -50,8 +65,8 @@
   .color-btn.transparent::after {
     content: "T";
     position: absolute;
-    top: 4px;
-    left: 8px;
+    top: 6px;
+    left: 12px;
     font-weight: bold;
     color: black;
     user-select: none;
@@ -59,49 +74,71 @@
 
   #canvas {
     display: grid;
-    grid-template-columns: repeat(16, 24px);
-    grid-template-rows: repeat(16, 24px);
+    grid-template-columns: repeat(16, 28px);
+    grid-template-rows: repeat(16, 28px);
     gap: 1px;
-    margin: 0 auto 1rem;
-    width: fit-content;
     border: 2px outset ButtonFace;
     background:
       linear-gradient(45deg, #ccc 25%, transparent 25%), 
       linear-gradient(-45deg, #ccc 25%, transparent 25%),
       linear-gradient(45deg, transparent 75%, #ccc 75%),
       linear-gradient(-45deg, transparent 75%, #ccc 75%);
-    background-size: 24px 24px;
-    background-position: 0 0, 0 12px, 12px -12px, -12px 0px;
+    background-size: 28px 28px;
+    background-position: 0 0, 0 14px, 14px -14px, -14px 0px;
+    touch-action: none;
   }
   .pixel {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     background-color: transparent;
     border: 1px inset ButtonHighlight;
     cursor: pointer;
     box-sizing: border-box;
   }
   #controls {
+    margin-top: 1rem;
     text-align: center;
-    margin-bottom: 1rem;
   }
-  button {
-    cursor: pointer;
+  #controls button {
+    margin: 0 0.5rem;
+    min-width: 100px;
+  }
+
+  /* レスポンシブ調整 */
+  @media (max-width: 700px) {
+    #app-container {
+      flex-direction: column;
+      align-items: center;
+    }
+    #palette {
+      max-width: 100%;
+      justify-content: center;
+    }
+    #canvas {
+      grid-template-columns: repeat(16, 20px);
+      grid-template-rows: repeat(16, 20px);
+      background-size: 20px 20px;
+    }
+    .pixel {
+      width: 20px;
+      height: 20px;
+    }
   }
 </style>
 </head>
 <body>
-  <h1>Pixel Drawing</h1>
-
-  <div id="palette" role="list" aria-label="Color palette"></div>
-
-  <div id="canvas" aria-label="Pixel drawing canvas" role="grid" tabindex="0"></div>
-
-  <div id="controls" class="field-row">
-    <button id="btn-reset" class="button">Reset</button>
-    <button id="btn-save" class="button">Save (JSON)</button>
-    <button id="btn-load" class="button">Load</button>
-  </div>
+  <main class="window">
+    <h1>Pixel Drawing</h1>
+    <section id="app-container" aria-label="Pixel drawing application">
+      <nav id="palette" role="list" aria-label="Color palette"></nav>
+      <div id="canvas" aria-label="Pixel drawing canvas" role="grid" tabindex="0"></div>
+    </section>
+    <section id="controls" aria-label="Controls">
+      <button id="btn-reset" class="button">Reset</button>
+      <button id="btn-save" class="button">Save</button>
+      <button id="btn-load" class="button">Load</button>
+    </section>
+  </main>
 
 <script>
 (() => {
@@ -123,18 +160,18 @@
   const saveBtn = document.getElementById("btn-save");
   const loadBtn = document.getElementById("btn-load");
 
-  // Create pixels 16x16
+  // Create 256 pixels (16x16)
   for(let i=0; i<256; i++){
-    const pix = document.createElement("div");
-    pix.classList.add("pixel");
-    pix.dataset.index = i;
-    pix.style.backgroundColor = "transparent";
-    canvasEl.appendChild(pix);
+    const pixel = document.createElement("div");
+    pixel.classList.add("pixel");
+    pixel.dataset.index = i;
+    pixel.style.backgroundColor = "transparent";
+    canvasEl.appendChild(pixel);
   }
 
   function createPalette(){
     paletteEl.innerHTML = "";
-    colors.forEach((c, i) => {
+    colors.forEach((c) => {
       const btn = document.createElement("div");
       btn.className = "color-btn";
       if(c === null){
@@ -179,21 +216,21 @@
   });
 
   resetBtn.addEventListener("click", () => {
-    if(!confirm("Clear all pixels?")) return;
-    canvasEl.querySelectorAll(".pixel").forEach(p=>{
-      p.style.backgroundColor = "transparent";
-    });
+    if(confirm("Clear all pixels?")){
+      canvasEl.querySelectorAll(".pixel").forEach(p => {
+        p.style.backgroundColor = "transparent";
+      });
+    }
   });
 
   saveBtn.addEventListener("click", () => {
     const pixels = canvasEl.querySelectorAll(".pixel");
-    const data = Array.from(pixels).map(p=>{
+    const data = Array.from(pixels).map(p => {
       const bg = p.style.backgroundColor;
       return (bg === "" || bg === "transparent") ? null : bg;
     });
-    const jsonStr = JSON.stringify(data);
-    localStorage.setItem("pixelDrawingData", jsonStr);
-    alert("Drawing saved to localStorage.");
+    localStorage.setItem("pixelDrawingData", JSON.stringify(data));
+    alert("Drawing saved.");
   });
 
   loadBtn.addEventListener("click", () => {
@@ -205,21 +242,20 @@
     try{
       const data = JSON.parse(saved);
       if(!Array.isArray(data) || data.length !== 256){
-        alert("Saved data format is invalid.");
+        alert("Invalid saved data.");
         return;
       }
       const pixels = canvasEl.querySelectorAll(".pixel");
-      pixels.forEach((p,i)=>{
+      pixels.forEach((p,i) => {
         p.style.backgroundColor = data[i] === null ? "transparent" : data[i];
       });
       alert("Drawing loaded.");
-    }catch(e){
+    }catch{
       alert("Failed to load drawing.");
-      console.error(e);
     }
   });
 
-  // Auto load on page load if available
+  // Auto load on page load if present
   window.addEventListener("load", () => {
     const saved = localStorage.getItem("pixelDrawingData");
     if(saved){
