@@ -452,11 +452,19 @@
     });
   });
 
+  function rgbToHex(rgb) {
+    const result = /^rgba?\((\d+),\s*(\d+),\s*(\d+)/i.exec(rgb);
+    if (!result) return rgb;
+    return "#" + [1, 2, 3].map(i => {
+      const hex = parseInt(result[i]).toString(16);
+      return hex.length === 1 ? "0" + hex : hex;
+    }).join("");
+  }
+
   function saveImage(format) {
     if (format === "svg") {
       const svgText = generateSvg();
-      const blob = new Blob([svgText], { type: "image/svg+xml" });
-      downloadBlob(blob, `${APP_NAME}-${APP_VERSION}_${getFilenameTimestamp()}.svg`);
+      saveSvg(svgText, `${APP_NAME}-${APP_VERSION}_${getFilenameTimestamp()}.svg`);
       return;
     }
     const cvs = document.createElement("canvas");
@@ -479,7 +487,7 @@
     const mime = (format === "jpeg") ? "image/jpeg" : "image/png";
     cvs.toBlob(blob => {
       downloadBlob(blob, `${APP_NAME}-${APP_VERSION}_${getFilenameTimestamp()}.${format}`);
-    }, mime);
+    }, mime, 0.92);
   }
 
   function generateSvg() {
@@ -488,15 +496,28 @@
     pixels.forEach((p, i) => {
       const color = p.style.backgroundColor;
       if (color && color !== "transparent" && color !== "") {
+        const hexColor = rgbToHex(color);
         const x = i % WIDTH;
         const y = Math.floor(i / WIDTH);
-        rects.push(`<rect x="${x}" y="${y}" width="1" height="1" fill="${color}" />`);
+        rects.push(`<rect x="${x}" y="${y}" width="1" height="1" fill="${hexColor}" />`);
       }
     });
     return `<?xml version="1.0" encoding="UTF-8"?>
-<svg width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" >
+<svg width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
   ${rects.join("\n  ")}
 </svg>`;
+  }
+
+  function saveSvg(svgText, filename) {
+    const blob = new Blob([svgText], { type: "image/svg+xml;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   }
 
   function downloadBlob(blob, filename) {
