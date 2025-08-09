@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pixel Drawing</title>
+<link rel="stylesheet" href="https://unpkg.com/98.css" />
+<style>
+  body {
+    background: #008080;
+    font-family: "MS Gothic", monospace;
+    user-select: none;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  main.window {
+    background: #c0c0c0;
+    border: 2px solid #000;
+    box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #404040;
+    padding: 16px;
+    width: 100%;
+    max-width: 960px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  h1 {
+    font-weight: normal;
+    color: #000080;
+    text-shadow: 1px 1px 0 #fff;
+    margin: 0 auto 1rem;
+  }
+  #titleContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  #title-label {
+    font-weight: bold;
+    color: #000080;
+    text-shadow: 1px 1px #fff;
+    user-select: none;
+  }
+  #titleInput {
+    font-family: "MS Gothic", monospace;
+    font-size: 1rem;
+    border: 2px inset buttonface;
+    padding: 4px 8px;
+    min-width: 180px;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  #app-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+  #palette {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(36px, 1fr));
+    grid-gap: 6px;
+    border: 2px outset buttonface;
+    padding: 8px;
+    background: #c0c0c0;
+    min-width: 140px;
+    max-width: 100%;
+  }
+  .color-btn {
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    border: 2px outset buttonface;
+    box-sizing: border-box;
+    background-clip: padding-box;
+    border-radius: 0;
+  }
+  .color-btn.selected {
+    border-style: inset;
+    outline: 2px solid #000080;
+    outline-offset: 1px;
+  }
+  .color-btn.transparent {
+    background:
+      repeating-linear-gradient(
+        45deg,
+        #ccc,
+        #ccc 4px,
+        #fff 4px,
+        #fff 8px
+      );
+    position: relative;
+  }
+  .color-btn.transparent::after {
+    content: "T";
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    font-weight: bold;
+    color: black;
+    user-select: none;
+  }
+  #canvas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(24px, 1fr));
+    grid-gap: 2px;
+    border: 2px outset buttonface;
+    background-color: #c0c0c0;
+    max-width: 100%;
+    aspect-ratio: 1 / 1;
+    touch-action: none;
+  }
+  .pixel {
+    width: 24px;
+    height: 24px;
+    background-color: transparent;
+    border: 2px inset buttonface;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: background-color 0.15s ease;
+  }
+  .pixel:hover {
+    filter: brightness(0.85);
+  }
+  #controls {
+    margin-top: 1rem;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  #controls button {
+    margin: 0;
+    padding: 6px 16px;
+    font-family: "MS Gothic", monospace;
+    font-size: 1rem;
+    border: 2px outset buttonface;
+    cursor: pointer;
+    user-select: none;
+    min-width: 120px;
+    flex-grow: 1;
+    max-width: 200px;
+  }
+  #controls button:active {
+    border-style: inset;
+    background: #c0c0c0;
+  }
+  #controls button:focus-visible {
+    outline: 2px solid #000080;
+    outline-offset: 2px;
+  }
+  @media (max-width: 480px) {
+    #palette {
+      grid-template-columns: repeat(auto-fit, minmax(28px, 1fr));
+      min-width: 100px;
+    }
+    .color-btn {
+      width: 28px;
+      height: 28px;
+    }
+    #canvas {
+      grid-template-columns: repeat(16, 20px);
+      grid-gap: 1px;
+    }
+    .pixel {
+      width: 20px;
+      height: 20px;
+      border-width: 1px;
+    }
+  }
+</style>
+</head>
+<body>
+<main class="window" role="main" aria-label="ピクセルお絵かきアプリ">
+  <h1>Pixel Drawing</h1>
+  <div id="titleContainer">
+    <label id="title-label" for="titleInput">作品名（任意）:</label>
+    <input type="text" id="titleInput" placeholder="作品名を入力してください" autocomplete="off" />
+  </div>
+  <section id="app-container" aria-label="描画エリアとパレット">
+    <nav id="palette" role="list" aria-label="色パレット"></nav>
+    <div id="canvas" role="grid" aria-label="ピクセル描画キャンバス" tabindex="0"></div>
+  </section>
+  <section id="controls" aria-label="操作ボタン">
+    <button id="btn-reset" type="button">ボードをリセット</button>
+    <button id="btn-save" type="button">JSONで保存</button>
+    <button id="btn-load" type="button">JSON読み込み</button>
+    <button id="btn-img-save" type="button">画像保存</button>
+    <input type="file" id="file-load" accept=".json" style="display:none" />
+  </section>
+</main>
+
+<script>
+<script>
+(() => {
+  const APP_NAME = "PixelDraw";
+  const APP_VERSION = "2.0";
+  const WIDTH = 16;
+  const HEIGHT = 16;
+  const MIN_RUN_LENGTH = 3; // 圧縮判定の連続数（パラメーターで変更可能）
+
+  const colors = [
+    "#000000",
+    "#ff0000",
+    "#00ff00",
+    "#0000ff",
+    "#ffff00",
+    "#ffffff",
+    null // 透明
+  ];
+  let currentColor = colors[0];
+  let isDrawing = false;
+
+  const paletteEl = document.getElementById("palette");
+  const canvasEl = document.getElementById("canvas");
+  const resetBtn = document.getElementById("btn-reset");
+  const saveBtn = document.getElementById("btn-save");
+  const loadBtn = document.getElementById("btn-load");
+  const imgSaveBtn = document.getElementById("btn-img-save");
+  const fileLoadInput = document.getElementById("file-load");
+  const titleInput = document.getElementById("titleInput");
+
+  // ピクセルを作成
+  function createPixels() {
+    canvasEl.innerHTML = "";
+    for(let i=0; i<WIDTH*HEIGHT; i++){
+      const pixel = document.createElement("div");
+      pixel.classList.add("pixel");
+      pixel.dataset.index = i;
+      pixel.style.backgroundColor = "transparent";
+      canvasEl.appendChild(pixel);
+    }
+  }
+
+  // パレットを作成
+  function createPalette() {
+    paletteEl.innerHTML = "";
+    colors.forEach((c, idx) => {
+      const btn = document.createElement("div");
+      btn.className = "color-btn";
+      if(c === null){
+        btn.classList.add("transparent");
+        btn.title = "透明（クリア）";
+      } else {
+        btn.style.backgroundColor = c;
+        btn.title = `色: ${c}`;
+      }
+      btn.addEventListener("click", () => selectColor(c, btn));
+      paletteEl.appendChild(btn);
+      if(c === currentColor) btn.classList.add("selected");
+    });
+  }
+
+  // 色選択
+  function selectColor(color, btnEl) {
+    currentColor = color;
+    paletteEl.querySelectorAll(".color-btn").forEach(b => b.classList.remove("selected"));
+    btnEl.classList.add("selected");
+  }
+
+  // ピクセルに色を付ける
+  function paintPixel(pixel) {
+    pixel.style.backgroundColor = currentColor === null ? "transparent" : currentColor;
+  }
+
+  // ドロー変更時の処理（ローカル保存）
+  function onDrawChange() {
+    saveToLocalStorage();
+  }
+
+  // 連続クリックやドラッグで描画処理
+  canvasEl.addEventListener("mousedown", e => {
+    if(!e.target.classList.contains("pixel")) return;
+    isDrawing = true;
+    paintPixel(e.target);
+    onDrawChange();
+  });
+  canvasEl.addEventListener("mouseover", e => {
+    if(isDrawing && e.target.classList.contains("pixel")){
+      paintPixel(e.target);
+      onDrawChange();
+    }
+  });
+  window.addEventListener("mouseup", () => {
+    isDrawing = false;
+  });
+
+  // リセットボタン
+  resetBtn.addEventListener("click", () => {
+    if(confirm("本当にボードをリセットして全てクリアしますか？")){
+      canvasEl.querySelectorAll(".pixel").forEach(p => p.style.backgroundColor = "transparent");
+      titleInput.value = "";
+      localStorage.removeItem("pixelDrawingData");
+    }
+  });
+
+  // JSON保存（RLE圧縮を使う）
+  saveBtn.addEventListener("click", () => {
+    downloadJson();
+  });
+
+  // JSON読み込み
+  loadBtn.addEventListener("click", () => {
+    fileLoadInput.value = null;
+    fileLoadInput.click();
+  });
+
+  fileLoadInput.addEventListener("change", e => {
+    const file = e.target.files[0];
+    if(!file) return alert("ファイルが選択されていません。");
+    if(!file.name.endsWith(".json")) return alert("JSONファイルを選択してください。");
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        const data = JSON.parse(ev.target.result);
+        if(data.app !== APP_NAME || data.version !== APP_VERSION || data.width !== WIDTH || data.height !== HEIGHT || !Array.isArray(data.pixels)){
+          alert("JSONデータの形式が不正です。");
+          return;
+        }
+        titleInput.value = data.title || "";
+        decompressPixelsToCanvas(data.pixels);
+        alert("作品を読み込みました。");
+        saveToLocalStorage();
+      } catch {
+        alert("JSONファイルの読み込みに失敗しました。");
+      }
+    };
+    reader.readAsText(file);
+  });
+
+  // ローカルストレージから復元
+  window.addEventListener("load", () => {
+    const saved = localStorage.getItem("pixelDrawingData");
+    if(saved){
+      try {
+        const data = JSON.parse(saved);
+        if(data.app === APP_NAME && data.version === APP_VERSION && data.width === WIDTH && data.height === HEIGHT && Array.isArray(data.pixels)){
+          titleInput.value = data.title || "";
+          decompressPixelsToCanvas(data.pixels);
+        }
+      } catch {}
+    }
+  });
+
+  titleInput.addEventListener("input", () => saveToLocalStorage());
+
+  // 画像保存（PNG/JPEG）
+  imgSaveBtn.addEventListener("click", () => {
+    const formats = ["png", "jpeg"];
+    const oldSelect = document.getElementById("img-format-select");
+    if(oldSelect) oldSelect.remove();
+
+    const select = document.createElement("select");
+    select.id = "img-format-select";
+    formats.forEach(f => {
+      const option = document.createElement("option");
+      option.value = f;
+      option.textContent = f.toUpperCase();
+      select.appendChild(option);
+    });
+
+    const saveBtn = document.createElement("button");
+    saveBtn.textContent = "保存";
+    saveBtn.style.marginLeft = "8px";
+
+    const wrapper = document.createElement("div");
+    wrapper.style.position = "fixed";
+    wrapper.style.top = "50%";
+    wrapper.style.left = "50%";
+    wrapper.style.transform = "translate(-50%, -50%)";
+    wrapper.style.background = "#c0c0c0";
+    wrapper.style.border = "2px outset buttonface";
+    wrapper.style.padding = "12px";
+    wrapper.style.zIndex = "9999";
+    wrapper.appendChild(select);
+    wrapper.appendChild(saveBtn);
+    document.body.appendChild(wrapper);
+
+    saveBtn.addEventListener("click", () => {
+      saveImage(select.value);
+      wrapper.remove();
+    });
+
+    wrapper.addEventListener("click", e => {
+      if(e.target === wrapper) wrapper.remove();
+    });
+  });
+
+  // 画像保存実処理
+  function saveImage(format) {
+    const cvs = document.createElement("canvas");
+    cvs.width = WIDTH;
+    cvs.height = HEIGHT;
+    const ctx = cvs.getContext("2d");
+    ctx.clearRect(0,0,WIDTH,HEIGHT);
+    canvasEl.querySelectorAll(".pixel").forEach((p,i) => {
+      const bg = p.style.backgroundColor;
+      if(bg && bg !== "transparent" && bg !== ""){
+        const x = i % WIDTH;
+        const y = Math.floor(i / WIDTH);
+        ctx.fillStyle = bg;
+        ctx.fillRect(x,y,1,1);
+      }
+    });
+    const mime = format === "jpeg" ? "image/jpeg" : "image/png";
+    cvs.toBlob(blob => downloadBlob(blob, `${APP_NAME}-${APP_VERSION}_${getTimestamp()}.${format}`), mime, 0.92);
+  }
+
+  // Blobダウンロード
+  function downloadBlob(blob, filename){
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  // ローカルストレージ保存（RLE圧縮版）
+  function saveToLocalStorage(){
+    const pixels = Array.from(canvasEl.querySelectorAll(".pixel"));
+    const colorIndices = pixels.map(p => colors.indexOf(p.style.backgroundColor || null));
+    const compressed = compressPixels(colorIndices);
+    const data = {
+      app: APP_NAME,
+      version: APP_VERSION,
+      width: WIDTH,
+      height: HEIGHT,
+      title: titleInput.value.trim() || undefined,
+      pixels: compressed
+    };
+    localStorage.setItem("pixelDrawingData", JSON.stringify(data));
+  }
+
+  // JSONダウンロード（RLE圧縮版）
+  function downloadJson(){
+    const pixels = Array.from(canvasEl.querySelectorAll(".pixel"));
+    const colorIndices = pixels.map(p => colors.indexOf(p.style.backgroundColor || null));
+    const compressed = compressPixels(colorIndices);
+    const data = {
+      app: APP_NAME,
+      version: APP_VERSION,
+      width: WIDTH,
+      height: HEIGHT,
+      title: titleInput.value.trim() || undefined,
+      pixels: compressed
+    };
+    const jsonStr = JSON.stringify(data, null, 2);
+    const blob = new Blob([jsonStr], {type:"application/json"});
+    const dt = new Date();
+    const pad = n => n.toString().padStart(2,"0");
+    const filename = `${APP_NAME}-${APP_VERSION}_${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}_${pad(dt.getHours())}-${pad(dt.getMinutes())}-${pad(dt.getSeconds())}.json`;
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    alert("作品を保存しました。");
+  }
+
+  // RLE圧縮：同じ色が連続しているとき、[colorIndex, count]で圧縮
+  function compressPixels(colorIndices){
+    const result = [];
+    let prev = colorIndices[0];
+    let count = 1;
+    for(let i=1; i<colorIndices.length; i++){
+      if(colorIndices[i] === prev){
+        count++;
+      } else {
+        if(count >= MIN_RUN_LENGTH){
+          result.push([prev, count]);
+        } else {
+          for(let j=0; j<count; j++) result.push(prev);
+        }
+        prev = colorIndices[i];
+        count = 1;
+      }
+    }
+    // 最後のまとめ
+    if(count >= MIN_RUN_LENGTH){
+      result.push([prev, count]);
+    } else {
+      for(let j=0; j<count; j++) result.push(prev);
+    }
+    return result;
+  }
+
+  // RLE展開 → キャンバスに描画
+  function decompressPixelsToCanvas(pixelsRLE) {
+    const pixels = [];
+    pixelsRLE.forEach(item => {
+      if(Array.isArray(item)){
+        const [colorIdx, count] = item;
+        for(let i=0; i<count; i++) {
+          pixels.push(colorIdx);
+        }
+      } else {
+        pixels.push(item);
+      }
+    });
+    if(pixels.length !== WIDTH * HEIGHT){
+      alert("読み込んだピクセル数が不正です。");
+      return;
+    }
+    canvasEl.querySelectorAll(".pixel").forEach((p, i) => {
+      const colorIdx = pixels[i];
+      const color = colors[colorIdx] === null ? "transparent" : colors[colorIdx];
+      p.style.backgroundColor = color;
+    });
+  }
+
+  // 現在時刻をファイル名用に整形
+  function getTimestamp(){
+    const dt = new Date();
+    const pad = n => n.toString().padStart(2,"0");
+    return `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}_${pad(dt.getHours())}-${pad(dt.getMinutes())}-${pad(dt.getSeconds())}`;
+  }
+
+  // 初期化
+  createPixels();
+  createPalette();
+})();
+</script>
+</script>
+</body>
+</html>
