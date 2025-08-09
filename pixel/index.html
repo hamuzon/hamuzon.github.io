@@ -265,14 +265,21 @@
     }
   }
 
+  // 描画時にローカル保存呼び出し用
+  function onDrawChange() {
+    saveToLocalStorage();
+  }
+
   canvasEl.addEventListener("mousedown", e => {
     if(!e.target.classList.contains("pixel")) return;
     isDrawing = true;
     paintPixel(e.target);
+    onDrawChange();
   });
   canvasEl.addEventListener("mouseover", e => {
     if(isDrawing && e.target.classList.contains("pixel")){
       paintPixel(e.target);
+      onDrawChange();
     }
   });
   window.addEventListener("mouseup", () => {
@@ -370,6 +377,7 @@
           }
         });
         alert("作品を読み込みました。");
+        saveToLocalStorage(); // 読み込み後も自動保存状態へ
       } catch {
         alert("JSONファイルの読み込みに失敗しました。");
       }
@@ -408,6 +416,11 @@
   });
 
   createPalette();
+
+  // タイトル入力変更時も自動保存
+  titleInput.addEventListener("input", () => {
+    saveToLocalStorage();
+  });
 
   // 画像保存ボタン押下で形式選択リスト表示
   imgSaveBtn.addEventListener("click", () => {
@@ -452,6 +465,7 @@
     });
   });
 
+  // RGB to HEX変換関数
   function rgbToHex(rgb) {
     const result = /^rgba?\((\d+),\s*(\d+),\s*(\d+)/i.exec(rgb);
     if (!result) return rgb;
@@ -461,6 +475,7 @@
     }).join("");
   }
 
+  // 画像保存処理
   function saveImage(format) {
     if (format === "svg") {
       const svgText = generateSvg();
@@ -490,6 +505,7 @@
     }, mime, 0.92);
   }
 
+  // SVG生成
   function generateSvg() {
     const pixels = canvasEl.querySelectorAll(".pixel");
     const rects = [];
@@ -508,6 +524,7 @@
 </svg>`;
   }
 
+  // SVG保存用
   function saveSvg(svgText, filename) {
     const blob = new Blob([svgText], { type: "image/svg+xml;charset=utf-8" });
     const url = URL.createObjectURL(blob);
@@ -520,6 +537,7 @@
     URL.revokeObjectURL(url);
   }
 
+  // Blobダウンロード用
   function downloadBlob(blob, filename) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -531,11 +549,38 @@
     URL.revokeObjectURL(url);
   }
 
+  // ローカルストレージに保存
+  function saveToLocalStorage() {
+    const pixels = canvasEl.querySelectorAll(".pixel");
+    const pixelData = [];
+    pixels.forEach((p, i) => {
+      const bg = p.style.backgroundColor;
+      if(bg !== "" && bg !== "transparent"){
+        const x = i % WIDTH;
+        const y = Math.floor(i / WIDTH);
+        pixelData.push({x, y, color: bg});
+      }
+    });
+
+    const dataObj = {
+      app: APP_NAME,
+      version: APP_VERSION,
+      width: WIDTH,
+      height: HEIGHT,
+      title: titleInput.value.trim() || undefined,
+      pixels: pixelData
+    };
+    localStorage.setItem("pixelDrawingData", JSON.stringify(dataObj));
+  }
+
+  // 日付フォーマット取得
   function getFilenameTimestamp() {
     const dt = new Date();
     const pad = n => n.toString().padStart(2, "0");
     return `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}-${pad(dt.getDate())}_${pad(dt.getHours())}-${pad(dt.getMinutes())}-${pad(dt.getSeconds())}`;
   }
+
+  createPalette();
 
 })();
 </script>
