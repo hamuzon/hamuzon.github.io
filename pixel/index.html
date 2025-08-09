@@ -10,37 +10,66 @@
     background: #008080;
     font-family: "MS Gothic", monospace;
     user-select: none;
+    margin: 0;
     display: flex;
     justify-content: center;
     padding: 20px;
+    box-sizing: border-box;
   }
   main.window {
     background: #c0c0c0;
     border: 2px solid #000;
     box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #404040;
     padding: 16px;
-    width: 960px;
-    max-width: 100%;
+    width: 100%;
+    max-width: 960px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
   h1 {
     font-weight: normal;
     color: #000080;
     text-shadow: 1px 1px 0 #fff;
-    margin-bottom: 1rem;
+    margin: 0 auto 1rem;
+  }
+  #titleContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  #title-label {
+    font-weight: bold;
+    color: #000080;
+    text-shadow: 1px 1px #fff;
+    user-select: none;
+  }
+  #titleInput {
+    font-family: "MS Gothic", monospace;
+    font-size: 1rem;
+    border: 2px inset buttonface;
+    padding: 4px 8px;
+    min-width: 180px;
+    max-width: 100%;
+    box-sizing: border-box;
   }
   #app-container {
     display: flex;
-    gap: 16px;
     flex-wrap: wrap;
+    gap: 1rem;
     justify-content: center;
   }
   #palette {
     display: grid;
-    grid-template-columns: repeat(3, 36px);
+    grid-template-columns: repeat(auto-fit, minmax(36px, 1fr));
     grid-gap: 6px;
     border: 2px outset buttonface;
     padding: 8px;
     background: #c0c0c0;
+    min-width: 140px;
+    max-width: 100%;
   }
   .color-btn {
     width: 36px;
@@ -49,6 +78,7 @@
     border: 2px outset buttonface;
     box-sizing: border-box;
     background-clip: padding-box;
+    border-radius: 0;
   }
   .color-btn.selected {
     border-style: inset;
@@ -75,18 +105,19 @@
     color: black;
     user-select: none;
   }
-
   #canvas {
     display: grid;
-    grid-template-columns: repeat(16, 28px);
-    grid-template-rows: repeat(16, 28px);
-    gap: 2px;
+    grid-template-columns: repeat(auto-fit, minmax(24px, 1fr));
+    grid-gap: 2px;
     border: 2px outset buttonface;
     background-color: #c0c0c0;
+    max-width: 100%;
+    aspect-ratio: 1 / 1;
+    touch-action: none;
   }
   .pixel {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     background-color: transparent;
     border: 2px inset buttonface;
     cursor: pointer;
@@ -96,19 +127,25 @@
   .pixel:hover {
     filter: brightness(0.85);
   }
-
   #controls {
     margin-top: 1rem;
     text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
   }
   #controls button {
-    margin: 0 8px;
+    margin: 0;
     padding: 6px 16px;
     font-family: "MS Gothic", monospace;
     font-size: 1rem;
     border: 2px outset buttonface;
     cursor: pointer;
     user-select: none;
+    min-width: 120px;
+    flex-grow: 1;
+    max-width: 200px;
   }
   #controls button:active {
     border-style: inset;
@@ -118,26 +155,34 @@
     outline: 2px solid #000080;
     outline-offset: 2px;
   }
-  #title-label {
-    font-weight: bold;
-    margin-right: 8px;
-    color: #000080;
-    text-shadow: 1px 1px #fff;
-  }
-  #titleInput {
-    font-family: "MS Gothic", monospace;
-    font-size: 1rem;
-    border: 2px inset buttonface;
-    padding: 4px 8px;
-    width: 300px;
+  @media (max-width: 480px) {
+    #palette {
+      grid-template-columns: repeat(auto-fit, minmax(28px, 1fr));
+      min-width: 100px;
+    }
+    .color-btn {
+      width: 28px;
+      height: 28px;
+    }
+    #canvas {
+      grid-template-columns: repeat(16, 20px);
+      grid-gap: 1px;
+    }
+    .pixel {
+      width: 20px;
+      height: 20px;
+      border-width: 1px;
+    }
   }
 </style>
 </head>
 <body>
 <main class="window" role="main" aria-label="ピクセルお絵かきアプリ">
   <h1>Pixel Drawing</h1>
-  <label id="title-label" for="titleInput">作品名（任意）:</label>
-  <input type="text" id="titleInput" placeholder="作品名を入力してください" autocomplete="off" />
+  <div id="titleContainer">
+    <label id="title-label" for="titleInput">作品名（任意）:</label>
+    <input type="text" id="titleInput" placeholder="作品名を入力してください" autocomplete="off" />
+  </div>
   <section id="app-container" aria-label="描画エリアとパレット">
     <nav id="palette" role="list" aria-label="色パレット"></nav>
     <div id="canvas" role="grid" aria-label="ピクセル描画キャンバス" tabindex="0"></div>
@@ -146,18 +191,17 @@
     <button id="btn-reset" type="button">ボードをリセット</button>
     <button id="btn-save" type="button">JSONで保存</button>
     <button id="btn-load" type="button">JSON読み込み</button>
+    <button id="btn-img-save" type="button">画像保存</button>
     <input type="file" id="file-load" accept=".json" style="display:none" />
   </section>
 </main>
 
 <script>
-(() => {
+ (() => {
   const APP_NAME = "PixelDraw";
   const APP_VERSION = "1.0";
   const WIDTH = 16;
   const HEIGHT = 16;
-
-  // パレット色（nullは透明）
   const colors = [
     "#000000",
     "#ff0000",
@@ -175,10 +219,11 @@
   const resetBtn = document.getElementById("btn-reset");
   const saveBtn = document.getElementById("btn-save");
   const loadBtn = document.getElementById("btn-load");
+  const imgSaveBtn = document.getElementById("btn-img-save");
   const fileLoadInput = document.getElementById("file-load");
   const titleInput = document.getElementById("titleInput");
 
-  // キャンバスのピクセルを作成
+  // ピクセル生成
   for(let i=0; i<WIDTH*HEIGHT; i++){
     const pixel = document.createElement("div");
     pixel.classList.add("pixel");
@@ -187,7 +232,7 @@
     canvasEl.appendChild(pixel);
   }
 
-  // パレット作成
+  // パレット生成
   function createPalette(){
     paletteEl.innerHTML = "";
     colors.forEach((c) => {
@@ -309,15 +354,12 @@
           alert("JSONデータの形式が不正です。");
           return;
         }
-        // タイトル表示
         titleInput.value = data.title || "";
 
-        // クリア
         canvasEl.querySelectorAll(".pixel").forEach(p=>{
           p.style.backgroundColor = "transparent";
         });
 
-        // 色付き復元
         data.pixels.forEach(({x,y,color}) => {
           if(x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT && typeof color === "string"){
             const index = y * WIDTH + x;
@@ -335,7 +377,6 @@
     reader.readAsText(file);
   });
 
-  // ページロード時にローカルストレージから自動復元
   window.addEventListener("load", () => {
     const saved = localStorage.getItem("pixelDrawingData");
     if(saved){
@@ -367,6 +408,150 @@
   });
 
   createPalette();
+
+  // 画像保存機能（png/jpeg/bmp/svg対応）
+  imgSaveBtn.addEventListener("click", () => {
+    const format = prompt("画像保存形式を入力してください（png/jpeg/bmp/svg）", "png");
+    if(!format) return;
+    const ext = format.toLowerCase();
+    if(!["png","jpeg","bmp","svg"].includes(ext)){
+      alert("対応形式は png, jpeg, bmp, svg のみです。");
+      return;
+    }
+    saveImage(ext);
+  });
+
+  function saveImage(format){
+    if(format === "svg"){
+      const svgText = generateSvg();
+      const blob = new Blob([svgText], {type: "image/svg+xml"});
+      downloadBlob(blob, `${APP_NAME}-${APP_VERSION}_${getFilenameTimestamp()}.svg`);
+      return;
+    }
+    // Canvasに描画
+    const cvs = document.createElement("canvas");
+    cvs.width = WIDTH;
+    cvs.height = HEIGHT;
+    const ctx = cvs.getContext("2d");
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+
+    const pixels = canvasEl.querySelectorAll(".pixel");
+    pixels.forEach((p, i) => {
+      const bg = p.style.backgroundColor;
+      if(bg && bg !== "transparent" && bg !== ""){
+        const x = i % WIDTH;
+        const y = Math.floor(i / WIDTH);
+        ctx.fillStyle = bg;
+        ctx.fillRect(x, y, 1, 1);
+      }
+    });
+
+    if(format === "bmp"){
+      const bmpBlob = createBmpBlob(cvs);
+      downloadBlob(bmpBlob, `${APP_NAME}-${APP_VERSION}_${getFilenameTimestamp()}.bmp`);
+    } else {
+      const mime = (format === "jpeg") ? "image/jpeg" : "image/png";
+      cvs.toBlob(blob => {
+        downloadBlob(blob, `${APP_NAME}-${APP_VERSION}_${getFilenameTimestamp()}.${format}`);
+      }, mime);
+    }
+  }
+
+  // SVG生成（16x16正方形ピクセル、1px正方形）
+  function generateSvg(){
+    const pixels = canvasEl.querySelectorAll(".pixel");
+    const rects = [];
+    pixels.forEach((p, i) => {
+      const color = p.style.backgroundColor;
+      if(color && color !== "transparent" && color !== ""){
+        const x = i % WIDTH;
+        const y = Math.floor(i / WIDTH);
+        rects.push(`<rect x="${x}" y="${y}" width="1" height="1" fill="${color}" />`);
+      }
+    });
+    return `<?xml version="1.0" encoding="UTF-8"?>
+<svg width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" >
+  ${rects.join("\n  ")}
+</svg>`;
+  }
+
+  function downloadBlob(blob, filename){
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function getFilenameTimestamp(){
+    const dt = new Date();
+    const pad = n => n.toString().padStart(2,"0");
+    return `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}_${pad(dt.getHours())}-${pad(dt.getMinutes())}-${pad(dt.getSeconds())}`;
+  }
+
+  // 簡易BMP 24bit生成
+  function createBmpBlob(canvas) {
+    const width = canvas.width;
+    const height = canvas.height;
+    const ctx = canvas.getContext("2d");
+    const imgData = ctx.getImageData(0, 0, width, height);
+    const pixelData = imgData.data;
+
+    // 1行のバイト数は4バイト境界にそろえる
+    const rowSize = Math.floor((24 * width + 31) / 32) * 4;
+    const pixelArraySize = rowSize * height;
+    const fileSize = 54 + pixelArraySize; // ヘッダー54バイト + ピクセルデータ
+
+    const buffer = new ArrayBuffer(fileSize);
+    const dv = new DataView(buffer);
+    let pos = 0;
+
+    // BITMAPFILEHEADER (14バイト)
+    dv.setUint8(pos++, 0x42); // B
+    dv.setUint8(pos++, 0x4D); // M
+    dv.setUint32(pos, fileSize, true); pos += 4; // ファイルサイズ
+    dv.setUint16(pos, 0, true); pos += 2; // 予約1
+    dv.setUint16(pos, 0, true); pos += 2; // 予約2
+    dv.setUint32(pos, 54, true); pos += 4; // ピクセルデータ開始オフセット
+
+    // BITMAPINFOHEADER (40バイト)
+    dv.setUint32(pos, 40, true); pos += 4; // ヘッダーサイズ
+    dv.setInt32(pos, width, true); pos += 4; // 幅
+    dv.setInt32(pos, height, true); pos += 4; // 高さ
+    dv.setUint16(pos, 1, true); pos += 2; // プレーン数
+    dv.setUint16(pos, 24, true); pos += 2; // ビット数(24bit)
+    dv.setUint32(pos, 0, true); pos += 4; // 圧縮なし
+    dv.setUint32(pos, pixelArraySize, true); pos += 4; // 画像サイズ
+    dv.setInt32(pos, 2835, true); pos += 4; // 横解像度(px/m) 72dpi=2835
+    dv.setInt32(pos, 2835, true); pos += 4; // 縦解像度(px/m)
+    dv.setUint32(pos, 0, true); pos += 4; // パレット数
+    dv.setUint32(pos, 0, true); pos += 4; // 重要な色数
+
+    // ピクセルデータ (下から上に、BGR順)
+    const pixelDataOffset = 54;
+    for (let y = height - 1; y >= 0; y--) {
+      let rowPos = pixelDataOffset + (height - 1 - y) * rowSize;
+      for (let x = 0; x < width; x++) {
+        const i = (y * width + x) * 4;
+        const r = pixelData[i];
+        const g = pixelData[i + 1];
+        const b = pixelData[i + 2];
+        dv.setUint8(rowPos++, b);
+        dv.setUint8(rowPos++, g);
+        dv.setUint8(rowPos++, r);
+      }
+      // 4バイト境界にパディング
+      while ((rowPos - pixelDataOffset) % 4 !== 0) {
+        dv.setUint8(rowPos++, 0);
+      }
+    }
+
+    return new Blob([buffer], { type: "image/bmp" });
+  }
+
 })();
 </script>
 </body>
