@@ -409,26 +409,56 @@
 
   createPalette();
 
-  // 画像保存機能（png/jpeg/bmp/svg対応）
+  // 画像保存ボタン押下で形式選択リスト表示
   imgSaveBtn.addEventListener("click", () => {
-    const format = prompt("画像保存形式を入力してください（png/jpeg/bmp/svg）", "png");
-    if(!format) return;
-    const ext = format.toLowerCase();
-    if(!["png","jpeg","bmp","svg"].includes(ext)){
-      alert("対応形式は png, jpeg, bmp, svg のみです。");
-      return;
-    }
-    saveImage(ext);
+    const formats = ["png", "jpeg", "svg"];
+    const oldSelect = document.getElementById("img-format-select");
+    if (oldSelect) oldSelect.remove();
+
+    const select = document.createElement("select");
+    select.id = "img-format-select";
+    formats.forEach(f => {
+      const option = document.createElement("option");
+      option.value = f;
+      option.textContent = f.toUpperCase();
+      select.appendChild(option);
+    });
+
+    const saveConfirmBtn = document.createElement("button");
+    saveConfirmBtn.textContent = "保存";
+    saveConfirmBtn.style.marginLeft = "8px";
+
+    const wrapper = document.createElement("div");
+    wrapper.style.position = "fixed";
+    wrapper.style.top = "50%";
+    wrapper.style.left = "50%";
+    wrapper.style.transform = "translate(-50%, -50%)";
+    wrapper.style.background = "#c0c0c0";
+    wrapper.style.border = "2px outset buttonface";
+    wrapper.style.padding = "12px";
+    wrapper.style.zIndex = "9999";
+    wrapper.appendChild(select);
+    wrapper.appendChild(saveConfirmBtn);
+    document.body.appendChild(wrapper);
+
+    saveConfirmBtn.addEventListener("click", () => {
+      const format = select.value;
+      saveImage(format);
+      wrapper.remove();
+    });
+
+    wrapper.addEventListener("click", e => {
+      if (e.target === wrapper) wrapper.remove();
+    });
   });
 
-  function saveImage(format){
-    if(format === "svg"){
+  function saveImage(format) {
+    if (format === "svg") {
       const svgText = generateSvg();
-      const blob = new Blob([svgText], {type: "image/svg+xml"});
+      const blob = new Blob([svgText], { type: "image/svg+xml" });
       downloadBlob(blob, `${APP_NAME}-${APP_VERSION}_${getFilenameTimestamp()}.svg`);
       return;
     }
-    // Canvasに描画
     const cvs = document.createElement("canvas");
     cvs.width = WIDTH;
     cvs.height = HEIGHT;
@@ -438,7 +468,7 @@
     const pixels = canvasEl.querySelectorAll(".pixel");
     pixels.forEach((p, i) => {
       const bg = p.style.backgroundColor;
-      if(bg && bg !== "transparent" && bg !== ""){
+      if (bg && bg !== "transparent" && bg !== "") {
         const x = i % WIDTH;
         const y = Math.floor(i / WIDTH);
         ctx.fillStyle = bg;
@@ -446,24 +476,18 @@
       }
     });
 
-    if(format === "bmp"){
-      const bmpBlob = createBmpBlob(cvs);
-      downloadBlob(bmpBlob, `${APP_NAME}-${APP_VERSION}_${getFilenameTimestamp()}.bmp`);
-    } else {
-      const mime = (format === "jpeg") ? "image/jpeg" : "image/png";
-      cvs.toBlob(blob => {
-        downloadBlob(blob, `${APP_NAME}-${APP_VERSION}_${getFilenameTimestamp()}.${format}`);
-      }, mime);
-    }
+    const mime = (format === "jpeg") ? "image/jpeg" : "image/png";
+    cvs.toBlob(blob => {
+      downloadBlob(blob, `${APP_NAME}-${APP_VERSION}_${getFilenameTimestamp()}.${format}`);
+    }, mime);
   }
 
-  // SVG生成（16x16正方形ピクセル、1px正方形）
-  function generateSvg(){
+  function generateSvg() {
     const pixels = canvasEl.querySelectorAll(".pixel");
     const rects = [];
     pixels.forEach((p, i) => {
       const color = p.style.backgroundColor;
-      if(color && color !== "transparent" && color !== ""){
+      if (color && color !== "transparent" && color !== "") {
         const x = i % WIDTH;
         const y = Math.floor(i / WIDTH);
         rects.push(`<rect x="${x}" y="${y}" width="1" height="1" fill="${color}" />`);
@@ -475,7 +499,7 @@
 </svg>`;
   }
 
-  function downloadBlob(blob, filename){
+  function downloadBlob(blob, filename) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -486,70 +510,10 @@
     URL.revokeObjectURL(url);
   }
 
-  function getFilenameTimestamp(){
+  function getFilenameTimestamp() {
     const dt = new Date();
-    const pad = n => n.toString().padStart(2,"0");
-    return `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}_${pad(dt.getHours())}-${pad(dt.getMinutes())}-${pad(dt.getSeconds())}`;
-  }
-
-  // 簡易BMP 24bit生成
-  function createBmpBlob(canvas) {
-    const width = canvas.width;
-    const height = canvas.height;
-    const ctx = canvas.getContext("2d");
-    const imgData = ctx.getImageData(0, 0, width, height);
-    const pixelData = imgData.data;
-
-    // 1行のバイト数は4バイト境界にそろえる
-    const rowSize = Math.floor((24 * width + 31) / 32) * 4;
-    const pixelArraySize = rowSize * height;
-    const fileSize = 54 + pixelArraySize; // ヘッダー54バイト + ピクセルデータ
-
-    const buffer = new ArrayBuffer(fileSize);
-    const dv = new DataView(buffer);
-    let pos = 0;
-
-    // BITMAPFILEHEADER (14バイト)
-    dv.setUint8(pos++, 0x42); // B
-    dv.setUint8(pos++, 0x4D); // M
-    dv.setUint32(pos, fileSize, true); pos += 4; // ファイルサイズ
-    dv.setUint16(pos, 0, true); pos += 2; // 予約1
-    dv.setUint16(pos, 0, true); pos += 2; // 予約2
-    dv.setUint32(pos, 54, true); pos += 4; // ピクセルデータ開始オフセット
-
-    // BITMAPINFOHEADER (40バイト)
-    dv.setUint32(pos, 40, true); pos += 4; // ヘッダーサイズ
-    dv.setInt32(pos, width, true); pos += 4; // 幅
-    dv.setInt32(pos, height, true); pos += 4; // 高さ
-    dv.setUint16(pos, 1, true); pos += 2; // プレーン数
-    dv.setUint16(pos, 24, true); pos += 2; // ビット数(24bit)
-    dv.setUint32(pos, 0, true); pos += 4; // 圧縮なし
-    dv.setUint32(pos, pixelArraySize, true); pos += 4; // 画像サイズ
-    dv.setInt32(pos, 2835, true); pos += 4; // 横解像度(px/m) 72dpi=2835
-    dv.setInt32(pos, 2835, true); pos += 4; // 縦解像度(px/m)
-    dv.setUint32(pos, 0, true); pos += 4; // パレット数
-    dv.setUint32(pos, 0, true); pos += 4; // 重要な色数
-
-    // ピクセルデータ (下から上に、BGR順)
-    const pixelDataOffset = 54;
-    for (let y = height - 1; y >= 0; y--) {
-      let rowPos = pixelDataOffset + (height - 1 - y) * rowSize;
-      for (let x = 0; x < width; x++) {
-        const i = (y * width + x) * 4;
-        const r = pixelData[i];
-        const g = pixelData[i + 1];
-        const b = pixelData[i + 2];
-        dv.setUint8(rowPos++, b);
-        dv.setUint8(rowPos++, g);
-        dv.setUint8(rowPos++, r);
-      }
-      // 4バイト境界にパディング
-      while ((rowPos - pixelDataOffset) % 4 !== 0) {
-        dv.setUint8(rowPos++, 0);
-      }
-    }
-
-    return new Blob([buffer], { type: "image/bmp" });
+    const pad = n => n.toString().padStart(2, "0");
+    return `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}-${pad(dt.getDate())}_${pad(dt.getHours())}-${pad(dt.getMinutes())}-${pad(dt.getSeconds())}`;
   }
 
 })();
