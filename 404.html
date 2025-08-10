@@ -101,19 +101,16 @@
     (function() {
       const path = location.pathname.toLowerCase();
 
-      let backUrl = "/";
+ const redirects = {
+  "/cal": "/calendar/",
+  "/calv1": "/calendar/v1.0/index.html",
+  "/calv2": "/calendar/v2.0/index.html",
+  "/calv3": "/calendar/v3.0/index.html",
+  "/calv4": "/calendar/v4.0/index.html",
+};
 
-      if (path.startsWith("/blog")) {
-        backUrl = "/blog-home";
-      } else if (path.startsWith("/products")) {
-        backUrl = "/shop";
-      } else if (path.startsWith("/about")) {
-        backUrl = "/company-info";
-      }
-
-      const backLinkEl = document.getElementById("backLink");
-      if (backLinkEl) {
-        backLinkEl.href = backUrl;
+      if (redirects[path]) {
+        window.location.replace(redirects[path]);
       }
     })();
   </script>
