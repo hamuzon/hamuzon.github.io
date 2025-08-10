@@ -110,6 +110,8 @@
     reader.onload = ev => {
       try {
         let data = JSON.parse(ev.target.result);
+        const versionBeforeConvert = data.version;  // 読み込んだ元バージョン
+        let converted = false;
 
         if(data.app !== APP_NAME){
           alert("このデータはこのアプリのものではありません。");
@@ -131,6 +133,7 @@
         if(data.version === "1.0"){
           // v1→v2変換
           data = convertV1ToV2(data);
+          converted = true;
         } else if(data.version === "2.0"){
           if(!Array.isArray(data.palette)){
             alert("パレットデータが不正です。");
@@ -144,8 +147,14 @@
 
         titleInput.value = data.title || "";
         fillCanvasWithCompressedPixels(data.pixels);
-        alert(`バージョン ${data.version} の作品を読み込みました。`);
+        selectColor(0, paletteEl.querySelectorAll(".color-btn")[0]); // 選択色初期化
         saveToLocalStorage();
+
+        alert(
+          `元のバージョン: ${versionBeforeConvert}\n` +
+          `読み込み後のバージョン: ${data.version}\n` +
+          (converted ? "v1 → v2 に変換して読み込みました。" : "変換は不要です。")
+        );
 
       } catch {
         alert("JSONファイルの読み込みに失敗しました。");
@@ -158,7 +167,10 @@
     const saved = localStorage.getItem("pixelDrawingData-v2");
     if(saved){
       try {
-        const data = JSON.parse(saved);
+        let data = JSON.parse(saved);
+        const versionBeforeConvert = data.version;
+        let converted = false;
+
         if(data.app === APP_NAME && SUPPORTED_VERSIONS.includes(data.version) && data.width === WIDTH && data.height === HEIGHT && Array.isArray(data.pixels)){
           if(data.version === "2.0"){
             if(JSON.stringify(data.palette) === JSON.stringify(palette)){
@@ -166,11 +178,19 @@
               fillCanvasWithCompressedPixels(data.pixels);
             }
           } else if(data.version === "1.0"){
-            // localStorageにv1のまま保存されているケースを考慮し変換
-            const converted = convertV1ToV2(data);
-            titleInput.value = converted.title || "";
-            fillCanvasWithCompressedPixels(converted.pixels);
+            data = convertV1ToV2(data);
+            converted = true;
+            titleInput.value = data.title || "";
+            fillCanvasWithCompressedPixels(data.pixels);
             saveToLocalStorage();
+          }
+          selectColor(0, paletteEl.querySelectorAll(".color-btn")[0]);
+          if(converted){
+            alert(
+              `ローカルストレージの元バージョン: ${versionBeforeConvert}\n` +
+              `変換後のバージョン: ${data.version}\n` +
+              `v1 → v2 に変換して読み込みました。`
+            );
           }
         }
       } catch {}
