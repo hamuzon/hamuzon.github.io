@@ -97,22 +97,5 @@
   <p class="subtext">Sorry, Not Found.</p>
   <a id="backLink" class="back" href="/">トップページへ戻る</a>
 
-  <script>
-    (function() {
-      const path = location.pathname.toLowerCase();
-
- const redirects = {
-  "/cal": "/calendar/",
-  "/calv1": "/calendar/v1.0/index.html",
-  "/calv2": "/calendar/v2.0/index.html",
-  "/calv3": "/calendar/v3.0/index.html",
-  "/calv4": "/calendar/v4.0/index.html",
-};
-
-      if (redirects[path]) {
-        window.location.replace(redirects[path]);
-      }
-    })();
-  </script>
 </body>
 </html>
