@@ -28,6 +28,18 @@
   const fileLoadInput = document.getElementById("file-load");
   const titleInput = document.getElementById("titleInput");
 
+  // 情報表示エリア（自動で作成）
+  let infoArea = document.getElementById("info-area");
+  if(!infoArea){
+    infoArea = document.createElement("div");
+    infoArea.id = "info-area";
+    infoArea.style.marginTop = "8px";
+    infoArea.style.fontWeight = "bold";
+    infoArea.style.color = "#900";
+    // titleInput の親要素の後ろに入れる
+    titleInput.parentNode.insertAdjacentElement("afterend", infoArea);
+  }
+
   // ピクセル生成
   for(let i=0; i<WIDTH*HEIGHT; i++){
     const pixel = document.createElement("div");
@@ -45,6 +57,7 @@
       btn.className = "color-btn";
       btn.style.backgroundColor = color;
       btn.title = `色: ${color}`;
+      if(color === "#00000000") btn.classList.add("transparent");
       btn.addEventListener("click", () => selectColor(i, btn));
       paletteEl.appendChild(btn);
       if(i === currentColorIndex) btn.classList.add("selected");
@@ -90,6 +103,7 @@
       });
       localStorage.removeItem("pixelDrawingData-v2");
       titleInput.value = "";
+      infoArea.textContent = "";
     }
   });
 
@@ -110,54 +124,56 @@
     reader.onload = ev => {
       try {
         let data = JSON.parse(ev.target.result);
-        const versionBeforeConvert = data.version;  // 読み込んだ元バージョン
+        const versionBeforeConvert = data.version;  // 元バージョン
         let converted = false;
 
         if(data.app !== APP_NAME){
           alert("このデータはこのアプリのものではありません。");
+          infoArea.textContent = "";
           return;
         }
         if(!SUPPORTED_VERSIONS.includes(data.version)){
           alert(`サポートされていないバージョンです。\n対応バージョン: ${SUPPORTED_VERSIONS.join(", ")}\n読み込んだバージョン: ${data.version}`);
+          infoArea.textContent = "";
           return;
         }
         if(data.width !== WIDTH || data.height !== HEIGHT){
           alert("キャンバスサイズが異なります。");
+          infoArea.textContent = "";
           return;
         }
         if(!Array.isArray(data.pixels)){
           alert("ピクセルデータが不正です。");
+          infoArea.textContent = "";
           return;
         }
 
         if(data.version === "1.0"){
-          // v1→v2変換
           data = convertV1ToV2(data);
           converted = true;
         } else if(data.version === "2.0"){
           if(!Array.isArray(data.palette)){
             alert("パレットデータが不正です。");
+            infoArea.textContent = "";
             return;
           }
           if(JSON.stringify(data.palette) !== JSON.stringify(palette)){
             alert("パレットがアプリと異なります。");
+            infoArea.textContent = "";
             return;
           }
         }
 
         titleInput.value = data.title || "";
         fillCanvasWithCompressedPixels(data.pixels);
-        selectColor(0, paletteEl.querySelectorAll(".color-btn")[0]); // 選択色初期化
+        selectColor(0, paletteEl.querySelectorAll(".color-btn")[0]);
         saveToLocalStorage();
 
-        alert(
-          `元のバージョン: ${versionBeforeConvert}\n` +
-          `読み込み後のバージョン: ${data.version}\n` +
-          (converted ? "v1 → v2 に変換して読み込みました。" : "変換は不要です。")
-        );
+        infoArea.textContent = `元のバージョン: ${versionBeforeConvert} | 読み込み後のバージョン: ${data.version} | ${converted ? "v1→v2に変換しました" : "変換不要"}`;
 
       } catch {
         alert("JSONファイルの読み込みに失敗しました。");
+        infoArea.textContent = "";
       }
     };
     reader.readAsText(file);
@@ -185,15 +201,12 @@
             saveToLocalStorage();
           }
           selectColor(0, paletteEl.querySelectorAll(".color-btn")[0]);
-          if(converted){
-            alert(
-              `ローカルストレージの元バージョン: ${versionBeforeConvert}\n` +
-              `変換後のバージョン: ${data.version}\n` +
-              `v1 → v2 に変換して読み込みました。`
-            );
-          }
+
+          infoArea.textContent = `ローカルストレージ元のバージョン: ${versionBeforeConvert} | 読み込み後のバージョン: ${data.version} | ${converted ? "v1→v2に変換しました" : "変換不要"}`;
         }
-      } catch {}
+      } catch {
+        infoArea.textContent = "";
+      }
     }
   });
 
