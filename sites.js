@@ -19,6 +19,7 @@ const sitesData = {
     { href: "https://qr.hamusata.f5.si", text: "🔳QR 🔗- Hamusata / Hosted by GitHub", openInSameTab: true },
     { href: "http://omikuji.hamusata.f5.si", text: "🍀おみくじ🔮- Hamusata / Hosted by GitHub", openInSameTab: true },
     { href: "https://dice.hamusata.f5.si", text: "🎲サイコロ🎯 Hamusata / Hosted by GitHub", openInSameTab: true },
+    { href: "https://pixel-art.hamusata.f5.si/", text: "🎨 Pixel Drawing 🖌️ Hamusata / Hosted by GitHub", openInSameTab: true },
   ],
   hamuzonGitHubIO: [
     { href: "./", text: "Hamuzon-Website-List", className: "tpww", openInSameTab: true },
@@ -35,6 +36,7 @@ const sitesData = {
     { href: "https://hamuzon.github.io/omikuji/", text: "🍀おみくじ🔮 - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/dice/", text: "🎲サイコロ🎯  - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/Short-Link/", text: "🔗Short link creation service🔗  - Hamuzon", openInSameTab: true },
+    { href: "https://hamuzon.github.io/pixel/", text: "🎨 Pixel Drawing 🖌️  - Hamuzon", openInSameTab: true },
   ],
   publicSites: [
     { href: "https://www.google.com", text: "Google", openInSameTab: true },
