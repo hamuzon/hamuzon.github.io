@@ -1,8 +1,8 @@
 (() => {
   // --- サポートバージョン ---
-  const SUPPORTED_VERSIONS = ["1.0", "2.0"];
+  const SUPPORTED_VERSIONS = ["1.0"];
   const APP_NAME = "PixelDraw";
-  const APP_VERSION = "2.0";
+  const APP_VERSION = "1.0";
   const WIDTH = 16;
   const HEIGHT = 16;
 
@@ -105,7 +105,7 @@
         p.style.backgroundColor = palette[palette.length-1]; // 透明
         delete p.dataset.colorIndex;
       });
-      localStorage.removeItem("pixelDrawingData-v2");
+      localStorage.removeItem("pixelDrawingData-v1");
       titleInput.value = "";
     }
   });
@@ -136,6 +136,10 @@
           alert(`サポートされていないバージョンです。\n対応バージョン: ${SUPPORTED_VERSIONS.join(", ")}\n読み込んだバージョン: ${data.version}`);
           return;
         }
+        if(data.version !== "1.0"){
+          alert("v1.0以外のバージョンはサポートされていません。");
+          return;
+        }
         if(data.width !== WIDTH || data.height !== HEIGHT){
           alert("キャンバスサイズが異なります。");
           return;
@@ -144,19 +148,13 @@
           alert("ピクセルデータが不正です。");
           return;
         }
-
-        if(data.version === "1.0"){
-          // v1→v2変換
-          data = convertV1ToV2(data);
-        } else if(data.version === "2.0"){
-          if(!Array.isArray(data.palette)){
-            alert("パレットデータが不正です。");
-            return;
-          }
-          if(JSON.stringify(data.palette) !== JSON.stringify(palette)){
-            alert("パレットがアプリと異なります。");
-            return;
-          }
+        if(!Array.isArray(data.palette)){
+          alert("パレットデータが不正です。");
+          return;
+        }
+        if(JSON.stringify(data.palette) !== JSON.stringify(palette)){
+          alert("パレットがアプリと異なります。");
+          return;
         }
 
         // UI更新
@@ -176,13 +174,14 @@
   });
 
   window.addEventListener("load", () => {
-    const saved = localStorage.getItem("pixelDrawingData-v2");
+    const saved = localStorage.getItem("pixelDrawingData-v1");
     if(saved){
       try {
         let data = JSON.parse(saved);
         if(data.app === APP_NAME && SUPPORTED_VERSIONS.includes(data.version) && data.width === WIDTH && data.height === HEIGHT && Array.isArray(data.pixels)){
-          if(data.version === "1.0"){
-            data = convertV1ToV2(data); // 変換
+          if(data.version !== "1.0"){
+            alert("v1.0以外のバージョンはサポートされていません。");
+            return;
           }
           updatePaletteUI(data.palette);
           fillCanvasWithCompressedPixels(data.pixels);
@@ -276,7 +275,7 @@
       palette,
       pixels: compressPixels(getCanvasColorIndices())
     };
-    localStorage.setItem("pixelDrawingData-v2", JSON.stringify(data));
+    localStorage.setItem("pixelDrawingData-v1", JSON.stringify(data));
   }
 
   function downloadJson(){
@@ -293,7 +292,7 @@
     const blob = new Blob([jsonStr], {type:"application/json"});
     const dt = new Date();
     const pad = n => n.toString().padStart(2,"0");
-    const filename = `${APP_NAME}-${APP_VERSION}_${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}_${pad(dt.getHours())}-${pad(dt.getMinutes())}-${pad(dt.getSeconds())}.json`;
+    const filename = `${APP_NAME}-VERSION-${APP_VERSION}_${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}_${pad(dt.getHours())}-${pad(dt.getMinutes())}-${pad(dt.getSeconds())}.json`;
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -338,7 +337,7 @@
     return compressed;
   }
 
-  // 圧縮されたピクセル配列を展開してキャンバスに適用 (v2.0用)
+  // 圧縮されたピクセル配列を展開してキャンバスに適用 (v1.0用)
   function fillCanvasWithCompressedPixels(pixels){
     const indices = [];
     for(let i=0; i<pixels.length; i++){
@@ -362,31 +361,6 @@
         pixel.dataset.colorIndex = idx;
       }
     }
-  }
-
-  // v1.0形式のJSONデータをv2.0形式に変換
-  function convertV1ToV2(dataV1) {
-    const indices = new Array(WIDTH*HEIGHT).fill(palette.length - 1); // 透明で初期化
-    for(const px of dataV1.pixels){
-      if(px.x>=0 && px.x<WIDTH && px.y>=0 && px.y<HEIGHT && typeof px.color === "string"){
-        const idx = px.y * WIDTH + px.x;
-        const colorIdx = palette.findIndex(c => c.toLowerCase() === px.color.toLowerCase());
-        if(colorIdx >= 0){
-          indices[idx] = colorIdx;
-        } else {
-          indices[idx] = palette.length - 1; // 透明に
-        }
-      }
-    }
-    return {
-      app: APP_NAME,
-      version: "2.0",
-      width: WIDTH,
-      height: HEIGHT,
-      title: dataV1.title || undefined,
-      palette: palette,
-      pixels: compressPixels(indices)
-    };
   }
 
   function getTimestamp(){
