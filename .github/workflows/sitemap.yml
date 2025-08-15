@@ -1,37 +1,58 @@
-name: Generate sitemap
+name: Generate and Push Sitemap
 
+# トリガー: main ブランチへの push または手動実行
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+  workflow_dispatch:
+
+# GITHUB_TOKEN に書き込み権限を付与
+permissions:
+  contents: write
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
+      # リポジトリをチェックアウト
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: true
+          clean: true
+          fetch-depth: 1
 
-    - name: Generate sitemap.xml
-      run: |
-        echo '<?xml version="1.0" encoding="UTF-8"?>' > sitemap.xml
-        echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> sitemap.xml
+      # sitemap.xml を生成
+      - name: Generate sitemap.xml
+        run: |
+          echo '<?xml version="1.0" encoding="UTF-8"?>' > sitemap.xml
+          echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> sitemap.xml
 
-        # ルートページを追加
-        echo "  <url><loc>https://hamuzon.github.io/</loc></url>" >> sitemap.xml
+          # ルートページ
+          echo "  <url><loc>https://hamuzon.github.io/</loc></url>" >> sitemap.xml
 
-        # サブディレクトリを自動取得してURLを追加
-        for d in $(find . -maxdepth 1 -type d ! -name ".git" ! -name ".github" ! -name ".github.io"); do
-          name=$(basename $d)
-          echo "  <url><loc>https://hamuzon.github.io/$name/</loc></url>" >> sitemap.xml
-        done
+          # サブディレクトリを自動取得して URL 追加
+          for d in $(find . -maxdepth 1 -type d ! -name ".git" ! -name ".github" ! -name ".github.io"); do
+            name=$(basename $d)
+            echo "  <url><loc>https://hamuzon.github.io/$name/</loc></url>" >> sitemap.xml
+          done
 
-        echo '</urlset>' >> sitemap.xml
+          echo '</urlset>' >> sitemap.xml
 
-    - name: Commit sitemap.xml
-      run: |
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        git add sitemap.xml
-        git commit -m "Update sitemap.xml" || echo "No changes to commit"
-        git push
+      # Git 設定
+      - name: Configure Git
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+      # sitemap.xml を追加してコミット
+      - name: Commit changes
+        run: |
+          git add sitemap.xml
+          git commit -m "Update sitemap.xml" || echo "No changes to commit"
+
+      # push
+      - name: Push changes
+        run: git push
