@@ -1,13 +1,14 @@
 name: Generate and Push Sitemap
 
-# ブランチ main に push/PR があった時にも実行
+# トリガー: main ブランチへの push または手動実行、毎日日本時間 9 時
 on:
   push:
     branches:
       - main
   workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *' # UTC 0 時 → 日本時間 9 時
 
-# GITHUB_TOKEN に書き込み権限を付与
 permissions:
   contents: write
 
@@ -21,31 +22,38 @@ jobs:
         uses: actions/checkout@v3
         with:
           persist-credentials: true
+          clean: true
           fetch-depth: 1
 
-      # sitemap.xml を生成
+      # sitemap.xml を生成（サブディレクトリ自動検出）
       - name: Generate sitemap.xml
         run: |
           echo '<?xml version="1.0" encoding="UTF-8"?>' > sitemap.xml
           echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> sitemap.xml
+
           # ルートページ
           echo "  <url><loc>https://hamuzon.github.io/</loc></url>" >> sitemap.xml
-          # サブディレクトリを追加（.git, .github 除外）
+
+          # サブディレクトリを自動取得して URL 追加
           for d in $(find . -maxdepth 1 -type d ! -name ".git" ! -name ".github"); do
             name=$(basename $d)
             echo "  <url><loc>https://hamuzon.github.io/$name/</loc></url>" >> sitemap.xml
           done
+
           echo '</urlset>' >> sitemap.xml
 
-      # git 設定
-      - name: Configure git
+      # Git 設定
+      - name: Configure Git
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
 
-      # sitemap.xml をコミットして push
-      - name: Commit and Push sitemap.xml
+      # sitemap.xml を追加してコミット
+      - name: Commit changes
         run: |
           git add sitemap.xml
           git commit -m "Update sitemap.xml" || echo "No changes to commit"
-          git push
+
+      # push
+      - name: Push changes
+        run: git push
