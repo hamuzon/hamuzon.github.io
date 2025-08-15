@@ -5,4 +5,4 @@
 
 Homepage link listsです
 
-link先の作品も見ていってね
+link先の作品も見て行ってください
