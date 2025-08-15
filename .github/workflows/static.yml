@@ -1,39 +1,45 @@
-name: Generate sitemap
+name: Generate Full Sitemap
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write  # Push するので write が必要
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
 
-    - name: Generate sitemap.xml
-      run: |
-        echo '<?xml version="1.0" encoding="UTF-8"?>' > sitemap.xml
-        echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> sitemap.xml
+      - name: Generate sitemap.xml
+        run: |
+          echo '<?xml version="1.0" encoding="UTF-8"?>' > sitemap.xml
+          echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> sitemap.xml
 
-        # ルートページを追加
-        echo "  <url><loc>https://hamuzon.github.io/</loc></url>" >> sitemap.xml
+          # ルートページ
+          echo "  <url><loc>https://hamuzon.github.io/</loc></url>" >> sitemap.xml
 
-        # サブディレクトリを自動取得してURLを追加
-        for d in $(find . -maxdepth 1 -type d ! -name ".git" ! -name ".github" ! -name ".github.io"); do
-          name=$(basename $d)
-          echo "  <url><loc>https://hamuzon.github.io/$name/</loc></url>" >> sitemap.xml
-        done
+          # 全てのHTMLファイルを再帰的に追加
+          find . -type f -name "*.html" ! -path "./.git/*" | while read file; do
+            # 相対パスをURLに変換
+            url=$(echo "$file" | sed 's|^\./||; s|index\.html$||; s|^|https://hamuzon.github.io/|')
+            echo "  <url><loc>$url</loc></url>" >> sitemap.xml
+          done
 
-        echo '</urlset>' >> sitemap.xml
+          echo '</urlset>' >> sitemap.xml
 
-    - name: Commit sitemap.xml
-      env:
-        PAT_TOKEN: ${{ secrets.PAT_TOKEN }}  # Personal Access Token をリポジトリシークレットに登録
-      run: |
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        git add sitemap.xml
-        git commit -m "Update sitemap.xml" || echo "No changes to commit"
-        git push https://$PAT_TOKEN@github.com/hamuzon/hamuzon.github.io.git main
+      - name: Commit and push sitemap.xml
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add sitemap.xml
+          git commit -m "Update sitemap.xml" || echo "No changes to commit"
+          git push
