@@ -1,45 +1,51 @@
-name: Generate Full Sitemap
+name: Generate and Push Sitemap
 
+# ブランチ main に push/PR があった時にも実行
 on:
   push:
     branches:
       - main
   workflow_dispatch:
 
+# GITHUB_TOKEN に書き込み権限を付与
 permissions:
-  contents: write  # Push するので write が必要
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-24.04
 
     steps:
+      # リポジトリをチェックアウト
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
+          persist-credentials: true
           fetch-depth: 1
 
+      # sitemap.xml を生成
       - name: Generate sitemap.xml
         run: |
           echo '<?xml version="1.0" encoding="UTF-8"?>' > sitemap.xml
           echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> sitemap.xml
-
           # ルートページ
           echo "  <url><loc>https://hamuzon.github.io/</loc></url>" >> sitemap.xml
-
-          # 全てのHTMLファイルを再帰的に追加
-          find . -type f -name "*.html" ! -path "./.git/*" | while read file; do
-            # 相対パスをURLに変換
-            url=$(echo "$file" | sed 's|^\./||; s|index\.html$||; s|^|https://hamuzon.github.io/|')
-            echo "  <url><loc>$url</loc></url>" >> sitemap.xml
+          # サブディレクトリを追加（.git, .github 除外）
+          for d in $(find . -maxdepth 1 -type d ! -name ".git" ! -name ".github"); do
+            name=$(basename $d)
+            echo "  <url><loc>https://hamuzon.github.io/$name/</loc></url>" >> sitemap.xml
           done
-
           echo '</urlset>' >> sitemap.xml
 
-      - name: Commit and push sitemap.xml
+      # git 設定
+      - name: Configure git
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
+
+      # sitemap.xml をコミットして push
+      - name: Commit and Push sitemap.xml
+        run: |
           git add sitemap.xml
           git commit -m "Update sitemap.xml" || echo "No changes to commit"
           git push
