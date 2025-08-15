@@ -3,4 +3,6 @@
 
 [home.hamusata.f5.si](https://home.hamusata.f5.si/) にも使用
 
-Homepagelinklistsです見ていってね
+Homepage link listsです
+
+link先の作品も見ていってね
