@@ -1,0 +1,37 @@
+name: Generate sitemap
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Generate sitemap.xml
+      run: |
+        echo '<?xml version="1.0" encoding="UTF-8"?>' > sitemap.xml
+        echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> sitemap.xml
+
+        # ルートページを追加
+        echo "  <url><loc>https://hamuzon.github.io/</loc></url>" >> sitemap.xml
+
+        # サブディレクトリを自動取得してURLを追加
+        for d in $(find . -maxdepth 1 -type d ! -name ".git" ! -name ".github" ! -name ".github.io"); do
+          name=$(basename $d)
+          echo "  <url><loc>https://hamuzon.github.io/$name/</loc></url>" >> sitemap.xml
+        done
+
+        echo '</urlset>' >> sitemap.xml
+
+    - name: Commit sitemap.xml
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add sitemap.xml
+        git commit -m "Update sitemap.xml" || echo "No changes to commit"
+        git push
