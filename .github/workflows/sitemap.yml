@@ -1,13 +1,13 @@
 name: Generate and Push Sitemap
 
-# トリガー: main ブランチへの push または手動実行
+# トリガー設定
 on:
   push:
     branches:
       - main
   workflow_dispatch:
 
-# GITHUB_TOKEN に書き込み権限を付与
+# GitHub Token の権限
 permissions:
   contents: write
 
@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-      # リポジトリをチェックアウト
+      # 1. リポジトリをチェックアウト
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
@@ -24,35 +24,38 @@ jobs:
           clean: true
           fetch-depth: 1
 
-      # sitemap.xml を生成
+      # 2. sitemap.xml を生成
       - name: Generate sitemap.xml
         run: |
+          # XML ヘッダー
           echo '<?xml version="1.0" encoding="UTF-8"?>' > sitemap.xml
           echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> sitemap.xml
 
-          # ルートページ
+          # ルートページを追加
           echo "  <url><loc>https://hamuzon.github.io/</loc></url>" >> sitemap.xml
 
-          # サブディレクトリを自動取得して URL 追加
+          # サブディレクトリを取得して URL を追加
           for d in $(find . -maxdepth 1 -type d ! -name ".git" ! -name ".github" ! -name ".github.io"); do
-            name=$(basename $d)
+            name=$(basename "$d")
             echo "  <url><loc>https://hamuzon.github.io/$name/</loc></url>" >> sitemap.xml
           done
 
+          # XML フッター
           echo '</urlset>' >> sitemap.xml
 
-      # Git 設定
+      # 3. Git 設定
       - name: Configure Git
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
+          git config --local gc.auto 0  # 自動ガベージコレクションを無効
 
-      # sitemap.xml を追加してコミット
+      # 4. sitemap.xml をステージしてコミット
       - name: Commit changes
         run: |
           git add sitemap.xml
           git commit -m "Update sitemap.xml" || echo "No changes to commit"
 
-      # push
+      # 5. リモートにプッシュ
       - name: Push changes
-        run: git push
+        run: git push origin main
