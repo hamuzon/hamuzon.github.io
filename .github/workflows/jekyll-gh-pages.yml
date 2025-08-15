@@ -1,0 +1,60 @@
+# Workflow: Build & Deploy Jekyll site with sitemap.xml
+name: Deploy Jekyll with sitemap
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      # --- 追加ステップ: sitemap.xml 確認 ---
+      - name: Ensure sitemap.xml exists
+        run: |
+          if [ -f ./_site/sitemap.xml ]; then
+            echo "sitemap.xml generated successfully."
+          else
+            echo "sitemap.xml not found!"
+            exit 1
+          fi
+
+      # --- 追加ステップ: ルートコピー ---
+      - name: Copy sitemap.xml to root
+        run: cp ./_site/sitemap.xml ./sitemap.xml
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
