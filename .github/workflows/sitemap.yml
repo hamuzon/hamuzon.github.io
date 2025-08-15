@@ -1,13 +1,8 @@
 name: Generate and Push Sitemap
 
+# 手動実行のみ
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
-  schedule:
-    # 毎日 0:00 UTC（日本時間 9:00 JST）に実行
-    - cron: '0 0 * * *'
 
 permissions:
   contents: write
@@ -25,36 +20,36 @@ jobs:
           clean: true
           fetch-depth: 1
 
-      # sitemap.xml を生成
+      # sitemap.xml をルートに生成
       - name: Generate sitemap.xml
         run: |
-          echo '<?xml version="1.0" encoding="UTF-8"?>' > sitemap.xml
-          echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> sitemap.xml
+          SITEMAP="sitemap.xml"
+          echo '<?xml version="1.0" encoding="UTF-8"?>' > "$SITEMAP"
+          echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> "$SITEMAP"
 
-          # ルートページを追加
-          echo "  <url><loc>https://hamuzon.github.io/</loc></url>" >> sitemap.xml
+          # ルートページ
+          echo "  <url><loc>https://hamuzon.github.io/</loc></url>" >> "$SITEMAP"
 
-          # サブディレクトリを自動取得して URL を追加
-          find . -type d ! -path "./.git*" ! -path "./.github*" ! -path "." | while read d; do
-            url_path=$(echo "$d" | sed 's|^\./||')
-            echo "  <url><loc>https://hamuzon.github.io/$url_path/</loc></url>" >> sitemap.xml
+          # サブディレクトリを自動取得して URL 追加
+          for d in $(find . -maxdepth 1 -type d ! -name ".git" ! -name ".github" ! -name "public"); do
+            name=$(basename $d)
+            echo "  <url><loc>https://hamuzon.github.io/$name/</loc></url>" >> "$SITEMAP"
           done
 
-          echo '</urlset>' >> sitemap.xml
+          echo '</urlset>' >> "$SITEMAP"
 
       # Git 設定
       - name: Configure Git
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git config --local gc.auto 0
 
       # sitemap.xml を追加してコミット
       - name: Commit changes
         run: |
           git add sitemap.xml
-          git diff --quiet || git commit -m "Update sitemap.xml"
+          git commit -m "Update sitemap.xml" || echo "No changes to commit"
 
       # push
       - name: Push changes
-        run: git push origin main
+        run: git push
