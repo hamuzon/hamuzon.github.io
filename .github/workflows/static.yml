@@ -1,43 +1,55 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+name: Generate and Push Sitemap
 
+# 手動実行のみ
 on:
-  # Runs on pushes targeting the default branch
-  push:
-    branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  contents: write
 
 jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-24.04
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      # リポジトリをチェックアウト
+      - name: Checkout repository
+        uses: actions/checkout@v3
         with:
-          # Upload entire repository
-          path: '.'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          persist-credentials: true
+          clean: true
+          fetch-depth: 1
+
+      # sitemap.xml をルートに生成
+      - name: Generate sitemap.xml
+        run: |
+          SITEMAP="sitemap.xml"
+          echo '<?xml version="1.0" encoding="UTF-8"?>' > "$SITEMAP"
+          echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> "$SITEMAP"
+
+          # ルートページ
+          echo "  <url><loc>https://hamuzon.github.io/</loc></url>" >> "$SITEMAP"
+
+          # サブディレクトリを自動取得して URL 追加
+          for d in $(find . -maxdepth 1 -type d ! -name ".git" ! -name ".github" ! -name "public"); do
+            name=$(basename $d)
+            echo "  <url><loc>https://hamuzon.github.io/$name/</loc></url>" >> "$SITEMAP"
+          done
+
+          echo '</urlset>' >> "$SITEMAP"
+
+      # Git 設定
+      - name: Configure Git
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+      # sitemap.xml を追加してコミット
+      - name: Commit changes
+        run: |
+          git add sitemap.xml
+          git commit -m "Update sitemap.xml" || echo "No changes to commit"
+
+      # push
+      - name: Push changes
+        run: git push
