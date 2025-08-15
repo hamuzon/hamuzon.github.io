@@ -1,14 +1,18 @@
-name: Generate and Push Sitemap
+name: Update sitemap.xml from public for multiple repos
 
-# 手動実行のみ
+# トリガー: main ブランチへの push または手動実行
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
+# GITHUB_TOKEN に書き込み権限を付与
 permissions:
   contents: write
 
 jobs:
-  build:
+  update-sitemaps:
     runs-on: ubuntu-24.04
 
     steps:
@@ -20,23 +24,19 @@ jobs:
           clean: true
           fetch-depth: 1
 
-      # sitemap.xml をルートに生成
-      - name: Generate sitemap.xml
+      # リストに登録したサブリポジトリまたはディレクトリから sitemap をコピー
+      - name: Copy sitemap.xml from public
         run: |
-          SITEMAP="sitemap.xml"
-          echo '<?xml version="1.0" encoding="UTF-8"?>' > "$SITEMAP"
-          echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> "$SITEMAP"
+          # 対象リポジトリやディレクトリを配列で指定
+          REPOS=(
+            "."  # このリポジトリ自身
+            "./another-repo"  # 別リポジトリ/ディレクトリの例
+          )
 
-          # ルートページ
-          echo "  <url><loc>https://hamuzon.github.io/</loc></url>" >> "$SITEMAP"
-
-          # サブディレクトリを自動取得して URL 追加
-          for d in $(find . -maxdepth 1 -type d ! -name ".git" ! -name ".github" ! -name "public"); do
-            name=$(basename $d)
-            echo "  <url><loc>https://hamuzon.github.io/$name/</loc></url>" >> "$SITEMAP"
+          for repo in "${REPOS[@]}"; do
+            echo "Processing $repo ..."
+            cp "$repo/public/hamuzon.github.io-sitemap.xml" "$repo/sitemap.xml"
           done
-
-          echo '</urlset>' >> "$SITEMAP"
 
       # Git 設定
       - name: Configure Git
@@ -47,8 +47,8 @@ jobs:
       # sitemap.xml を追加してコミット
       - name: Commit changes
         run: |
-          git add sitemap.xml
-          git commit -m "Update sitemap.xml" || echo "No changes to commit"
+          git add ./*/sitemap.xml sitemap.xml || true
+          git commit -m "Update sitemap.xml from public" || echo "No changes to commit"
 
       # push
       - name: Push changes
