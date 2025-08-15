@@ -1,43 +1,39 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+name: Generate sitemap
 
 on:
-  # Runs on pushes targeting the default branch
   push:
-    branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+    branches: [ main ]
 
 jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          # Upload entire repository
-          path: '.'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Generate sitemap.xml
+      run: |
+        echo '<?xml version="1.0" encoding="UTF-8"?>' > sitemap.xml
+        echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> sitemap.xml
+
+        # ルートページを追加
+        echo "  <url><loc>https://hamuzon.github.io/</loc></url>" >> sitemap.xml
+
+        # サブディレクトリを自動取得してURLを追加
+        for d in $(find . -maxdepth 1 -type d ! -name ".git" ! -name ".github" ! -name ".github.io"); do
+          name=$(basename $d)
+          echo "  <url><loc>https://hamuzon.github.io/$name/</loc></url>" >> sitemap.xml
+        done
+
+        echo '</urlset>' >> sitemap.xml
+
+    - name: Commit sitemap.xml
+      env:
+        PAT_TOKEN: ${{ secrets.PAT_TOKEN }}  # Personal Access Token をリポジトリシークレットに登録
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add sitemap.xml
+        git commit -m "Update sitemap.xml" || echo "No changes to commit"
+        git push https://$PAT_TOKEN@github.com/hamuzon/hamuzon.github.io.git main
