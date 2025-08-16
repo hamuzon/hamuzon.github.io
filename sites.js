@@ -39,8 +39,7 @@ const sitesData = {
     { href: "https://hamuzon.github.io/Short-Link/", text: "🔗Short link creation service🔗  - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/pixel-art/", text: "🎨 Pixel Drawing 🖌️ -Hamuzon", openInSameTab: true },
   ],
-    
-  ],
+  
   publicSites: [
     { href: "https://www.google.com", text: "Google", openInSameTab: true },
     { href: "https://www.youtube.com", text: "YouTube", openInSameTab: true },
