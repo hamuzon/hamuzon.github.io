@@ -45,8 +45,11 @@ jobs:
 
       - name: Commit changes
         run: |
+          # JSTでナノ秒まで含む日付取得
+          DATE=$(TZ=Asia/Tokyo date +"%Y-%m-%d %H:%M:%S.%N")
+          
           git add sitemap.xml
-          git commit -m "Update sitemap.xml" || echo "No changes to commit"
+          git commit -m "Update sitemap.xml ($DATE)" || echo "No changes to commit"
 
       - name: Push changes
         run: git push
