@@ -23,8 +23,8 @@ jobs:
       - name: Copy sitemap.xml if exists
         run: |
           REPOS=(
-            "."  # このリポジトリ自身
-            "./another-repo"  # 別リポジトリ/ディレクトリの例
+            "."  
+            "./another-repo"  
           )
 
           for repo in "${REPOS[@]}"; do
@@ -45,11 +45,11 @@ jobs:
 
       - name: Commit changes
         run: |
-          # JSTでナノ秒まで含む日付取得
           DATE=$(TZ=Asia/Tokyo date +"%Y-%m-%d %H:%M:%S.%N")
+          DATE_MS="${DATE:0:23}"
           
           git add sitemap.xml
-          git commit -m "Update sitemap.xml ($DATE)" || echo "No changes to commit"
+          git commit -m "Update sitemap.xml ($DATE_MS)" || echo "No changes to commit"
 
       - name: Push changes
         run: git push
