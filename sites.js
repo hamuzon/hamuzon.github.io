@@ -36,7 +36,7 @@ const sitesData = {
     { href: "https://hamuzon.github.io/omikuji/", text: "🍀おみくじ🔮 - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/dice/", text: "🎲サイコロ🎯  - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/Short-Link/", text: "🔗Short link creation service🔗  - Hamuzon", openInSameTab: true },
-    { href: "https://hamuzon.github.io/pixel/", text: "🎨 Pixel Drawing 🖌️  - Hamuzon", openInSameTab: true },
+    { href: "https://hamuzon.github.io/pixel-art/", text: "🎨 Pixel Drawing 🖌️  - Hamuzon", openInSameTab: true },
   ],
   publicSites: [
     { href: "https://www.google.com", text: "Google", openInSameTab: true },
