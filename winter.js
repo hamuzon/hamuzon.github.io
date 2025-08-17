@@ -15,39 +15,41 @@
     canvas.style.height = ch + 'px';
     ctx.setTransform(1,0,0,1,0,0);
     ctx.scale(devicePixelRatio, devicePixelRatio);
-
     Snowflake.snowHeight = new Array(cw|0).fill(0);
   }
   window.addEventListener('resize', resize);
   resize();
 
   class Snowflake {
-    constructor(isBig = false) {
-      this.isBig = isBig;
+    constructor() {
       this.reset();
     }
 
     reset() {
       this.x = Math.random() * cw;
       this.y = Math.random() * ch - ch;
+      this.speedY = Math.random() * 1.5 + 0.5;
+      this.speedX = Math.random() * 0.5 - 0.25;
+      this.radius = Math.random() * 3 + 2;
+      this.opacity = Math.random() * 0.5 + 0.5;
       this.angle = Math.random() * Math.PI * 2;
       this.rotationSpeed = (Math.random() - 0.5) * 0.02;
+      this.shape = 'flake';
 
-      if (this.isBig) {
-        this.radius = Math.random() * 20 + 15; // 大きめオブジェクト
+      // 8%の確率で特別オブジェクト
+      if (Math.random() < 0.08) {
+        const types = [
+          'bigflake', 'snowman', 'star', 'heart', 'gift', 'tree', 'bell', 'snowflakeFancy'
+        ];
+        this.shape = types[Math.floor(Math.random() * types.length)];
+        this.radius = Math.random() * 15 + 10;
         this.speedY = Math.random() * 0.7 + 0.3;
-        this.shape = Math.random() < 0.5 ? 'snowman' : 'bigflake';
-      } else {
-        this.radius = Math.random() * 3 + 2;
-        this.speedY = Math.random() * 1.5 + 0.5;
-        this.speedX = Math.random() * 0.6 - 0.3;
-        this.opacity = Math.random() * 0.5 + 0.5;
-        this.shape = 'flake';
+        this.speedX = 0; // 特別オブジェクトは横揺れ少なめ
       }
     }
 
     update() {
-      if (this.shape === 'flake') {
+      if(this.shape === 'flake') {
         this.x += this.speedX + Math.sin(this.angle) * 0.5;
         this.y += this.speedY;
       } else {
@@ -55,66 +57,133 @@
       }
       this.angle += this.rotationSpeed;
 
-      // 積雪処理
-      if (this.y >= ch - Snowflake.snowHeight[Math.floor(this.x)]) {
+      if(this.y >= ch - Snowflake.snowHeight[Math.floor(this.x)]) {
         Snowflake.snowHeight[Math.floor(this.x)] += this.radius * 0.3;
         this.reset();
         this.y = -this.radius;
       }
 
-      if (this.x > cw + this.radius) this.x = -this.radius;
-      if (this.x < -this.radius) this.x = cw + this.radius;
+      if(this.x > cw + this.radius) this.x = -this.radius;
+      if(this.x < -this.radius) this.x = cw + this.radius;
     }
 
     draw(ctx) {
       ctx.save();
       ctx.translate(this.x, this.y);
 
-      if (this.shape === 'flake') {
-        ctx.fillStyle = `rgba(255,255,255,${this.opacity})`;
-        ctx.beginPath();
-        ctx.arc(0, 0, this.radius, 0, Math.PI*2);
-        ctx.fill();
-      } else if (this.shape === 'bigflake') {
-        ctx.fillStyle = 'rgba(255,255,255,0.9)';
-        ctx.beginPath();
-        ctx.moveTo(0,-this.radius);
-        for(let i=0;i<6;i++){
-          ctx.lineTo(this.radius*Math.cos(i*Math.PI/3), this.radius*Math.sin(i*Math.PI/3));
-        }
-        ctx.closePath();
-        ctx.fill();
-      } else if (this.shape === 'snowman') {
-        ctx.fillStyle = 'white';
-        ctx.beginPath();
-        ctx.arc(0, 0, this.radius/2, 0, Math.PI*2);
-        ctx.arc(0, -this.radius*0.6, this.radius/3, 0, Math.PI*2);
-        ctx.arc(0, -this.radius*1.0, this.radius/4, 0, Math.PI*2);
-        ctx.fill();
+      switch(this.shape) {
+        case 'flake':
+          ctx.fillStyle = `rgba(255,255,255,${this.opacity})`;
+          ctx.beginPath();
+          ctx.arc(0,0,this.radius,0,Math.PI*2);
+          ctx.fill();
+          break;
+
+        case 'bigflake':
+          ctx.fillStyle = 'rgba(255,255,255,0.9)';
+          ctx.beginPath();
+          for(let i=0;i<6;i++){
+            ctx.lineTo(this.radius*Math.cos(i*Math.PI/3), this.radius*Math.sin(i*Math.PI/3));
+          }
+          ctx.closePath();
+          ctx.fill();
+          break;
+
+        case 'snowman':
+          ctx.fillStyle = 'white';
+          ctx.beginPath();
+          ctx.arc(0,0,this.radius/2,0,Math.PI*2);
+          ctx.arc(0,-this.radius*0.6,this.radius/3,0,Math.PI*2);
+          ctx.arc(0,-this.radius*1.0,this.radius/4,0,Math.PI*2);
+          ctx.fill();
+          break;
+
+        case 'star':
+          ctx.fillStyle = 'yellow';
+          ctx.beginPath();
+          for(let i=0;i<5;i++){
+            ctx.lineTo(this.radius*Math.cos((18+i*72)*Math.PI/180),
+                       this.radius*Math.sin((18+i*72)*Math.PI/180));
+            ctx.lineTo(this.radius/2*Math.cos((54+i*72)*Math.PI/180),
+                       this.radius/2*Math.sin((54+i*72)*Math.PI/180));
+          }
+          ctx.closePath();
+          ctx.fill();
+          break;
+
+        case 'heart':
+          ctx.fillStyle = 'pink';
+          ctx.beginPath();
+          ctx.moveTo(0,0);
+          ctx.bezierCurveTo(-this.radius,-this.radius/2,-this.radius,this.radius/2,0,this.radius);
+          ctx.bezierCurveTo(this.radius,this.radius/2,this.radius,-this.radius/2,0,0);
+          ctx.fill();
+          break;
+
+        case 'gift':
+          ctx.fillStyle = 'red';
+          ctx.fillRect(-this.radius/2,-this.radius/2,this.radius,this.radius);
+          ctx.strokeStyle = 'gold';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(-this.radius/2,0); ctx.lineTo(this.radius/2,0);
+          ctx.moveTo(0,-this.radius/2); ctx.lineTo(0,this.radius/2);
+          ctx.stroke();
+          break;
+
+        case 'tree':
+          ctx.fillStyle = 'green';
+          for(let i=0;i<3;i++){
+            ctx.beginPath();
+            ctx.moveTo(0,-this.radius*i*0.6);
+            ctx.lineTo(-this.radius/2*(3-i),this.radius*0.6-i*2);
+            ctx.lineTo(this.radius/2*(3-i),this.radius*0.6-i*2);
+            ctx.closePath();
+            ctx.fill();
+          }
+          break;
+
+        case 'bell':
+          ctx.fillStyle = 'gold';
+          ctx.beginPath();
+          ctx.moveTo(0,-this.radius/2);
+          ctx.lineTo(-this.radius/2,this.radius/2);
+          ctx.lineTo(this.radius/2,this.radius/2);
+          ctx.closePath();
+          ctx.fill();
+          break;
+
+        case 'snowflakeFancy':
+          ctx.strokeStyle = 'white';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          for(let i=0;i<6;i++){
+            ctx.moveTo(0,0);
+            ctx.lineTo(this.radius*Math.cos(i*Math.PI/3),this.radius*Math.sin(i*Math.PI/3));
+          }
+          ctx.stroke();
+          break;
       }
 
       ctx.restore();
     }
   }
 
-  // 積雪高さ
   Snowflake.snowHeight = new Array(cw|0).fill(0);
 
-  // 粒子生成
   const snowCount = 120;
   const flakes = [];
   for(let i=0;i<snowCount;i++){
-    const isBig = Math.random() < 0.12; // 12%確率で大きな雪オブジェクト
-    flakes.push(new Snowflake(isBig));
+    flakes.push(new Snowflake());
   }
 
-  function drawSnowGround() {
+  function drawSnowGround(){
     ctx.save();
-    ctx.fillStyle = 'rgba(255,255,255,0.95)';
+    ctx.fillStyle='rgba(255,255,255,0.95)';
     ctx.beginPath();
     ctx.moveTo(0,ch);
     for(let x=0;x<cw;x++){
-      ctx.lineTo(x,ch - Snowflake.snowHeight[x]);
+      ctx.lineTo(x,ch-Snowflake.snowHeight[x]);
     }
     ctx.lineTo(cw,ch);
     ctx.closePath();
@@ -122,9 +191,9 @@
     ctx.restore();
   }
 
-  function animate() {
+  function animate(){
     ctx.clearRect(0,0,cw,ch);
-    flakes.forEach(f => {
+    flakes.forEach(f=>{
       f.update();
       f.draw(ctx);
     });
@@ -135,7 +204,7 @@
   animate();
 
   window.winterControl = {
-    show: () => canvas.style.display = 'block',
-    hide: () => canvas.style.display = 'none',
+    show: ()=>canvas.style.display='block',
+    hide: ()=>canvas.style.display='none'
   };
 })();
