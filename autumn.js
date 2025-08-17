@@ -5,8 +5,7 @@
     return;
   }
   const ctx = canvas.getContext('2d');
-  let cw = window.innerWidth;
-  let ch = window.innerHeight;
+  let cw, ch;
 
   // リサイズ対応
   function resize() {
@@ -22,81 +21,71 @@
   window.addEventListener('resize', resize);
   resize();
 
+  // ヘルパー関数
+  function random(min, max){ return Math.random()*(max-min)+min; }
+  function randomInt(min, max){ return Math.floor(random(min,max)); }
+
   // 落ち葉クラス
   class Leaf {
-    constructor() {
-      this.reset();
-    }
-
+    constructor() { this.reset(); }
     reset() {
-      this.x = Math.random() * cw;
-      this.y = Math.random() * ch - ch;
-      this.size = Math.random() * 12 + 6; // 6〜18px
-      this.speedY = Math.random() * 1.5 + 0.5;
-      this.speedX = Math.random() * 1 - 0.5;
-      this.angle = Math.random() * 2 * Math.PI;
-      this.rotationSpeed = (Math.random() - 0.5) * 0.05;
-      this.offset = Math.random() * 1000; // 横揺れ
-      const colors = ['#FF4500', '#FF6347', '#FF8C00', '#FFA500', '#FFD700'];
-      this.color = colors[Math.floor(Math.random() * colors.length)];
-      this.shape = Math.random() < 0.5 ? 'triangle' : 'ellipse';
+      this.x = random(0, cw);
+      this.y = random(-ch, 0);
+      this.size = random(10, 20);
+      this.speedY = random(1, 2);
+      this.speedX = random(-0.5,0.5);
+      this.rotation = random(0, Math.PI*2);
+      this.rotationSpeed = random(-0.02,0.02);
+      this.color = `hsl(${random(20,40)}, 80%, ${random(40,60)}%)`;
+      this.onGround = false;
+      this.groundOffset = random(0, 20); // 地面で微妙にずらす
     }
-
     update() {
-      this.x += this.speedX + Math.sin(this.angle + this.offset) * 0.5;
-      this.y += this.speedY;
-      this.angle += this.rotationSpeed;
+      if(!this.onGround){
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.rotation += this.rotationSpeed;
 
-      if (this.y > ch + this.size) this.y = -this.size;
-      if (this.x > cw + this.size) this.x = -this.size;
-      if (this.x < -this.size) this.x = cw + this.size;
+        // 地面に到達したら止まって溜まる
+        if(this.y >= ch - this.size - this.groundOffset){
+          this.y = ch - this.size - this.groundOffset;
+          this.speedX = 0;
+          this.speedY = 0;
+          this.rotationSpeed = 0;
+          this.onGround = true;
+        }
+
+        // 左右ループ
+        if(this.x < -this.size) this.x = cw + this.size;
+        if(this.x > cw + this.size) this.x = -this.size;
+      }
     }
-
-    draw(ctx) {
+    draw(ctx){
       ctx.save();
       ctx.translate(this.x, this.y);
-      ctx.rotate(this.angle);
+      ctx.rotate(this.rotation);
       ctx.fillStyle = this.color;
-
-      if (this.shape === 'triangle') {
-        ctx.beginPath();
-        ctx.moveTo(0, -this.size/2);
-        ctx.lineTo(this.size/2, this.size/2);
-        ctx.lineTo(-this.size/2, this.size/2);
-        ctx.closePath();
-        ctx.fill();
-      } else {
-        ctx.beginPath();
-        ctx.ellipse(0, 0, this.size/2, this.size/3, Math.PI/4, 0, Math.PI*2);
-        ctx.fill();
-      }
-
+      ctx.beginPath();
+      ctx.ellipse(0, 0, this.size*0.5, this.size, 0, 0, Math.PI*2);
+      ctx.fill();
       ctx.restore();
     }
   }
 
-  // 落ち葉生成
-  const leafCount = 80;
+  // 落ち葉管理
   const leaves = [];
-  for (let i = 0; i < leafCount; i++) {
-    leaves.push(new Leaf());
-  }
+  const leafCount = 70; // 葉っぱの数
+  for(let i=0;i<leafCount;i++) leaves.push(new Leaf());
 
-  // アニメーション
-  function animate() {
-    ctx.clearRect(0, 0, cw, ch);
-    leaves.forEach(leaf => {
+  // メインループ
+  function loop(){
+    ctx.clearRect(0,0,cw,ch);
+    leaves.forEach(leaf=>{
       leaf.update();
       leaf.draw(ctx);
     });
-    requestAnimationFrame(animate);
+    requestAnimationFrame(loop);
   }
 
-  animate();
-
-  // ON/OFF制御
-  window.autumnControl = {
-    show: () => canvas.style.display = 'block',
-    hide: () => canvas.style.display = 'none',
-  };
+  loop();
 })();
