@@ -11,46 +11,41 @@
     html, body {
       margin: 0; padding: 0;
       font-family: 'Inter', 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif;
-      background: linear-gradient(to bottom, #FFFBF0, #FFC18E);
+      background: linear-gradient(to bottom, #f0c27b 0%, #4b1248 100%);
       min-height: 100vh;
       color: #333;
-      overflow: hidden;
-    }
-    canvas#autumnCanvas {
-      position: fixed;
-      top:0; left:0;
-      width:100%; height:100%;
-      pointer-events:none;
-      z-index:9999;
     }
     .container {
       width: 90%;
       max-width: 1200px;
       margin: 0 auto;
       padding: 2rem 1rem;
-      position: relative;
-      z-index: 1;
     }
     h1 {
       text-align: center;
       font-size: 2rem;
-      color: #f0f0f0;
+      color: #fff8dd;
       text-shadow: 0 0 8px rgba(0,0,0,0.7);
       margin-bottom: 2rem;
     }
-    h1 a.tpww { color: #fff8dd; text-decoration: none; cursor: pointer; }
+    h1 a.tpww {
+      color: #fff8dd;
+      text-decoration: none;
+      cursor: pointer;
+    }
     h1 a.tpww:hover { text-decoration: underline; }
     ul {
-      padding: 0; margin: 0;
+      padding: 0;
+      margin: 0;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 1rem;
       list-style: none;
     }
     li { margin: 0; }
     a {
       display: block;
-      background: rgba(20,20,20,0.15);
+      background: rgba(20, 20, 20, 0.15);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       color: #ddd;
@@ -74,42 +69,34 @@
       padding: 1rem;
       color: #f0f0f0;
       font-size: 0.85rem;
-      position: relative;
-      z-index: 1;
     }
     footer a { color: #fff8dd; text-decoration: underline; }
-    #fireworks-toggle { display: none; }
-    #autumn-toggle {
+    #public-site-list { display: none; }
+
+    /* 落ち葉キャンバス */
+    #autumnCanvas {
       position: fixed;
-      top: 1rem;
-      right: 1rem;
-      z-index: 10000;
-      background: rgba(0,0,0,0.5);
-      color: #fff;
-      border: none;
-      border-radius: 20px;
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.3s ease;
+      top:0; left:0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 9999;
     }
-    #autumn-toggle:hover { background: rgba(0,0,0,0.7); }
-    @media (max-width:480px) {
-      h1 { font-size: 1.5rem; }
-      footer { font-size: 0.75rem; }
+
+    @media (max-width:480px){
+      h1 { font-size:1.5rem; }
+      footer { font-size:0.75rem; }
       ul { grid-template-columns: 1fr !important; }
-      #autumn-toggle { font-size: 0.85rem; padding: 0.4rem 0.8rem; }
     }
   </style>
 </head>
 <body>
   <canvas id="autumnCanvas"></canvas>
-  <button id="autumn-toggle">落ち葉ON</button>
 
   <div class="container">
     <h1>
       <a href="./98" class="tpww">Website List</a>
     </h1>
+
     <ul id="site-list"></ul>
     <ul id="public-site-list"></ul>
   </div>
@@ -119,7 +106,7 @@
       &copy; <span id="year-hamusata">2025</span> 
       <a href="https://home.hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a>
     </span>
-    <span id="footer-hamuzon" style="display:none;">
+    <span id="footer-hamuzon" style="display: none;">
       &copy; <span id="year-hamuzon">2025</span> 
       <a href="https://github.com/Hamuzon" target="_blank" rel="noopener noreferrer">@hamuzon</a>
     </span>
@@ -130,31 +117,70 @@
     </span>
   </footer>
 
+  <!-- サイトリンク -->
   <script src="sites.js"></script>
+
+  <!-- 落ち葉アニメーション -->
   <script src="autumn.js"></script>
+
   <script>
-    // toggle ON/OFF
-    (() => {
-      const toggleBtn = document.getElementById('autumn-toggle');
-      let autumnOn = true;
+    document.addEventListener("DOMContentLoaded", () => {
+      const currentHost = window.location.hostname;
+      const siteList = document.getElementById("site-list");
+      const publicSiteList = document.getElementById("public-site-list");
+      const footerHamusata = document.getElementById("footer-hamusata");
+      const footerHamuzon = document.getElementById("footer-hamuzon");
+      const footer = document.getElementById("main-footer");
 
-      toggleBtn.addEventListener('click', () => {
-        autumnOn = !autumnOn;
-        const canvas = document.getElementById('autumnCanvas');
-        if (autumnOn) {
-          toggleBtn.textContent = '落ち葉ON';
-          canvas.style.display = 'block';
+      const safeCreateLinkItem = typeof createLinkItem === "function" ? createLinkItem : function({ href, text, className, openInSameTab }) {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = href;
+        a.textContent = text || href;
+        a.rel = "noopener noreferrer";
+        a.target = openInSameTab ? "_self" : "_blank";
+        if (className) a.className = className;
+        li.appendChild(a);
+        return li;
+      };
+
+      if (sitesData) {
+        if (currentHost === "home.hamusata.f5.si") {
+          siteList.innerHTML = "";
+          sitesData.homeHamusata.forEach(site => siteList.appendChild(safeCreateLinkItem(site)));
+          siteList.style.display = "grid";
+          publicSiteList.style.display = "none";
+          footerHamusata.style.display = "inline";
+          footerHamuzon.style.display = "none";
+        } else if (currentHost === "hamuzon.github.io") {
+          siteList.innerHTML = "";
+          sitesData.hamuzonGitHubIO.forEach(site => siteList.appendChild(safeCreateLinkItem(site)));
+          siteList.style.display = "grid";
+          publicSiteList.style.display = "none";
+          footerHamusata.style.display = "none";
+          footerHamuzon.style.display = "inline";
         } else {
-          toggleBtn.textContent = '落ち葉OFF';
-          canvas.style.display = 'none';
+          publicSiteList.innerHTML = "";
+          sitesData.publicSites.forEach(site => publicSiteList.appendChild(safeCreateLinkItem(site)));
+          siteList.style.display = "none";
+          publicSiteList.style.display = "grid";
+          footerHamusata.style.display = "none";
+          footerHamuzon.style.display = "none";
+          footer.innerHTML = `
+            <span style="display:block; padding:0.5rem; color:#f0f0f0;">
+              このサイトは公式ではなく、一部の情報は異なる場合があります。<br/>
+              This version may differ from the original official site.
+            </span>
+          `;
         }
-      });
+      }
 
-      window.addEventListener('load', () => {
-        const canvas = document.getElementById('autumnCanvas');
-        canvas.style.display = 'block';
-      });
-    })();
+      const baseYear = 2025;
+      const currentYear = new Date().getFullYear();
+      const yearText = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
+      document.getElementById("year-hamusata").textContent = yearText;
+      document.getElementById("year-hamuzon").textContent = yearText;
+    });
   </script>
 </body>
 </html>
