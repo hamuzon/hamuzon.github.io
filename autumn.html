@@ -9,53 +9,51 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; }
     html, body {
-      margin: 0; padding: 0;
-      font-family: 'Inter', 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif;
-      background: linear-gradient(to bottom, #f0c27b 0%, #4b1248 100%);
-      min-height: 100vh;
-      color: #333;
+      margin:0; padding:0;
+      font-family: 'Inter','Segoe UI','Hiragino Kaku Gothic ProN',sans-serif;
+      background: linear-gradient(to bottom, #FFE5B4 0%, #FF8C42 100%);
+      min-height:100vh;
+      color:#333;
     }
     .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem 1rem;
+      width:90%;
+      max-width:1200px;
+      margin:0 auto;
+      padding:2rem 1rem;
+      position: relative;
+      z-index: 10;
     }
     h1 {
-      text-align: center;
-      font-size: 2rem;
-      color: #fff8dd;
-      text-shadow: 0 0 8px rgba(0,0,0,0.7);
-      margin-bottom: 2rem;
+      text-align:center;
+      font-size:2rem;
+      color:#fff8dd;
+      text-shadow:0 0 8px rgba(0,0,0,0.7);
+      margin-bottom:2rem;
     }
     h1 a.tpww {
-      color: #fff8dd;
-      text-decoration: none;
-      cursor: pointer;
+      color:#fff8dd; text-decoration:none; cursor:pointer;
     }
     h1 a.tpww:hover { text-decoration: underline; }
     ul {
-      padding: 0;
-      margin: 0;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1rem;
-      list-style: none;
+      padding:0; margin:0;
+      display:grid;
+      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+      gap:1rem;
+      list-style:none;
     }
-    li { margin: 0; }
+    li { margin:0; }
     a {
-      display: block;
-      background: rgba(20, 20, 20, 0.15);
+      display:block;
+      background: rgba(20,20,20,0.15);
       backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      color: #ddd;
-      text-decoration: none;
-      padding: 1rem;
-      border-radius: 16px;
-      font-size: 1rem;
-      font-weight: 600;
-      border: 1px solid rgba(255,255,255,0.12);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+      color:#ddd;
+      text-decoration:none;
+      padding:1rem;
+      border-radius:16px;
+      font-size:1rem;
+      font-weight:600;
+      border:1px solid rgba(255,255,255,0.12);
+      box-shadow:0 4px 12px rgba(0,0,0,0.35);
       transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
       word-break: break-word;
     }
@@ -65,122 +63,82 @@
       box-shadow: 0 6px 18px rgba(0,0,0,0.5);
     }
     footer {
-      text-align: center;
-      padding: 1rem;
-      color: #f0f0f0;
-      font-size: 0.85rem;
+      text-align:center;
+      padding:1rem;
+      color:#fff8dd;
+      font-size:0.85rem;
+      position: relative;
+      z-index: 10;
     }
-    footer a { color: #fff8dd; text-decoration: underline; }
-    #public-site-list { display: none; }
-
-    /* 落ち葉キャンバス */
-    #autumnCanvas {
+    footer a { color:#fff8dd; text-decoration:underline; }
+    #public-site-list { display:none; }
+    #autumn-toggle {
       position: fixed;
-      top:0; left:0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: 9999;
+      top: 1rem;
+      right: 1rem;
+      z-index: 10000;
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
     }
-
+    #autumn-toggle:hover { background: rgba(0,0,0,0.7); }
     @media (max-width:480px){
-      h1 { font-size:1.5rem; }
-      footer { font-size:0.75rem; }
-      ul { grid-template-columns: 1fr !important; }
+      h1{ font-size:1.5rem; }
+      footer{ font-size:0.75rem; }
+      ul{ grid-template-columns:1fr !important; }
+      #autumn-toggle { font-size:0.85rem; padding:0.4rem 0.8rem; }
     }
   </style>
 </head>
 <body>
-  <canvas id="autumnCanvas"></canvas>
+  <canvas id="autumnCanvas" style="position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:1;"></canvas>
+
+  <button id="autumn-toggle">落ち葉ON</button>
 
   <div class="container">
     <h1>
       <a href="./98" class="tpww">Website List</a>
     </h1>
-
     <ul id="site-list"></ul>
     <ul id="public-site-list"></ul>
   </div>
 
   <footer id="main-footer">
-    <span id="footer-hamusata">
-      &copy; <span id="year-hamusata">2025</span> 
-      <a href="https://home.hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a>
-    </span>
-    <span id="footer-hamuzon" style="display: none;">
-      &copy; <span id="year-hamuzon">2025</span> 
-      <a href="https://github.com/Hamuzon" target="_blank" rel="noopener noreferrer">@hamuzon</a>
-    </span>
-    <br />
-    <span id="default-message">
-      ※一部のサイトは現在アクセスできない場合があります。<br />
-      Some sites may be temporarily unavailable.
-    </span>
+    &copy; <span id="year-hamusata">2025</span> 
+    <a href="https://home.hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a>
+    <br>
+    ※一部のサイトは現在アクセスできない場合があります。<br>
+    Some sites may be temporarily unavailable.
   </footer>
 
-  <!-- サイトリンク -->
   <script src="sites.js"></script>
-
-  <!-- 落ち葉アニメーション -->
   <script src="autumn.js"></script>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const currentHost = window.location.hostname;
-      const siteList = document.getElementById("site-list");
-      const publicSiteList = document.getElementById("public-site-list");
-      const footerHamusata = document.getElementById("footer-hamusata");
-      const footerHamuzon = document.getElementById("footer-hamuzon");
-      const footer = document.getElementById("main-footer");
+    (() => {
+      const toggleBtn = document.getElementById('autumn-toggle');
+      let autumnOn = true;
 
-      const safeCreateLinkItem = typeof createLinkItem === "function" ? createLinkItem : function({ href, text, className, openInSameTab }) {
-        const li = document.createElement("li");
-        const a = document.createElement("a");
-        a.href = href;
-        a.textContent = text || href;
-        a.rel = "noopener noreferrer";
-        a.target = openInSameTab ? "_self" : "_blank";
-        if (className) a.className = className;
-        li.appendChild(a);
-        return li;
-      };
-
-      if (sitesData) {
-        if (currentHost === "home.hamusata.f5.si") {
-          siteList.innerHTML = "";
-          sitesData.homeHamusata.forEach(site => siteList.appendChild(safeCreateLinkItem(site)));
-          siteList.style.display = "grid";
-          publicSiteList.style.display = "none";
-          footerHamusata.style.display = "inline";
-          footerHamuzon.style.display = "none";
-        } else if (currentHost === "hamuzon.github.io") {
-          siteList.innerHTML = "";
-          sitesData.hamuzonGitHubIO.forEach(site => siteList.appendChild(safeCreateLinkItem(site)));
-          siteList.style.display = "grid";
-          publicSiteList.style.display = "none";
-          footerHamusata.style.display = "none";
-          footerHamuzon.style.display = "inline";
+      toggleBtn.addEventListener('click', () => {
+        autumnOn = !autumnOn;
+        if(autumnOn){
+          toggleBtn.textContent = '落ち葉ON';
+          window.autumnControl && window.autumnControl.show();
         } else {
-          publicSiteList.innerHTML = "";
-          sitesData.publicSites.forEach(site => publicSiteList.appendChild(safeCreateLinkItem(site)));
-          siteList.style.display = "none";
-          publicSiteList.style.display = "grid";
-          footerHamusata.style.display = "none";
-          footerHamuzon.style.display = "none";
-          footer.innerHTML = `
-            <span style="display:block; padding:0.5rem; color:#f0f0f0;">
-              このサイトは公式ではなく、一部の情報は異なる場合があります。<br/>
-              This version may differ from the original official site.
-            </span>
-          `;
+          toggleBtn.textContent = '落ち葉OFF';
+          window.autumnControl && window.autumnControl.hide();
         }
-      }
+      });
 
-      const baseYear = 2025;
-      const currentYear = new Date().getFullYear();
-      const yearText = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
-      document.getElementById("year-hamusata").textContent = yearText;
-      document.getElementById("year-hamuzon").textContent = yearText;
-    });
+      window.addEventListener('load', () => {
+        window.autumnControl && window.autumnControl.show();
+      });
+    })();
   </script>
 </body>
 </html>
