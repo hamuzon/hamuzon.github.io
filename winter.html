@@ -4,37 +4,40 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Website List - Winter</title>
-  <meta name="description" content="homepageのリンクListsです - 冬バージョン" />
+  <meta name="description" content="Homepageリンクリスト - 冬バージョン" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <style>
     *, *::before, *::after { box-sizing: border-box; }
 
     html, body {
-      margin: 0; padding: 0;
+      margin: 0;
+      padding: 0;
       font-family: 'Inter', 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif;
+      background: linear-gradient(to bottom, #87CEFA 0%, #1E90FF 100%);
       min-height: 100vh;
-      color: #222;
+      color: #fff;
       overflow-x: hidden;
-      background: linear-gradient(to bottom, #a6d0f0 0%, #f0f8ff 100%);
-      position: relative;
     }
 
     .container {
-      width: 90%; max-width: 1200px;
-      margin: 0 auto; padding: 2rem 1rem;
-      position: relative; z-index: 10;
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+      position: relative;
+      z-index: 10;
     }
 
     h1 {
       text-align: center;
       font-size: 2rem;
-      color: #003366;
-      text-shadow: 0 0 5px rgba(255,255,255,0.8);
+      color: #f0f0f0;
+      text-shadow: 0 0 8px rgba(0,0,0,0.7);
       margin-bottom: 2rem;
     }
 
     h1 a.tpww {
-      color: #004080;
+      color: #fff8dd;
       text-decoration: none;
       cursor: pointer;
     }
@@ -42,7 +45,8 @@
     h1 a.tpww:hover { text-decoration: underline; }
 
     ul {
-      padding: 0; margin: 0;
+      padding: 0;
+      margin: 0;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 1rem;
@@ -53,61 +57,70 @@
 
     a {
       display: block;
-      background: rgba(255,255,255,0.6);
-      color: #003366;
+      background: rgba(20,20,20,0.15);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #ddd;
       text-decoration: none;
       padding: 1rem;
       border-radius: 16px;
       font-size: 1rem;
       font-weight: 600;
-      border: 1px solid rgba(0,0,128,0.2);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      transition: background 0.3s ease, transform 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+      transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
       word-break: break-word;
     }
 
     a:hover {
-      background: rgba(255,255,255,0.85);
+      background: rgba(30,30,30,0.3);
       transform: translateY(-4px);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.5);
     }
 
     footer {
       text-align: center;
       padding: 1rem;
-      color: #003366;
+      color: #f0f0f0;
       font-size: 0.85rem;
       position: relative;
       z-index: 10;
     }
 
-    footer a { color: #004080; text-decoration: underline; }
+    footer a { color: #fff8dd; text-decoration: underline; }
 
     #snow-toggle {
       position: fixed;
-      top: 1rem; right: 1rem;
+      top: 1rem;
+      right: 1rem;
       z-index: 10000;
-      background: rgba(0,0,0,0.3);
+      background: rgba(0,0,0,0.5);
       color: #fff;
-      border: none; border-radius: 20px;
-      padding: 0.5rem 1rem; cursor: pointer;
+      border: none;
+      border-radius: 20px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
       font-size: 1rem;
       transition: background 0.3s ease;
     }
 
-    #snow-toggle:hover { background: rgba(0,0,0,0.5); }
+    #snow-toggle:hover { background: rgba(0,0,0,0.7); }
 
     canvas#snowCanvas {
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none; z-index: 1;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
     }
 
-    @media (max-width:480px){
-      h1 { font-size:1.5rem; }
-      footer { font-size:0.75rem; }
+    @media (max-width:480px) {
+      h1 { font-size: 1.5rem; }
+      footer { font-size: 0.75rem; }
       ul { grid-template-columns: 1fr !important; }
-      #snow-toggle { font-size:0.85rem; padding:0.4rem 0.8rem; }
+      #snow-toggle { font-size: 0.85rem; padding: 0.4rem 0.8rem; }
     }
   </style>
 </head>
@@ -117,7 +130,9 @@
   <button id="snow-toggle">雪ON</button>
 
   <div class="container">
-    <h1><a href="./98" class="tpww">Website List</a></h1>
+    <h1>
+      <a href="./98" class="tpww">Website List</a>
+    </h1>
 
     <ul id="site-list"></ul>
     <ul id="public-site-list"></ul>
@@ -142,61 +157,71 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
+      const currentHost = window.location.hostname;
       const siteList = document.getElementById("site-list");
       const publicSiteList = document.getElementById("public-site-list");
       const footerHamusata = document.getElementById("footer-hamusata");
       const footerHamuzon = document.getElementById("footer-hamuzon");
       const footer = document.getElementById("main-footer");
-      const currentHost = window.location.hostname;
 
-      const safeCreateLinkItem = typeof createLinkItem==="function"? createLinkItem :
-        ({href,text,className,openInSameTab})=>{
-          const li=document.createElement("li");
-          const a=document.createElement("a");
-          if((href==="https://home.hamusata.f5.si/"||href==="./") && text.includes("Website-List")) a.href="/98";
-          else a.href=href;
-          a.textContent=text||href;
-          a.rel="noopener noreferrer";
-          if(className) a.className=className;
-          a.target=openInSameTab?"_self":"_blank";
-          li.appendChild(a); return li;
+      const safeCreateLinkItem = typeof createLinkItem === "function" ? createLinkItem :
+        ({href, text, className, openInSameTab}) => {
+          const li = document.createElement("li");
+          const a = document.createElement("a");
+          a.href = href;
+          a.textContent = text || href;
+          a.rel = "noopener noreferrer";
+          if(className) a.className = className;
+          a.target = openInSameTab ? "_self" : "_blank";
+          li.appendChild(a);
+          return li;
         };
 
-      if(currentHost==="home.hamusata.f5.si"){
-        siteList.innerHTML=""; sitesData.homeHamusata.forEach(s=>siteList.appendChild(safeCreateLinkItem(s)));
-        siteList.style.display="grid"; publicSiteList.style.display="none";
-        footerHamusata.style.display="inline"; footerHamuzon.style.display="none";
-      } else if(currentHost==="hamuzon.github.io"){
-        siteList.innerHTML=""; sitesData.hamuzonGitHubIO.forEach(s=>siteList.appendChild(safeCreateLinkItem(s)));
-        siteList.style.display="grid"; publicSiteList.style.display="none";
-        footerHamusata.style.display="none"; footerHamuzon.style.display="inline";
+      if(currentHost === "home.hamusata.f5.si") {
+        siteList.innerHTML = "";
+        sitesData.homeHamusata.forEach(s => siteList.appendChild(safeCreateLinkItem(s)));
+        siteList.style.display = "grid";
+        publicSiteList.style.display = "none";
+        footerHamusata.style.display = "inline";
+        footerHamuzon.style.display = "none";
+      } else if(currentHost === "hamuzon.github.io") {
+        siteList.innerHTML = "";
+        sitesData.hamuzonGitHubIO.forEach(s => siteList.appendChild(safeCreateLinkItem(s)));
+        siteList.style.display = "grid";
+        publicSiteList.style.display = "none";
+        footerHamusata.style.display = "none";
+        footerHamuzon.style.display = "inline";
       } else {
-        publicSiteList.innerHTML=""; sitesData.publicSites.forEach(s=>publicSiteList.appendChild(safeCreateLinkItem(s)));
-        siteList.style.display="none"; publicSiteList.style.display="grid";
-        footerHamusata.style.display="none"; footerHamuzon.style.display="none";
-        footer.innerHTML=`<span style="display:block;padding:0.5rem;color:#003366;">
-          このサイトは公式ではなく、一部の情報は異なる場合があります。<br>
+        publicSiteList.innerHTML = "";
+        sitesData.publicSites.forEach(s => publicSiteList.appendChild(safeCreateLinkItem(s)));
+        siteList.style.display = "none";
+        publicSiteList.style.display = "grid";
+        footerHamusata.style.display = "none";
+        footerHamuzon.style.display = "none";
+        footer.innerHTML = `<span style="display:block;padding:0.5rem;color:#f0f0f0;">
+          このサイトは公式ではなく、一部の情報は異なる場合があります。<br />
           This version may differ from the original official site.
         </span>`;
       }
 
-      const baseYear=2025; const currentYear=new Date().getFullYear();
-      const yearText=currentYear>baseYear?`${baseYear}~${currentYear}`:`${baseYear}`;
-      document.getElementById("year-hamusata").textContent=yearText;
-      document.getElementById("year-hamuzon").textContent=yearText;
+      const baseYear = 2025;
+      const currentYear = new Date().getFullYear();
+      const yearText = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
+      document.getElementById("year-hamusata").textContent = yearText;
+      document.getElementById("year-hamuzon").textContent = yearText;
     });
 
-    // 雪ON/OFF
-    (()=>{
-      const toggleBtn=document.getElementById('snow-toggle');
-      let snowOn=true;
-      toggleBtn.addEventListener('click',()=>{
-        snowOn=!snowOn;
+    (() => {
+      const toggleBtn = document.getElementById('snow-toggle');
+      let snowOn = true;
+
+      toggleBtn.addEventListener('click', () => {
+        snowOn = !snowOn;
         if(snowOn){
-          toggleBtn.textContent='雪ON';
+          toggleBtn.textContent = '雪ON';
           window.winterControl && window.winterControl.show();
-        } else{
-          toggleBtn.textContent='雪OFF';
+        } else {
+          toggleBtn.textContent = '雪OFF';
           window.winterControl && window.winterControl.hide();
         }
       });
