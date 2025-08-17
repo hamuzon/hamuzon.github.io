@@ -1,13 +1,13 @@
 (() => {
   const canvas = document.getElementById('autumnCanvas');
-  if (!canvas) {
-    console.warn('autumn.js: canvas#autumnCanvas が見つかりません');
-    return;
-  }
-  const ctx = canvas.getContext('2d');
-  let cw, ch;
+  if (!canvas) return;
 
-  // リサイズ対応
+  const ctx = canvas.getContext('2d');
+  let cw = window.innerWidth;
+  let ch = window.innerHeight;
+
+  const groundMap = new Array(Math.ceil(cw)).fill(ch);
+
   function resize() {
     cw = window.innerWidth;
     ch = window.innerHeight;
@@ -15,77 +15,109 @@
     canvas.height = ch * devicePixelRatio;
     canvas.style.width = cw + 'px';
     canvas.style.height = ch + 'px';
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.setTransform(1,0,0,1,0,0);
     ctx.scale(devicePixelRatio, devicePixelRatio);
+    for(let i=0;i<groundMap.length;i++) groundMap[i]=ch;
   }
   window.addEventListener('resize', resize);
   resize();
 
-  // ヘルパー関数
-  function random(min, max){ return Math.random()*(max-min)+min; }
-  function randomInt(min, max){ return Math.floor(random(min,max)); }
+  // 葉っぱの種類定義
+  const leafTypes = [
+    { shape:'triangle', sizeRange:[6,12], colors:['#FF4500','#FF6347','#FF7F50'], hillFactor:1.0 },
+    { shape:'ellipse', sizeRange:[8,14], colors:['#FFA500','#FFD700','#FFB347'], hillFactor:1.2 },
+    { shape:'ellipse', sizeRange:[10,18], colors:['#FF8C00','#FF9933','#FFD166'], hillFactor:1.5 },
+  ];
 
-  // 落ち葉クラス
   class Leaf {
-    constructor() { this.reset(); }
-    reset() {
-      this.x = random(0, cw);
-      this.y = random(-ch, 0);
-      this.size = random(10, 20);
-      this.speedY = random(1, 2);
-      this.speedX = random(-0.5,0.5);
-      this.rotation = random(0, Math.PI*2);
-      this.rotationSpeed = random(-0.02,0.02);
-      this.color = `hsl(${random(20,40)}, 80%, ${random(40,60)}%)`;
-      this.onGround = false;
-      this.groundOffset = random(0, 20); // 地面で微妙にずらす
+    constructor(){
+      this.reset();
     }
-    update() {
-      if(!this.onGround){
-        this.x += this.speedX;
-        this.y += this.speedY;
-        this.rotation += this.rotationSpeed;
+    reset(){
+      const type = leafTypes[Math.floor(Math.random()*leafTypes.length)];
+      this.shape = type.shape;
+      this.size = Math.random()*(type.sizeRange[1]-type.sizeRange[0])+type.sizeRange[0];
+      this.color = type.colors[Math.floor(Math.random()*type.colors.length)];
+      this.hillFactor = type.hillFactor;
 
-        // 地面に到達したら止まって溜まる
-        if(this.y >= ch - this.size - this.groundOffset){
-          this.y = ch - this.size - this.groundOffset;
+      this.x = Math.random()*cw;
+      this.y = Math.random()*ch - ch;
+      this.speedY = Math.random()*1+0.5;
+      this.speedX = Math.random()*1-0.5;
+      this.angle = Math.random()*Math.PI*2;
+      this.rotationSpeed = (Math.random()-0.5)*0.05;
+      this.onGround = false;
+    }
+    update(){
+      if(!this.onGround){
+        this.x += this.speedX + Math.sin(this.angle)*0.5;
+        this.y += this.speedY;
+        this.angle += this.rotationSpeed;
+
+        if(this.x<0) this.x += cw;
+        if(this.x>cw) this.x -= cw;
+
+        const ix = Math.floor(this.x);
+        const groundY = groundMap[ix]-this.size/2;
+        if(this.y >= groundY){
+          this.y = groundY;
           this.speedX = 0;
           this.speedY = 0;
           this.rotationSpeed = 0;
           this.onGround = true;
-        }
 
-        // 左右ループ
-        if(this.x < -this.size) this.x = cw + this.size;
-        if(this.x > cw + this.size) this.x = -this.size;
+          // 小山化
+          const hillWidth = Math.floor(Math.random()*8 + 4)*this.hillFactor;
+          const hillHeight = (Math.random()*1 + 0.5)*this.hillFactor;
+          for(let offset=-hillWidth; offset<=hillWidth; offset++){
+            const idx = Math.min(Math.max(ix+offset,0),cw-1);
+            groundMap[idx] -= hillHeight*(1-Math.abs(offset)/hillWidth);
+          }
+
+          // 積もる時に角度を少しランダム化
+          this.angle += (Math.random()-0.5)*Math.PI/6;
+        }
       }
     }
     draw(ctx){
       ctx.save();
-      ctx.translate(this.x, this.y);
-      ctx.rotate(this.rotation);
+      ctx.translate(this.x,this.y);
+      ctx.rotate(this.angle);
       ctx.fillStyle = this.color;
-      ctx.beginPath();
-      ctx.ellipse(0, 0, this.size*0.5, this.size, 0, 0, Math.PI*2);
-      ctx.fill();
+
+      if(this.shape==='triangle'){
+        ctx.beginPath();
+        ctx.moveTo(0,-this.size/2);
+        ctx.lineTo(this.size/2,this.size/2);
+        ctx.lineTo(-this.size/2,this.size/2);
+        ctx.closePath();
+        ctx.fill();
+      } else {
+        ctx.beginPath();
+        ctx.ellipse(0,0,this.size/2,this.size/3,Math.PI/4,0,Math.PI*2);
+        ctx.fill();
+      }
+
       ctx.restore();
     }
   }
 
-  // 落ち葉管理
+  const leafCount = 120;
   const leaves = [];
-  const leafCount = 70; // 葉っぱの数
   for(let i=0;i<leafCount;i++) leaves.push(new Leaf());
 
-  // メインループ
-  function loop(){
+  function animate(){
     ctx.clearRect(0,0,cw,ch);
     leaves.forEach(leaf=>{
       leaf.update();
       leaf.draw(ctx);
     });
-    requestAnimationFrame(loop);
+    requestAnimationFrame(animate);
   }
+  animate();
 
-  loop();
+  window.autumnControl = {
+    show: ()=>canvas.style.display='block',
+    hide: ()=>canvas.style.display='none'
+  };
 })();
