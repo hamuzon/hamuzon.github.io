@@ -17,7 +17,7 @@
     background: linear-gradient(to bottom, #ffcf91 0%, #a96bf8 100%);
     color: #333;
     overflow-x: hidden;
-    --firework-brightness: 1; /* 花火の明るさ制御用 */
+    --firework-brightness: 1;
   }
 
   /* --- コンテナ --- */
@@ -31,7 +31,7 @@
   }
 
   /* --- 見出し --- */
-  h1 {
+  h1, h1 a.tpww {
     text-align: center;
     font-size: 2rem;
     color: #f0f0f0;
@@ -121,7 +121,7 @@
 
   /* --- スマホ対応 --- */
   @media (max-width:480px){
-    h1{font-size:1.5rem;}
+    h1, h1 a.tpww {font-size:1.5rem;}
     footer{font-size:0.75rem;}
     ul{grid-template-columns:1fr !important;}
     #fireworks-toggle{font-size:0.85rem;padding:0.4rem 0.8rem;}
@@ -181,7 +181,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     sitesData.publicSites.forEach(site=>publicSiteList.appendChild(safeCreateLinkItem(site)));
     siteList.style.display="none"; publicSiteList.style.display="grid";
     footerHamusata.style.display="none"; footerHamuzon.style.display="none";
-    footer.innerHTML=`<span style="display:block;padding:0.5rem;color:#f0f0f0;">このサイトは公式ではなく、一部の情報は異なる場合があります。<br>This version may differ from the original official site.</span>`;
+    footer.innerHTML=`<span style="display:block;padding:0.5rem;color:#f0f0f0;">このサイトは公式ではなく、一部の情報は異なる場合があります。<br>This version may differ from the official.</span>`;
   }
 
   const baseYear=2025; const currentYear=new Date().getFullYear();
