@@ -1,3 +1,4 @@
+// autumn.js
 (() => {
   const canvas = document.getElementById('autumnCanvas');
   if (!canvas) return;
@@ -22,12 +23,29 @@
   window.addEventListener('resize', resize);
   resize();
 
-  // 葉っぱの種類定義
+  // 葉っぱの種類
   const leafTypes = [
     { shape:'triangle', sizeRange:[6,12], colors:['#FF4500','#FF6347','#FF7F50'], hillFactor:1.0 },
     { shape:'ellipse', sizeRange:[8,14], colors:['#FFA500','#FFD700','#FFB347'], hillFactor:1.2 },
     { shape:'ellipse', sizeRange:[10,18], colors:['#FF8C00','#FF9933','#FFD166'], hillFactor:1.5 },
   ];
+
+  // 端末別落下Y初期値
+  function getLeafInitialY() {
+    const w = window.innerWidth;
+    if(w < 768) return Math.random() * (ch*0.6) - ch; // スマホ
+    if(w < 1200) return Math.random() * (ch*0.8) - ch; // タブレット
+    return Math.random() * ch - ch; // PC
+  }
+
+  // 風向きランダム変化用
+  let windOffset = 0;
+  function updateWind() {
+    // 徐々に変化する風向き
+    windOffset += (Math.random()-0.5)*0.2;
+    if(windOffset > 1) windOffset = 1;
+    if(windOffset < -1) windOffset = -1;
+  }
 
   class Leaf {
     constructor(){
@@ -41,16 +59,19 @@
       this.hillFactor = type.hillFactor;
 
       this.x = Math.random()*cw;
-      this.y = Math.random()*ch - ch;
+      this.y = getLeafInitialY();
       this.speedY = Math.random()*1+0.5;
-      this.speedX = Math.random()*1-0.5;
+      this.speedX = Math.random()*0.5-0.25; // 基本横揺れ少し
       this.angle = Math.random()*Math.PI*2;
       this.rotationSpeed = (Math.random()-0.5)*0.05;
       this.onGround = false;
+      this.life = 0;
+      this.opacity = 1;
     }
     update(){
       if(!this.onGround){
-        this.x += this.speedX + Math.sin(this.angle)*0.5;
+        // 風による横揺れを加算
+        this.x += this.speedX + Math.sin(this.angle)*0.5 + windOffset*0.5;
         this.y += this.speedY;
         this.angle += this.rotationSpeed;
 
@@ -74,8 +95,17 @@
             groundMap[idx] -= hillHeight*(1-Math.abs(offset)/hillWidth);
           }
 
-          // 積もる時に角度を少しランダム化
-          this.angle += (Math.random()-0.5)*Math.PI/6;
+          this.life = 200 + Math.random()*300;
+          this.opacity = 1;
+        }
+      } else {
+        // 地面にある葉っぱの寿命を減らす
+        this.life--;
+        if(this.life <= 0){
+          this.opacity -= 0.02; // フェードアウト
+          if(this.opacity <= 0){
+            this.reset();
+          }
         }
       }
     }
@@ -83,6 +113,7 @@
       ctx.save();
       ctx.translate(this.x,this.y);
       ctx.rotate(this.angle);
+      ctx.globalAlpha = this.opacity;
       ctx.fillStyle = this.color;
 
       if(this.shape==='triangle'){
@@ -99,15 +130,17 @@
       }
 
       ctx.restore();
+      ctx.globalAlpha = 1;
     }
   }
 
-  const leafCount = 120;
+  const leafCountMax = 120; // 最大葉数
   const leaves = [];
-  for(let i=0;i<leafCount;i++) leaves.push(new Leaf());
+  for(let i=0;i<leafCountMax;i++) leaves.push(new Leaf());
 
   function animate(){
     ctx.clearRect(0,0,cw,ch);
+    updateWind();
     leaves.forEach(leaf=>{
       leaf.update();
       leaf.draw(ctx);
