@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://home.hamusata.f5.si/</loc></url>
+  <url><loc>https://hamusata.f5.si/</loc></url>
   <url><loc>https://YouTube.hamusata.f5.si</loc></url>
   <!-- <url><loc>https://scratch-user-info.hamusata.f5.si</loc></url> -->
-  <!-- <url><loc>https://scratch.hamusata.f5.si/</loc></url> -->
-  <url><loc>https://hamusata.f5.si</loc></url>
+  <url><loc>https://scratch.hamusata.f5.si/</loc></url>
+  <url><loc>https://time.hamusata.f5.si</loc></url>
   <url><loc>https://time-zone.hamusata.f5.si</loc></url>
   <url><loc>https://Device-info.hamusata.f5.si</loc></url>
   <url><loc>https://expo2025-counter.hamusata.f5.si</loc></url>
@@ -17,7 +18,7 @@
   <url><loc>https://url.hamusata.f5.si</loc></url>
   <url><loc>https://link.hamusata.f5.si</loc></url>
   <url><loc>https://qr.hamusata.f5.si</loc></url>
-  <url><loc>https://omikuji.hamusata.f5.si</loc></url>
+  <url><loc>http://omikuji.hamusata.f5.si</loc></url>
   <url><loc>https://dice.hamusata.f5.si</loc></url>
   <url><loc>https://pixel-art.hamusata.f5.si/</loc></url>
 </urlset>
