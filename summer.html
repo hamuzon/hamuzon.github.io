@@ -31,22 +31,38 @@
   }
 
   /* --- 見出し --- */
-  h1, h1 a.tpww {
+  h1 {
     text-align: center;
-    font-size: 2rem;
-    color: #f0f0f0;
-    text-shadow: 0 0 8px rgba(0,0,0,0.7);
     margin-bottom: 2rem;
     position: relative;
     z-index: 2;
-    filter: brightness(var(--firework-brightness));
-    transition: filter 0.1s linear;
+  }
+
+  /* h1 */
+  h1 a.tpww {
+    display: block;
+    margin: 0 auto;
+    max-width: 300px;
+    background: rgba(20,20,20,0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #ddd;
     text-decoration: none;
-    cursor: default;
+    padding: 1rem;
+    border-radius: 16px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+    text-align: center;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, filter 0.1s linear;
+    cursor: pointer;
+    filter: brightness(var(--firework-brightness));
   }
   h1 a.tpww:hover {
-    text-decoration: none;
-    color: inherit;
+    background: rgba(30,30,30,0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.5);
   }
 
   /* --- リスト --- */
@@ -121,7 +137,7 @@
 
   /* --- スマホ対応 --- */
   @media (max-width:480px){
-    h1, h1 a.tpww {font-size:1.5rem;}
+    h1 a.tpww {font-size:1.2rem;}
     footer{font-size:0.75rem;}
     ul{grid-template-columns:1fr !important;}
     #fireworks-toggle{font-size:0.85rem;padding:0.4rem 0.8rem;}
