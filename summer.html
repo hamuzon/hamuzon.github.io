@@ -41,13 +41,14 @@
     z-index: 2;
     filter: brightness(var(--firework-brightness));
     transition: filter 0.1s linear;
-  }
-  h1 a.tpww {
-    color: #fff8dd;
     text-decoration: none;
-    cursor: pointer;
+    cursor: default;
   }
-  h1 a.tpww:hover { text-decoration: underline; }
+
+  h1 a.tpww:hover {
+    text-decoration: none;
+    color: inherit;
+  }
 
   /* --- リスト --- */
   ul {
