@@ -243,19 +243,19 @@
     <ul id="site-list" class="field-row wrap gap-2"></ul>
 
     <ul id="public-site-list" class="field-row wrap gap-2" style="display:none;">
-      <li><a href="https://www.google.com" target="_blank" rel="noopener noreferrer">Google</a></li>
-      <li><a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">YouTube</a></li>
-      <li><a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">Twitter / X</a></li>
-      <li><a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">Facebook</a></li>
-      <li><a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a></li>
-      <li><a href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer">TikTok</a></li>
-      <li><a href="https://www.discord.com" target="_blank" rel="noopener noreferrer">Discord</a></li>
+      <li><a href="https://www.google.com" rel="noopener noreferrer">Google</a></li>
+      <li><a href="https://www.youtube.com" rel="noopener noreferrer">YouTube</a></li>
+      <li><a href="https://www.twitter.com" rel="noopener noreferrer">Twitter / X</a></li>
+      <li><a href="https://www.facebook.com" rel="noopener noreferrer">Facebook</a></li>
+      <li><a href="https://www.instagram.com" rel="noopener noreferrer">Instagram</a></li>
+      <li><a href="https://www.tiktok.com" rel="noopener noreferrer">TikTok</a></li>
+      <li><a href="https://www.discord.com" rel="noopener noreferrer">Discord</a></li>
     </ul>
 
     <footer id="main-footer" role="contentinfo" aria-label="Footer">
       <span>&copy;</span>
       <span id="year-hamusata"></span>
-      <a href="https://home.hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a>
+      <a href="https://home.hamusata.f5.si" rel="noopener noreferrer">@hamusata</a>
       <div id="default-message">
         ※一部のサイトは現在アクセスできない場合があります。<br />
         Some sites may be temporarily unavailable.
@@ -276,7 +276,6 @@
       const a = document.createElement("a");
       a.href = href;
       a.textContent = text;
-      a.target = "_blank";
       a.rel = "noopener noreferrer";
       if (className) a.className = className;
       if (reload) {
