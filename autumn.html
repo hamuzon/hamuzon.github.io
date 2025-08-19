@@ -124,15 +124,11 @@
     </span>
   </footer>
 
-  <!-- sites.js -->
   <script src="sites.js"></script>
-  <!-- autumn.js -->
   <script src="autumn.js"></script>
 
   <script>
-    // サイトリスト制御
     document.addEventListener("DOMContentLoaded", () => {
-      const currentHost = window.location.hostname;
       const siteList = document.getElementById("site-list");
       const publicSiteList = document.getElementById("public-site-list");
       const footerHamusata = document.getElementById("footer-hamusata");
@@ -142,58 +138,22 @@
       const safeCreateLinkItem = typeof createLinkItem === "function" ? createLinkItem : function({ href, text, className, openInSameTab }) {
         const li = document.createElement("li");
         const a = document.createElement("a");
-
-        if ((href === "https://home.hamusata.f5.si/" || href === "./") && text.includes("Website-List")) {
-          a.href = "/98";
-        } else {
-          a.href = href;
-        }
-
+        a.href = href;
         a.textContent = text || href;
         a.rel = "noopener noreferrer";
         if (className) a.className = className;
         a.target = openInSameTab ? "_self" : "_blank";
-
         li.appendChild(a);
         return li;
       };
 
-      if (currentHost === "home.hamusata.f5.si") {
-        siteList.innerHTML = "";
-        sitesData.homeHamusata.forEach(site => {
-          siteList.appendChild(safeCreateLinkItem(site));
-        });
-        siteList.style.display = "grid";
-        publicSiteList.style.display = "none";
-        footerHamusata.style.display = "inline";
-        footerHamuzon.style.display = "none";
-
-      } else if (currentHost === "hamuzon.github.io") {
-        siteList.innerHTML = "";
-        sitesData.hamuzonGitHubIO.forEach(site => {
-          siteList.appendChild(safeCreateLinkItem(site));
-        });
-        siteList.style.display = "grid";
-        publicSiteList.style.display = "none";
-        footerHamusata.style.display = "none";
-        footerHamuzon.style.display = "inline";
-
-      } else {
-        publicSiteList.innerHTML = "";
-        sitesData.publicSites.forEach(site => {
-          publicSiteList.appendChild(safeCreateLinkItem(site));
-        });
-        siteList.style.display = "none";
-        publicSiteList.style.display = "grid";
-        footerHamusata.style.display = "none";
-        footerHamuzon.style.display = "none";
-        footer.innerHTML = `
-          <span style="display:block; padding:0.5rem; color:#fff8dd;">
-            このサイトは公式ではなく、一部の情報は異なる場合があります。<br>
-            This version may differ from the original official site.
-          </span>
-        `;
-      }
+      // すべてのリンク表示
+      siteList.innerHTML = "";
+      sitesData.wwwLinkSF5Si.forEach(site => siteList.appendChild(safeCreateLinkItem(site)));
+      siteList.style.display = "grid";
+      publicSiteList.style.display = "none";
+      footerHamusata.style.display = "inline";
+      footerHamuzon.style.display = "none";
 
       const baseYear = 2025;
       const currentYear = new Date().getFullYear();
@@ -206,7 +166,6 @@
     (() => {
       const toggleBtn = document.getElementById('autumn-toggle');
       let autumnOn = true;
-
       toggleBtn.addEventListener('click', () => {
         autumnOn = !autumnOn;
         if(autumnOn){
@@ -217,7 +176,6 @@
           window.autumnControl && window.autumnControl.hide();
         }
       });
-
       window.addEventListener('load', () => {
         window.autumnControl && window.autumnControl.show();
       });
