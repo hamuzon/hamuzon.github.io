@@ -1,7 +1,7 @@
 const sitesData = {
   homeHamusata: [
     { href: "https://home.hamusata.f5.si/", text: "Hamusata-Website-List", openInSameTab: true },
-      { href: "https://hamusata.f5.si/", text: "Hamusata-home-Page", openInSameTab: true },
+    { href: "https://hamusata.f5.si/", text: "Hamusata-home-Page", openInSameTab: true },
     { href: "https://YouTube.hamusata.f5.si", text: "YouTube / Local PC Service by Cloudflare Tunnel", openInSameTab: true },
     { href: "https://scratch-user-info.hamusata.f5.si", text: "Scratch User & Project Info / Local PC Service by Cloudflare Tunnel", openInSameTab: true },
     { href: "https://scratch.hamusata.f5.si/", text: "Scratch User & Project Info / Run on Netlify, stored on GitHub.", openInSameTab: true },
@@ -16,12 +16,13 @@ const sitesData = {
     { href: "https://calendar.hamusata.f5.si", text: "🗓️カレンダー / calendar📅 - Hamusata / Hosted by GitHub", openInSameTab: true },
     { href: "https://todo.hamusata.f5.si", text: "📝 TODO lists ✏ - Hamusata / Hosted by GitHub", openInSameTab: true },
     { href: "https://url.hamusata.f5.si", text: "🔗Short link creation service🔗/ Local PC Service by Cloudflare Tunnel", openInSameTab: true },
-    { href: "https://link.hamusata.f5.si", text: "🔗Short link creation service🔗/ Hosted by Cloudflare Workers (Code privately hosted on GitHub)", openInSameTab: true },
+    { href: "https://link.hamusata.f5.si", text: "🔗Short link creation service🔗/ Hosted by Cloudflare Workers", openInSameTab: true },
     { href: "https://qr.hamusata.f5.si", text: "🔳QR 🔗- Hamusata / Hosted by GitHub", openInSameTab: true },
     { href: "http://omikuji.hamusata.f5.si", text: "🍀おみくじ🔮- Hamusata / Hosted by GitHub", openInSameTab: true },
     { href: "https://dice.hamusata.f5.si", text: "🎲サイコロ🎯 Hamusata / Hosted by GitHub", openInSameTab: true },
     { href: "https://pixel-art.hamusata.f5.si/", text: "🎨 Pixel Drawing 🖌️ Hamusata / Hosted by GitHub", openInSameTab: true },
   ],
+
   hamuzonGitHubIO: [
     { href: "./", text: "Hamuzon-Website-List", className: "tpww", openInSameTab: true },
     { href: "https://hamuzon.github.io/Time-Zone_app/", text: "TimeZone - Hamuzon", openInSameTab: true },
@@ -39,7 +40,18 @@ const sitesData = {
     { href: "https://hamuzon.github.io/Short-Link/", text: "🔗Short link creation service🔗  - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/pixel-art/", text: "🎨 Pixel Drawing 🖌️ -Hamuzon", openInSameTab: true },
   ],
-  
+
+  wwwLinkSF5Si: [
+    { href: "https://link-s.f5.si/", text: "link-s.f5.si – ショートカットリンクサービス" },
+    { href: "https://go.link-s.f5.si/", text: "go.link-s.f5.si – カスタムパス対応版" },
+    { href: "https://password-create.link-s.f5.si/", text: "API無しパスワード生成" },
+    { href: "https://password.link-s.f5.si/", text: "API版パスワード生成（リダイレクト無し）" },
+    { href: "https://pw.link-s.f5.si/", text: "APIパスワード生成（端末リダイレクト）" },
+    { href: "https://pw-pc.link-s.f5.si/", text: "APIパスワード生成（PC版リダイレクト先）" },
+    { href: "https://pw-sp.link-s.f5.si/", text: "APIパスワード生成（スマホ版リダイレクト先）" },
+    { href: "https://qr.link-s.f5.si/", text: "QRコード生成サービス" }
+  ],
+
   publicSites: [
     { href: "https://www.google.com", text: "Google", openInSameTab: true },
     { href: "https://www.youtube.com", text: "YouTube", openInSameTab: true },
@@ -51,7 +63,7 @@ const sitesData = {
   ]
 };
 
-// <li>リンク生成関数（openInSameTab に対応）
+// リンク生成関数（openInSameTab に対応）
 function createLinkItem({ href, text, className, openInSameTab }) {
   const li = document.createElement("li");
   const a = document.createElement("a");
@@ -59,10 +71,7 @@ function createLinkItem({ href, text, className, openInSameTab }) {
   a.textContent = text || href;
   a.rel = "noopener noreferrer";
   if (className) a.className = className;
-
-  // 同じタブで開く
   a.target = openInSameTab ? "_self" : "_blank";
-
   li.appendChild(a);
   return li;
 }
