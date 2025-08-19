@@ -139,26 +139,30 @@
       }
 
       if (host === "home.hamusata.f5.si") {
+        // home.hamusata.f5.si 系列
         sitesData.homeHamusata.forEach(site => siteList.appendChild(createLinkItem(site)));
         siteList.style.display = "grid";
         publicList.style.display = "none";
         document.getElementById("footer-hamusata").style.display = "inline";
         document.getElementById("footer-hamuzon").style.display = "none";
 
+      } else if (host === "www.link-s.f5.si") {
+        // www.link-s.f5.si 系列
+        sitesData.wwwLinkSF5Si.forEach(site => siteList.appendChild(createLinkItem(site)));
+        siteList.style.display = "grid";
+        publicList.style.display = "none";
+        footer.innerHTML = `<span style="display:block; padding:0.5rem; color:#f0f0f0;">@hamusata</span>`;
+
       } else if (host === "hamuzon.github.io") {
+        // hamuzon.github.io 系列
         sitesData.hamuzonGitHubIO.forEach(site => siteList.appendChild(createLinkItem(site)));
         siteList.style.display = "grid";
         publicList.style.display = "none";
         document.getElementById("footer-hamusata").style.display = "none";
         document.getElementById("footer-hamuzon").style.display = "inline";
 
-      } else if (host === "www.link-s.f5.si") {
-        sitesData.wwwLinkSF5Si.forEach(site => siteList.appendChild(createLinkItem(site)));
-        siteList.style.display = "grid";
-        publicList.style.display = "none";
-        footer.innerHTML = `<span style="display:block; padding:0.5rem; color:#f0f0f0;">@hamusata</span>`;
-
       } else {
+        // その他公開サイト
         [...sitesData.publicSites, ...(sitesData.autumn || [])].forEach(site => publicList.appendChild(createLinkItem(site)));
         siteList.style.display = "none";
         publicList.style.display = "grid";
