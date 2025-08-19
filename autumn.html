@@ -124,7 +124,9 @@
     </span>
   </footer>
 
+  <!-- sites.js -->
   <script src="sites.js"></script>
+  <!-- autumn.js -->
   <script src="autumn.js"></script>
 
   <script>
@@ -147,14 +149,17 @@
         return li;
       };
 
-      // すべてのリンク表示
-      siteList.innerHTML = "";
-      sitesData.wwwLinkSF5Si.forEach(site => siteList.appendChild(safeCreateLinkItem(site)));
-      siteList.style.display = "grid";
-      publicSiteList.style.display = "none";
-      footerHamusata.style.display = "inline";
-      footerHamuzon.style.display = "none";
+      // 秋用リンク追加
+      if (typeof sitesData.autumn !== "undefined") {
+        siteList.innerHTML = "";
+        sitesData.autumn.forEach(site => siteList.appendChild(safeCreateLinkItem(site)));
+        siteList.style.display = "grid";
+        publicSiteList.style.display = "none";
+        footerHamusata.style.display = "inline";
+        footerHamuzon.style.display = "none";
+      }
 
+      // 年表示更新
       const baseYear = 2025;
       const currentYear = new Date().getFullYear();
       const yearText = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
@@ -162,7 +167,7 @@
       document.getElementById("year-hamuzon").textContent = yearText;
     });
 
-    // 落ち葉ON/OFFボタン
+    // 落ち葉ON/OFFボタン制御
     (() => {
       const toggleBtn = document.getElementById('autumn-toggle');
       let autumnOn = true;
