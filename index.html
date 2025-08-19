@@ -7,9 +7,7 @@
   <meta name="description" content="homepageのリンクListsです" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
+    *, *::before, *::after { box-sizing: border-box; }
     html, body {
       margin: 0; padding: 0;
       font-family: 'Inter', 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif;
@@ -27,7 +25,7 @@
       text-align: center;
       font-size: 2rem;
       color: #f0f0f0;
-      text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+      text-shadow: 0 0 8px rgba(0,0,0,0.7);
       margin-bottom: 2rem;
     }
     h1 a.tpww {
@@ -35,9 +33,7 @@
       text-decoration: none;
       cursor: pointer;
     }
-    h1 a.tpww:hover {
-      text-decoration: underline;
-    }
+    h1 a.tpww:hover { text-decoration: underline; }
     ul {
       padding: 0;
       margin: 0;
@@ -46,12 +42,10 @@
       gap: 1rem;
       list-style: none;
     }
-    li {
-      margin: 0;
-    }
+    li { margin: 0; }
     a {
       display: block;
-      background: rgba(20, 20, 20, 0.15);
+      background: rgba(20,20,20,0.15);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       color: #ddd;
@@ -60,15 +54,15 @@
       border-radius: 16px;
       font-size: 1rem;
       font-weight: 600;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.35);
       transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
       word-break: break-word;
     }
     a:hover {
-      background: rgba(30, 30, 30, 0.3);
+      background: rgba(30,30,30,0.3);
       transform: translateY(-4px);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.5);
     }
     footer {
       text-align: center;
@@ -76,23 +70,12 @@
       color: #f0f0f0;
       font-size: 0.85rem;
     }
-    footer a {
-      color: #fff8dd;
-      text-decoration: underline;
-    }
-    #public-site-list {
-      display: none;
-    }
-    @media (max-width: 480px) {
-      h1 {
-        font-size: 1.5rem;
-      }
-      footer {
-        font-size: 0.75rem;
-      }
-      ul {
-        grid-template-columns: 1fr !important;
-      }
+    footer a { color: #fff8dd; text-decoration: underline; }
+    #public-site-list { display: none; }
+    @media (max-width:480px) {
+      h1 { font-size: 1.5rem; }
+      footer { font-size: 0.75rem; }
+      ul { grid-template-columns: 1fr !important; }
     }
   </style>
 </head>
@@ -102,7 +85,7 @@
       <a href="/summer" class="tpww">Website List</a>
     </h1>
     <ul id="site-list"></ul>
-    <ul id="public-site-list" style="display:none;"></ul>
+    <ul id="public-site-list"></ul>
   </div>
 
   <footer id="main-footer">
@@ -133,12 +116,9 @@
         const li = document.createElement("li");
         const a = document.createElement("a");
 
-        // 特定リンクの置き換え
         if ((href === "https://home.hamusata.f5.si/" || href === "./") && text.includes("Website-List")) {
           a.href = "/";
-        } else {
-          a.href = href;
-        }
+        } else { a.href = href; }
 
         a.textContent = text;
         a.target = openInSameTab ? "_self" : "_blank";
@@ -150,25 +130,28 @@
       }
 
       if (currentHost === "home.hamusata.f5.si") {
-        sitesData.homeHamusata.forEach(site => {
-          siteList.appendChild(createLinkItem(site));
-        });
+        sitesData.homeHamusata.forEach(site => siteList.appendChild(createLinkItem(site)));
         siteList.style.display = "grid";
         publicSiteList.style.display = "none";
         footerHamusata.style.display = "inline";
         footerHamuzon.style.display = "none";
+
       } else if (currentHost === "hamuzon.github.io") {
-        sitesData.hamuzonGitHubIO.forEach(site => {
-          siteList.appendChild(createLinkItem(site));
-        });
+        sitesData.hamuzonGitHubIO.forEach(site => siteList.appendChild(createLinkItem(site)));
         siteList.style.display = "grid";
         publicSiteList.style.display = "none";
         footerHamusata.style.display = "none";
         footerHamuzon.style.display = "inline";
+
+      } else if (currentHost === "www.link-s.f5.si") {
+        sitesData.wwwLinkSF5Si.forEach(site => siteList.appendChild(createLinkItem(site)));
+        siteList.style.display = "grid";
+        publicSiteList.style.display = "none";
+        footerHamusata.style.display = "inline";
+        footerHamuzon.style.display = "none";
+
       } else {
-        sitesData.publicSites.forEach(site => {
-          publicSiteList.appendChild(createLinkItem(site));
-        });
+        sitesData.publicSites.forEach(site => publicSiteList.appendChild(createLinkItem(site)));
         siteList.style.display = "none";
         publicSiteList.style.display = "grid";
         footer.innerHTML = `
@@ -179,7 +162,6 @@
         `;
       }
 
-      // 年の表示処理
       const baseYear = 2025;
       const currentYear = new Date().getFullYear();
       const yearDisplay = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
