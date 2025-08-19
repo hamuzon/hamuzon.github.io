@@ -11,7 +11,8 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 html, body {
-  margin: 0; padding: 0;
+  margin: 0;
+  padding: 0;
   font-family: 'Inter', 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif;
   min-height: 100vh;
   background: linear-gradient(to bottom, #ffcf91 0%, #a96bf8 100%);
@@ -67,7 +68,7 @@ ul {
   padding: 0;
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
   gap: 1rem;
   list-style: none;
   position: relative;
@@ -141,14 +142,15 @@ footer a {
   background: rgba(0,0,0,0.7);
 }
 
-@media(max-width:480px){
-  h1 a.tpww{font-size:1.2rem;}
-  footer{font-size:0.75rem;}
-  ul{grid-template-columns:1fr !important;}
-  #fireworks-toggle{font-size:0.85rem;padding:0.4rem 0.8rem;}
+@media(max-width:480px) {
+  h1 a.tpww { font-size: 1.2rem; }
+  footer { font-size: 0.75rem; }
+  ul { grid-template-columns: 1fr !important; }
+  #fireworks-toggle { font-size: 0.85rem; padding: 0.4rem 0.8rem; }
 }
 </style>
 </head>
+
 <body>
 <canvas id="fireworksCanvas"></canvas>
 <button id="fireworks-toggle">花火ON</button>
@@ -166,53 +168,37 @@ footer a {
 <script src="sites.js"></script>
 <script src="fireworks.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", ()=>{
-  const currentHost = window.location.hostname;
+document.addEventListener("DOMContentLoaded", () => {
   const siteList = document.getElementById("site-list");
   const publicSiteList = document.getElementById("public-site-list");
   const footer = document.getElementById("main-footer");
 
-  const safeCreateLinkItem = typeof createLinkItem==="function"?createLinkItem:({href,text,className,openInSameTab})=>{
-    const li=document.createElement("li");
-    const a=document.createElement("a");
-    a.href=href; a.textContent=text||href; a.rel="noopener noreferrer";
-    if(className) a.className=className;
-    a.target=openInSameTab?"_self":"_blank";
+  const safeCreateLinkItem = ({href, text, className}) => {
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.href = href;
+    a.textContent = text || href;
+    if (className) a.className = className;
+    a.target = "_self";　
     li.appendChild(a);
     return li;
   };
 
-  const baseYear=2025;
-  const currentYear=new Date().getFullYear();
-  const yearText=currentYear>baseYear?`${baseYear}~${currentYear}`:`${baseYear}`;
-
-  if(currentHost==="home.hamusata.f5.si"){
-    siteList.innerHTML="";
-    sitesData.homeHamusata.forEach(site=>siteList.appendChild(safeCreateLinkItem({...site, openInSameTab:true})));
-    siteList.style.display="grid"; publicSiteList.style.display="none";
-    footer.innerHTML=`<span style="display:block;padding:0.5rem;color:#f0f0f0;">&copy; ${yearText} <a href="https://home.hamusata.f5.si" target="_self">@hamusata</a></span>`;
-  } else if(currentHost==="hamuzon.github.io"){
-    siteList.innerHTML="";
-    sitesData.hamuzonGitHubIO.forEach(site=>siteList.appendChild(safeCreateLinkItem({...site, openInSameTab:true})));
-    siteList.style.display="grid"; publicSiteList.style.display="none";
-    footer.innerHTML=`<span style="display:block;padding:0.5rem;color:#f0f0f0;">&copy; ${yearText} <a href="https://github.com/Hamuzon" target="_self">@hamuzon</a></span>`;
-  } else if(currentHost==="www.link-s.f5.si"){
-    siteList.innerHTML="";
-    sitesData.wwwLinkSF5Si.forEach(site=>siteList.appendChild(safeCreateLinkItem({...site, openInSameTab:true})));
-    siteList.style.display="grid"; publicSiteList.style.display="none";
-    footer.innerHTML=`<span style="display:block;padding:0.5rem;color:#f0f0f0;">&copy; ${yearText} <a href="https://home.hamusata.f5.si" target="_self">@hamusata</a></span>`;
-  } else {
-    publicSiteList.innerHTML="";
-    sitesData.publicSites.forEach(site=>publicSiteList.appendChild(safeCreateLinkItem({...site, openInSameTab:true})));
-    siteList.style.display="none"; publicSiteList.style.display="grid";
-    footer.innerHTML=`<span style="display:block;padding:0.5rem;color:#f0f0f0;">このサイトは公式ではなく、一部の情報は異なる場合があります。<br>This version may differ from the official.</span>`;
+  if (typeof sitesData !== "undefined") {
+    [sitesData.homeHamusata, sitesData.hamuzonGitHubIO, sitesData.wwwLinkSF5Si, sitesData.publicSites]
+      .flat()
+      .forEach(site => siteList.appendChild(safeCreateLinkItem(site)));
   }
 
-  if(window.fireworksControl){
-    const updateBrightness=()=>{
-      if(window.fireworksControl.manager){
-        const fwMgr=window.fireworksControl.manager;
-        const brightness=Math.min(1+fwMgr.fireworks.reduce((acc,fw)=>acc+fw.particles.reduce((a,p)=>a+p.alpha,0),0)/150,1.5);
+  if (window.fireworksControl) {
+    const updateBrightness = () => {
+      if (window.fireworksControl.manager) {
+        const fwMgr = window.fireworksControl.manager;
+        const brightness = Math.min(
+          1 + fwMgr.fireworks.reduce(
+            (acc, fw) => acc + fw.particles.reduce((a, p) => a + p.alpha, 0), 0
+          ) / 150, 1.5
+        );
         document.documentElement.style.setProperty("--firework-brightness", brightness);
       }
       requestAnimationFrame(updateBrightness);
@@ -226,8 +212,13 @@ document.addEventListener("DOMContentLoaded", ()=>{
   let fireworksOn = true;
   toggleBtn.addEventListener('click', () => {
     fireworksOn = !fireworksOn;
-    if(fireworksOn){ toggleBtn.textContent='花火ON'; window.fireworksControl.start(); }
-    else { toggleBtn.textContent='花火OFF'; window.fireworksControl.stop(); }
+    if (fireworksOn) {
+      toggleBtn.textContent = '花火ON';
+      window.fireworksControl.start();
+    } else {
+      toggleBtn.textContent = '花火OFF';
+      window.fireworksControl.stop();
+    }
   });
 })();
 </script>
