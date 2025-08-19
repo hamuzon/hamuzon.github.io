@@ -42,6 +42,7 @@ const sitesData = {
   ],
 
   wwwLinkSF5Si: [
+    { href: "https://link-s.f5.si/", text: "link-s.f5.si – ショートカットリンクサービス" },
     { href: "https://go.link-s.f5.si/", text: "go.link-s.f5.si – カスタムリンク版" },
     { href: "https://password-create.link-s.f5.si/", text: "Password Create" },
     { href: "https://password.link-s.f5.si/", text: "Password Service" },
