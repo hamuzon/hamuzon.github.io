@@ -16,7 +16,7 @@ const sitesData = {
     { href: "https://calendar.hamusata.f5.si", text: "🗓️カレンダー / calendar📅 - Hamusata / Hosted by GitHub", openInSameTab: true },
     { href: "https://todo.hamusata.f5.si", text: "📝 TODO lists ✏ - Hamusata / Hosted by GitHub", openInSameTab: true },
     { href: "https://url.hamusata.f5.si", text: "🔗Short link creation service🔗/ Local PC Service by Cloudflare Tunnel", openInSameTab: true },
-    { href: "https://link.hamusata.f5.si", text: "🔗Short link creation service🔗/ Hosted by Cloudflare Workers (Code privately hosted on GitHub)", openInSameTab: true },
+    { href: "https://link.hamusata.f5.si", text: "🔗Short link creation service🔗/ Hosted by Cloudflare Workers", openInSameTab: true },
     { href: "https://qr.hamusata.f5.si", text: "🔳QR 🔗- Hamusata / Hosted by GitHub", openInSameTab: true },
     { href: "http://omikuji.hamusata.f5.si", text: "🍀おみくじ🔮- Hamusata / Hosted by GitHub", openInSameTab: true },
     { href: "https://dice.hamusata.f5.si", text: "🎲サイコロ🎯 Hamusata / Hosted by GitHub", openInSameTab: true },
@@ -43,13 +43,13 @@ const sitesData = {
 
   wwwLinkSF5Si: [
     { href: "https://link-s.f5.si/", text: "link-s.f5.si – ショートカットリンクサービス" },
-    { href: "https://go.link-s.f5.si/", text: "go.link-s.f5.si – カスタムリンク版" },
-    { href: "https://password-create.link-s.f5.si/", text: "Password Create" },
-    { href: "https://password.link-s.f5.si/", text: "Password Service" },
-    { href: "https://pw.link-s.f5.si/", text: "PW Link Service" },
-    { href: "https://pw-pc.link-s.f5.si/", text: "PW PC Version" },
-    { href: "https://pw-sp.link-s.f5.si/", text: "PW SP Version" },
-    { href: "https://qr.link-s.f5.si/", text: "QR Code Generator" }
+    { href: "https://go.link-s.f5.si/", text: "go.link-s.f5.si – カスタムパス対応版" },
+    { href: "https://password-create.link-s.f5.si/", text: "API無しパスワード生成" },
+    { href: "https://password.link-s.f5.si/", text: "API版パスワード生成（リダイレクト無し）" },
+    { href: "https://pw.link-s.f5.si/", text: "APIパスワード生成（端末リダイレクト）" },
+    { href: "https://pw-pc.link-s.f5.si/", text: "APIパスワード生成（PC版リダイレクト先）" },
+    { href: "https://pw-sp.link-s.f5.si/", text: "APIパスワード生成（スマホ版リダイレクト先）" },
+    { href: "https://qr.link-s.f5.si/", text: "QRコード生成サービス" }
   ],
 
   publicSites: [
@@ -63,7 +63,7 @@ const sitesData = {
   ]
 };
 
-// <li>リンク生成関数（openInSameTab に対応）
+// リンク生成関数（openInSameTab に対応）
 function createLinkItem({ href, text, className, openInSameTab }) {
   const li = document.createElement("li");
   const a = document.createElement("a");
