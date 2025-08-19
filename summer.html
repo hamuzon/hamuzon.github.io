@@ -15,7 +15,7 @@ html, body {
   padding: 0;
   font-family: 'Inter', 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif;
   min-height: 100vh;
-  background: linear-gradient(to bottom, #ffcf91 0%, #a96bf8 100%);
+  background: linear-gradient(to bottom,#ffcf91 0%,#a96bf8 100%);
   color: #333;
   overflow-x: hidden;
   --firework-brightness: 1;
@@ -68,7 +68,7 @@ ul {
   padding: 0;
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1rem;
   list-style: none;
   position: relative;
@@ -142,15 +142,14 @@ footer a {
   background: rgba(0,0,0,0.7);
 }
 
-@media(max-width:480px) {
-  h1 a.tpww { font-size: 1.2rem; }
-  footer { font-size: 0.75rem; }
-  ul { grid-template-columns: 1fr !important; }
-  #fireworks-toggle { font-size: 0.85rem; padding: 0.4rem 0.8rem; }
+@media(max-width:480px){
+  h1 a.tpww{font-size:1.2rem;}
+  footer{font-size:0.75rem;}
+  ul{grid-template-columns:1fr !important;}
+  #fireworks-toggle{font-size:0.85rem;padding:0.4rem 0.8rem;}
 }
 </style>
 </head>
-
 <body>
 <canvas id="fireworksCanvas"></canvas>
 <button id="fireworks-toggle">花火ON</button>
@@ -169,27 +168,55 @@ footer a {
 <script src="fireworks.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+  const currentHost = window.location.hostname;
   const siteList = document.getElementById("site-list");
   const publicSiteList = document.getElementById("public-site-list");
   const footer = document.getElementById("main-footer");
 
-  const safeCreateLinkItem = ({href, text, className}) => {
+  const safeCreateLinkItem = ({ href, text, className }) => {
     const li = document.createElement("li");
     const a = document.createElement("a");
     a.href = href;
     a.textContent = text || href;
     if (className) a.className = className;
-    a.target = "_self";　
+    a.target = "_self";
     li.appendChild(a);
     return li;
   };
 
-  if (typeof sitesData !== "undefined") {
-    [sitesData.homeHamusata, sitesData.hamuzonGitHubIO, sitesData.wwwLinkSF5Si, sitesData.publicSites]
-      .flat()
-      .forEach(site => siteList.appendChild(safeCreateLinkItem(site)));
+  const baseYear = 2025;
+  const currentYear = new Date().getFullYear();
+  const yearText = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
+
+  let sitesToShow = [];
+  let footerHTML = "";
+
+  if (currentHost === "home.hamusata.f5.si") {
+    sitesToShow = sitesData.homeHamusata;
+    footerHTML = `&copy; ${yearText} <a href="https://home.hamusata.f5.si" target="_self">@hamusata</a>`;
+  } else if (currentHost === "hamuzon.github.io") {
+    sitesToShow = sitesData.hamuzonGitHubIO;
+    footerHTML = `&copy; ${yearText} <a href="https://github.com/Hamuzon" target="_self">@hamuzon</a>`;
+  } else if (currentHost === "www.link-s.f5.si") {
+    sitesToShow = sitesData.wwwLinkSF5Si;
+    footerHTML = `&copy; ${yearText} <a href="https://home.hamusata.f5.si" target="_self">@hamusata</a>`;
+  } else {
+    sitesToShow = sitesData.publicSites;
+    footerHTML = `このサイトは公式ではなく、一部の情報は異なる場合があります。<br>This version may differ from the official.`;
   }
 
+  if (sitesToShow.length) {
+    siteList.innerHTML = "";
+    publicSiteList.innerHTML = "";
+    const targetList = (currentHost === "public") ? publicSiteList : siteList;
+    sitesToShow.forEach(site => targetList.appendChild(safeCreateLinkItem(site)));
+    siteList.style.display = (currentHost === "public") ? "none" : "grid";
+    publicSiteList.style.display = (currentHost === "public") ? "grid" : "none";
+  }
+
+  footer.innerHTML = `<span style="display:block;padding:0.5rem;color:#f0f0f0;">${footerHTML}</span>`;
+
+  // 花火の明るさ更新
   if (window.fireworksControl) {
     const updateBrightness = () => {
       if (window.fireworksControl.manager) {
@@ -197,7 +224,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const brightness = Math.min(
           1 + fwMgr.fireworks.reduce(
             (acc, fw) => acc + fw.particles.reduce((a, p) => a + p.alpha, 0), 0
-          ) / 150, 1.5
+          ) / 150,
+          1.5
         );
         document.documentElement.style.setProperty("--firework-brightness", brightness);
       }
@@ -207,6 +235,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+// 花火ON/OFF
 (() => {
   const toggleBtn = document.getElementById('fireworks-toggle');
   let fireworksOn = true;
