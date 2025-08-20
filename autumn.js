@@ -61,6 +61,9 @@
         this.onGround = false;
         this.life = 0;
         this.opacity = 1;
+
+        // フェード速度も少しランダム
+        this.fadeSpeed = 0.01 + Math.random()*0.03;
       }
       update(){
         if(!this.onGround){
@@ -86,13 +89,14 @@
               groundMap[idx] -= hillHeight*(1-Math.abs(offset)/hillWidth);
             }
 
-            this.life = 200 + Math.random()*300;
+            // 葉っぱが消えるまでの時間: 5〜30秒
+            this.life = 300 + Math.random()*1500; // 300〜1800フレーム
             this.opacity = 1;
           }
         } else {
           this.life--;
           if(this.life <= 0){
-            this.opacity -= 0.02;
+            this.opacity -= this.fadeSpeed;
             if(this.opacity <= 0) this.reset();
           }
         }
