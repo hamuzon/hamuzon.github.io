@@ -1,7 +1,9 @@
 # hamuzon.github.io
 [hamuzon.github.io](https://hamuzon.github.io) のホームページ
 
-[home.hamusata.f5.si](https://home.hamusata.f5.si/) にも使用
+[home.hamusata.f5.si](https://home.hamusata.f5.si/) と
+
+[www.link-s.f5.si](https://www.link-s.f5.si/)　も使用
 
 Homepage link listsです
 
