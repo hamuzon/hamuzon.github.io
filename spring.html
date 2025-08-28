@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Website List - Spring</title>
+<link rel="icon" href="https://home.hamusata.f5.si/icon.svg" type="image/svg+xml" />
+
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(to bottom,#a3d9ff 0%,#ffe1f0 100%);
+  color: #333;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+h1 a.tpww {
+  display: block;
+  margin: 0 auto;
+  max-width: 300px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(12px);
+  color: #333;
+  text-decoration: none;
+  padding: 1rem;
+  border-radius: 16px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  border: 1px solid rgba(255,255,255,0.25);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  text-align: center;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+h1 a.tpww:hover {
+  background: rgba(255,255,255,0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  list-style: none;
+  position: relative;
+  z-index: 2;
+}
+
+li a {
+  display: block;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(12px);
+  color: #333;
+  text-decoration: none;
+  padding: 1rem;
+  border-radius: 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 1px solid rgba(255,255,255,0.25);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  word-break: break-word;
+}
+
+li a:hover {
+  background: rgba(255,255,255,0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  color: #333;
+  font-size: 0.85rem;
+  position: relative;
+  z-index: 2;
+}
+
+footer a {
+  color: #c85a98;
+  text-decoration: underline;
+}
+
+#springCanvas {
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:1;
+}
+
+#spring-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  background: rgba(255,255,255,0.5);
+  color: #c85a98;
+  border: none;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#spring-toggle:hover {
+  background: rgba(255,255,255,0.7);
+}
+
+@media(max-width:480px){
+  h1 a.tpww{font-size:1.2rem;}
+  footer{font-size:0.75rem;}
+  ul{grid-template-columns:1fr !important;}
+  #spring-toggle{font-size:0.85rem;padding:0.4rem 0.8rem;}
+}
+</style>
+</head>
+<body>
+
+<canvas id="springCanvas"></canvas>
+<button id="spring-toggle">桜ON</button>
+
+<div class="container">
+  <h1><a href="./Summer" class="tpww">Website List</a></h1>
+  <ul id="site-list"></ul>
+  <ul id="public-site-list"></ul>
+</div>
+
+<footer id="main-footer">
+  <span id="footer-hamusata">&copy; <span id="year-hamusata"></span> <a href="https://home.hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a></span>
+  <span id="footer-hamuzon" style="display:none;">&copy; <span id="year-hamuzon"></span> <a href="https://github.com/Hamuzon" target="_blank" rel="noopener noreferrer">@hamuzon</a></span>
+</footer>
+
+<script src="spring.js"></script>
+<script src="sites.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const host = window.location.hostname;
+  const siteList = document.getElementById("site-list");
+  const publicList = document.getElementById("public-site-list");
+  const footer = document.getElementById("main-footer");
+
+  function createLinkItem({ href, text, className, openInSameTab }) {
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.href = href;
+    a.textContent = text;
+    a.target = openInSameTab ? "_self" : "_blank";
+    a.rel = "noopener noreferrer";
+    if (className) a.className = className;
+    li.appendChild(a);
+    return li;
+  }
+
+  if(host === "home.hamusata.f5.si"){
+    sitesData.homeHamusata.forEach(site => siteList.appendChild(createLinkItem(site)));
+    siteList.style.display="grid"; publicList.style.display="none";
+    document.getElementById("footer-hamusata").style.display="inline";
+    document.getElementById("footer-hamuzon").style.display="none";
+  } else if(host === "www.link-s.f5.si"){
+    sitesData.wwwLinkSF5Si.forEach(site => siteList.appendChild(createLinkItem(site)));
+    siteList.style.display="grid"; publicList.style.display="none";
+  } else if(host === "hamuzon.github.io"){
+    sitesData.hamuzonGitHubIO.forEach(site => siteList.appendChild(createLinkItem(site)));
+    siteList.style.display="grid"; publicList.style.display="none";
+    document.getElementById("footer-hamusata").style.display="none";
+    document.getElementById("footer-hamuzon").style.display="inline";
+  } else {
+    [...sitesData.publicSites, ...(sitesData.spring||[])].forEach(site => publicList.appendChild(createLinkItem(site)));
+    siteList.style.display="none"; publicList.style.display="grid";
+    footer.innerHTML = `<span style="display:block; padding:0.5rem;">このサイトは公式ではなく、一部の情報は異なる場合があります。</span>`;
+  }
+
+  const baseYear = 2025;
+  const currentYear = new Date().getFullYear();
+  const yearDisplay = currentYear>baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
+  document.getElementById("year-hamusata").textContent = yearDisplay;
+  document.getElementById("year-hamuzon").textContent = yearDisplay;
+
+  const toggleBtn = document.getElementById('spring-toggle');
+  let springOn = true;
+  function updateSpringDisplay(){
+    if(window.springControl){
+      springOn ? window.springControl.show() : window.springControl.hide();
+      toggleBtn.textContent = springOn ? '桜ON' : '桜OFF';
+    }
+  }
+  toggleBtn.addEventListener('click', ()=>{
+    springOn = !springOn;
+    updateSpringDisplay();
+  });
+  window.addEventListener('load', ()=>{ springOn=true; updateSpringDisplay(); });
+});
+</script>
+
+</body>
+</html>
