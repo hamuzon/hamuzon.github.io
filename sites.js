@@ -2,8 +2,6 @@ const sitesData = {
   homeHamusata: [
     { href: "https://home.hamusata.f5.si/", text: "Hamusata-Website-List", openInSameTab: true },
     { href: "https://hamusata.f5.si/", text: "Hamusata-home-Page", openInSameTab: true },
-    { href: "https://YouTube.hamusata.f5.si", text: "YouTube / Local PC Service by Cloudflare Tunnel", openInSameTab: true },
-    { href: "https://scratch-user-info.hamusata.f5.si", text: "Scratch User & Project Info / Local PC Service by Cloudflare Tunnel", openInSameTab: true },
     { href: "https://scratch.hamusata.f5.si/", text: "Scratch User & Project Info / Run on Netlify, stored on GitHub.", openInSameTab: true },
     { href: "https://time.hamusata.f5.si", text: "Time Zone / Local PC Service by Cloudflare Tunnel", openInSameTab: true },
     { href: "https://time-zone.hamusata.f5.si", text: "Time Zone / Hosted by GitHub", openInSameTab: true },
@@ -63,7 +61,7 @@ const sitesData = {
   ]
 };
 
-// リンク生成関数（openInSameTab に対応）
+// リンク系関数
 function createLinkItem({ href, text, className, openInSameTab }) {
   const li = document.createElement("li");
   const a = document.createElement("a");
