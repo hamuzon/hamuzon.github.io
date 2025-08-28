@@ -21,6 +21,7 @@
     resize();
 
     const groundMap = new Array(Math.ceil(cw)).fill(ch);
+    const groundDecay = 0.02;
 
     const snowTypes = [
       { shape: 'circle', sizeRange: [2,6] },
@@ -44,6 +45,7 @@
         this.onGround = false;
         this.life = 0;
         this.fadeSpeed = 0.01 + Math.random()*0.02;
+        this.willAccumulate = Math.random() < 0.6;
       }
       update(){
         if(!this.onGround){
@@ -57,24 +59,29 @@
           const ix = Math.floor(this.x);
           const groundY = groundMap[ix]-this.size/2;
           if(this.y >= groundY){
-            this.y = groundY;
-            this.speedX = 0; this.speedY = 0; this.rotationSpeed = 0;
-            this.onGround = true;
+            if(this.willAccumulate){
+              this.y = groundY;
+              this.speedX = 0; this.speedY = 0; this.rotationSpeed = 0;
+              this.onGround = true;
 
-            const hillWidth = Math.floor(Math.random()*6+4);
-            const hillHeight = Math.random()*2+1;
-            for(let offset=-hillWidth; offset<=hillWidth; offset++){
-              const idx = Math.min(Math.max(ix+offset,0),cw-1);
-              groundMap[idx] -= hillHeight*(1-Math.abs(offset)/hillWidth);
+              const hillWidth = Math.floor(Math.random()*6+4);
+              const hillHeight = Math.random()*2+1;
+              for(let offset=-hillWidth; offset<=hillWidth; offset++){
+                const idx = Math.min(Math.max(ix+offset,0),cw-1);
+                groundMap[idx] -= hillHeight*(1-Math.abs(offset)/hillWidth);
+              }
+
+              // 雪オブジェクト追加
+              if(Math.random()<0.03){
+                snowObjects.push(new SnowObject(this.x, this.y));
+              }
+
+              this.life = 300 + Math.random()*1500;
+              this.opacity = 1;
+            } else {
+              this.opacity -= this.fadeSpeed;
+              if(this.opacity<=0) this.reset();
             }
-
-            // ランダムオブジェクト生成
-            if(Math.random()<0.03){
-              snowObjects.push(new SnowObject(this.x, this.y));
-            }
-
-            this.life = 300 + Math.random()*1500;
-            this.opacity = 1;
           }
         } else {
           this.life--;
@@ -92,25 +99,21 @@
         ctx.fillStyle = '#fff';
 
         if(this.shape==='circle'){
-          ctx.beginPath();
-          ctx.arc(0,0,this.size/2,0,Math.PI*2);
-          ctx.fill();
+          ctx.beginPath(); ctx.arc(0,0,this.size/2,0,Math.PI*2); ctx.fill();
         } else if(this.shape==='hex'){
           ctx.beginPath();
           for(let i=0;i<6;i++){
-            const angle = Math.PI/3*i;
+            const angle=Math.PI/3*i;
             ctx.lineTo(Math.cos(angle)*this.size, Math.sin(angle)*this.size);
           }
-          ctx.closePath();
-          ctx.fill();
+          ctx.closePath(); ctx.fill();
         } else if(this.shape==='diamond'){
           ctx.beginPath();
           ctx.moveTo(0,-this.size/2);
           ctx.lineTo(this.size/2,0);
           ctx.lineTo(0,this.size/2);
           ctx.lineTo(-this.size/2,0);
-          ctx.closePath();
-          ctx.fill();
+          ctx.closePath(); ctx.fill();
         }
 
         ctx.restore();
@@ -118,26 +121,25 @@
       }
     }
 
-    // 雪だるま＋冬オブジェクト
     class SnowObject {
       constructor(x, y){
-        this.x = x;
-        this.y = y;
-        this.life = 200 + Math.random()*200;
+        this.x=x; this.y=y;
+        this.life = 400 + Math.random()*400; // フェードアウトまでのフレーム
         this.opacity = 1;
-
-        // タイプ選択
-        const types = ['snowman','tree','bunny','house'];
+        const types=['snowman','tree','bunny','house'];
         this.type = types[Math.floor(Math.random()*types.length)];
         this.size = Math.random()*10 + 10;
       }
-      update(){ this.life--; this.opacity = this.life>0 ? this.life/400 : 0; }
+      update(){
+        this.life--;
+        this.opacity = Math.max(this.life/400,0);
+      }
       draw(ctx){
         ctx.save();
-        ctx.translate(this.x, this.y);
+        ctx.translate(this.x,this.y);
         ctx.globalAlpha = this.opacity;
-        ctx.fillStyle = '#fff';
-        ctx.strokeStyle = '#ccc';
+        ctx.fillStyle='#fff';
+        ctx.strokeStyle='#ccc';
 
         if(this.type==='snowman'){
           ctx.beginPath();
@@ -159,7 +161,7 @@
           ctx.arc(this.size*0.3,-this.size*0.5,this.size*0.15,0,Math.PI*2);
           ctx.fill();
         } else if(this.type==='house'){
-          ctx.fillRect(-this.size*0.5, -this.size*0.5, this.size, this.size);
+          ctx.fillRect(-this.size*0.5,-this.size*0.5,this.size,this.size);
           ctx.beginPath();
           ctx.moveTo(-this.size*0.55,-this.size*0.5);
           ctx.lineTo(0,-this.size);
@@ -179,24 +181,29 @@
 
     function animate(){
       ctx.clearRect(0,0,cw,ch);
-      flakes.forEach(f => { f.update(); f.draw(ctx); });
-      snowObjects.forEach(o => { o.update(); o.draw(ctx); });
+
+      // 雪山時間で消える
+      for(let i=0;i<groundMap.length;i++){
+        groundMap[i] += groundDecay;
+        if(groundMap[i]>ch) groundMap[i]=ch;
+      }
+
+      flakes.forEach(f=>{f.update();f.draw(ctx);});
+      snowObjects.forEach(o=>{o.update();o.draw(ctx);});
+
       requestAnimationFrame(animate);
     }
     animate();
 
-    window.winterControl = {
-      show: ()=>canvas.style.display='block',
-      hide: ()=>canvas.style.display='none'
-    };
-    canvas.style.display = 'block';
+    window.winterControl={show:()=>canvas.style.display='block',hide:()=>canvas.style.display='none'};
+    canvas.style.display='block';
 
-    const toggleBtn = document.getElementById('winter-toggle');
-    let winterOn = true;
-    toggleBtn.addEventListener('click', ()=>{
-      winterOn = !winterOn;
-      toggleBtn.textContent = winterOn ? '雪ON' : '雪OFF';
-      winterOn ? window.winterControl.show() : window.winterControl.hide();
+    const toggleBtn=document.getElementById('winter-toggle');
+    let winterOn=true;
+    toggleBtn.addEventListener('click',()=>{
+      winterOn=!winterOn;
+      toggleBtn.textContent=winterOn?'雪ON':'雪OFF';
+      winterOn?window.winterControl.show():window.winterControl.hide();
     });
   });
 })();
