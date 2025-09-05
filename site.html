@@ -11,27 +11,30 @@
 
   <!-- Material 3 Expressive風 CSS -->
   <style>
-    /* Material 3カラー変数 */
+    /* Material 3 Expressive カラー & 背景変数 */
     :root {
-      --md-sys-color-primary: #079370;
+      --md-sys-color-primary: #079370;          /* 緑系メイン */
       --md-sys-color-on-primary: #ffffff;
-      --md-sys-color-secondary: #4cafc9;
-      --md-sys-color-surface: #1f1f1f;
-      --md-sys-color-on-surface: #fff;
-      --md-sys-color-background: linear-gradient(135deg, #079370, #4cafc9, #a2f3d1);
-      --md-sys-shadow-elevation1: 0 1px 3px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.14), 0 2px 1px rgba(0,0,0,0.12);
-      --md-sys-shadow-elevation3: 0 6px 10px rgba(0,0,0,0.2), 0 1px 18px rgba(0,0,0,0.14), 0 3px 5px rgba(0,0,0,0.12);
+      --md-sys-color-secondary: #4cafc9;        /* アクセント */
+      --md-sys-color-on-secondary: #ffffff;
+      --md-sys-color-surface: #1f1f1f;          /* カード背景 */
+      --md-sys-color-on-surface: #fff;          /* カード文字色 */
+      --md-sys-color-background: linear-gradient(135deg,#079370,#4cafc9,#a2f3d1); /* 背景グラデ */
+      --md-sys-shadow-elevation1: 0 1px 3px rgba(0,0,0,0.2),0 1px 2px rgba(0,0,0,0.14),0 2px 1px rgba(0,0,0,0.12);
+      --md-sys-shadow-elevation3: 0 6px 10px rgba(0,0,0,0.2),0 1px 18px rgba(0,0,0,0.14),0 3px 5px rgba(0,0,0,0.12);
     }
 
+    /* リセット */
     *, *::before, *::after { box-sizing: border-box; }
     html, body {
       margin: 0; padding: 0;
       font-family: 'Potta One', 'Inter', sans-serif;
-      background: var(--md-sys-color-background);
       min-height: 100vh;
+      background: var(--md-sys-color-background);
       color: var(--md-sys-color-on-surface);
     }
 
+    /* コンテナ */
     .container {
       width: 90%;
       max-width: 1200px;
@@ -39,6 +42,7 @@
       padding: 2rem 1rem;
     }
 
+    /* タイトル */
     h1 {
       text-align: center;
       font-size: 2.2rem;
@@ -53,9 +57,9 @@
       text-decoration: none;
       cursor: pointer;
     }
-
     h1 a.tpww:hover { text-decoration: underline; }
 
+    /* リストグリッド */
     ul {
       padding: 0;
       margin: 0;
@@ -64,9 +68,9 @@
       gap: 1rem;
       list-style: none;
     }
-
     li { margin: 0; }
 
+    /* カードリンク */
     a {
       display: block;
       background-color: var(--md-sys-color-surface);
@@ -81,13 +85,13 @@
       word-break: break-word;
       backdrop-filter: blur(8px);
     }
-
     a:hover {
       transform: translateY(-4px) scale(1.02);
       box-shadow: var(--md-sys-shadow-elevation3);
       background-color: rgba(30,30,30,0.25);
     }
 
+    /* フッター */
     footer {
       text-align: center;
       padding: 1.5rem;
@@ -95,7 +99,6 @@
       font-size: 0.85rem;
       margin-top: 2rem;
     }
-
     footer a { color: #fff8dd; text-decoration: underline; }
 
     #public-site-list { display: none; }
@@ -109,9 +112,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>
-      <a href="/spring" class="tpww">Website List</a>
-    </h1>
+    <h1><a href="/spring" class="tpww">Website List</a></h1>
     <ul id="site-list"></ul>
     <ul id="public-site-list"></ul>
   </div>
@@ -123,9 +124,9 @@
     <span id="footer-hamuzon" style="display: none;">
       &copy; <span id="year-hamuzon"></span> <a href="https://github.com/Hamuzon" target="_blank" rel="noopener noreferrer">@hamuzon</a>
     </span>
-    <br />
+    <br>
     <span id="default-message">
-      ※一部のサイトは現在アクセスできない場合があります。<br />
+      ※一部のサイトは現在アクセスできない場合があります。<br>
       Some sites may be temporarily unavailable.
     </span>
   </footer>
@@ -179,7 +180,7 @@
         publicSiteList.style.display = "grid";
         footer.innerHTML = `
           <span style="display: block; padding: 0.5rem;">
-            このサイトは公式ではなく、一部の情報は異なる場合があります。<br />
+            このサイトは公式ではなく、一部の情報は異なる場合があります。<br>
             This version may differ from the original official site.
           </span>
         `;
