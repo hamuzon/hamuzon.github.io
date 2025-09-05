@@ -1,40 +1,61 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Website List</title>
-  <meta name="description" content="homepageのリンクListsです" />
-  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Potta+One&display=swap" rel="stylesheet">
+
+  <!-- Material 3 Expressive風 CSS -->
   <style>
+    /* Material 3カラー変数 */
+    :root {
+      --md-sys-color-primary: #079370;
+      --md-sys-color-on-primary: #ffffff;
+      --md-sys-color-secondary: #4cafc9;
+      --md-sys-color-surface: #1f1f1f;
+      --md-sys-color-on-surface: #fff;
+      --md-sys-color-background: linear-gradient(135deg, #079370, #4cafc9, #a2f3d1);
+      --md-sys-shadow-elevation1: 0 1px 3px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.14), 0 2px 1px rgba(0,0,0,0.12);
+      --md-sys-shadow-elevation3: 0 6px 10px rgba(0,0,0,0.2), 0 1px 18px rgba(0,0,0,0.14), 0 3px 5px rgba(0,0,0,0.12);
+    }
+
     *, *::before, *::after { box-sizing: border-box; }
     html, body {
       margin: 0; padding: 0;
-      font-family: 'Potta One', 'Inter', 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif;
-      background: linear-gradient(135deg, #079370 0%, #4cafc9 50%, #a2f3d1 100%);
+      font-family: 'Potta One', 'Inter', sans-serif;
+      background: var(--md-sys-color-background);
       min-height: 100vh;
-      color: #222;
+      color: var(--md-sys-color-on-surface);
     }
+
     .container {
       width: 90%;
       max-width: 1200px;
       margin: 0 auto;
       padding: 2rem 1rem;
     }
+
     h1 {
       text-align: center;
       font-size: 2.2rem;
-      color: #ffffff;
+      color: var(--md-sys-color-on-primary);
       text-shadow: 0 0 12px rgba(0,0,0,0.6);
       margin-bottom: 2.5rem;
       letter-spacing: 1px;
     }
+
     h1 a.tpww {
-      color: #fffae5;
+      color: #fff8dd;
       text-decoration: none;
       cursor: pointer;
     }
+
     h1 a.tpww:hover { text-decoration: underline; }
+
     ul {
       padding: 0;
       margin: 0;
@@ -43,37 +64,42 @@
       gap: 1rem;
       list-style: none;
     }
+
     li { margin: 0; }
+
     a {
       display: block;
-      background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      color: #fff;
+      background-color: var(--md-sys-color-surface);
+      color: var(--md-sys-color-on-surface);
       text-decoration: none;
       padding: 1rem;
-      border-radius: 18px;
+      border-radius: 12px;
       font-size: 1rem;
       font-weight: 600;
-      border: 1px solid rgba(255,255,255,0.2);
-      box-shadow: 0 6px 14px rgba(0,0,0,0.35);
-      transition: background 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
+      box-shadow: var(--md-sys-shadow-elevation1);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
       word-break: break-word;
+      backdrop-filter: blur(8px);
     }
+
     a:hover {
-      background: rgba(255,255,255,0.25);
       transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+      box-shadow: var(--md-sys-shadow-elevation3);
+      background-color: rgba(30,30,30,0.25);
     }
+
     footer {
       text-align: center;
       padding: 1.5rem;
-      color: #f9f9f9;
+      color: var(--md-sys-color-on-surface);
       font-size: 0.85rem;
       margin-top: 2rem;
     }
+
     footer a { color: #fff8dd; text-decoration: underline; }
+
     #public-site-list { display: none; }
+
     @media (max-width:480px) {
       h1 { font-size: 1.6rem; }
       footer { font-size: 0.75rem; }
@@ -117,16 +143,11 @@
       function createLinkItem({ href, text, className, openInSameTab }) {
         const li = document.createElement("li");
         const a = document.createElement("a");
-
-        if ((href === "https://home.hamusata.f5.si/" || href === "./") && text.includes("Website-List")) {
-          a.href = "/";
-        } else { a.href = href; }
-
+        a.href = href;
         a.textContent = text;
         a.target = openInSameTab ? "_self" : "_blank";
         a.rel = "noopener noreferrer";
         if (className) a.className = className;
-
         li.appendChild(a);
         return li;
       }
