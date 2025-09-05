@@ -14,11 +14,11 @@
   --md-sys-color-on-secondary: #ffffff;
   --md-sys-color-surface: #1f1f1f;
   --md-sys-color-on-surface: #ffffff;
-  --md-sys-color-background: #121212;
+  --md-sys-color-background-start: #0b3d2e;
+  --md-sys-color-background-end: #079370;
   --md-sys-shadow-elevation1: 0 1px 3px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.14), 0 2px 1px rgba(0,0,0,0.12);
   --md-sys-shadow-elevation2: 0 3px 6px rgba(0,0,0,0.2), 0 2px 4px rgba(0,0,0,0.14), 0 1px 5px rgba(0,0,0,0.12);
   --md-sys-shadow-elevation3: 0 6px 10px rgba(0,0,0,0.2), 0 1px 18px rgba(0,0,0,0.14), 0 3px 5px rgba(0,0,0,0.12);
-  --md-sys-background-gradient: linear-gradient(135deg, #079370 0%, #07d193 50%, #4cafc9 100%);
 }
 
 *, *::before, *::after {
@@ -28,9 +28,9 @@
 }
 
 html, body {
-  font-family: 'Potta One', 'Inter', sans-serif;
+  font-family: 'Potta One', sans-serif;
   min-height: 100vh;
-  background: var(--md-sys-background-gradient);
+  background: linear-gradient(160deg, var(--md-sys-color-background-start), var(--md-sys-color-background-end));
   color: var(--md-sys-color-on-surface);
 }
 
@@ -54,9 +54,7 @@ h1 a.tpww {
   text-decoration: none;
 }
 
-h1 a.tpww:hover {
-  text-decoration: underline;
-}
+h1 a.tpww:hover { text-decoration: underline; }
 
 ul {
   display: grid;
@@ -73,7 +71,7 @@ a {
   padding: 1.5rem;
   border-radius: 16px;
   font-weight: 600;
-  box-shadow: var(--md-sys-shadow-elevation1);
+  box-shadow: var(--md-sys-shadow-elevation2);
   transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
   word-break: break-word;
 }
