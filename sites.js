@@ -2,7 +2,7 @@ const sitesData = {
   homeHamusata: [
     { href: "https://home.hamusata.f5.si/", text: "Hamusata-Website-List", openInSameTab: true },
     { href: "https://hamusata.f5.si/", text: "Hamusata-home-Page", openInSameTab: true },
-    { href: "https://google.hamusata.f5.si/", text: "Hamusata-home-Page^Google-site-VERSION", openInSameTab: true },
+    { href: "https://hamusata.hamusata.f5.si/", text: "Hamusata-home-Page^Google-site-VERSION", openInSameTab: true },
     { href: "https://scratch.hamusata.f5.si/", text: "Scratch User & Project Info / Run on Netlify, stored on GitHub.", openInSameTab: true },
     { href: "https://time.hamusata.f5.si", text: "Time Zone / Local PC Service by Cloudflare Tunnel", openInSameTab: true },
     { href: "https://time-zone.hamusata.f5.si", text: "Time Zone / Hosted by GitHub", openInSameTab: true },
