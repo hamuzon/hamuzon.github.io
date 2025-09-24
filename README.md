@@ -3,9 +3,9 @@
 
 [home.hamusata.f5.si](https://home.hamusata.f5.si/) と
 
-[www.link-s.f5.si](https://www.link-s.f5.si/)　も使用
+[www.link-s.f5.si](https://www.link-s.f5.si/)　と
 
-[hamuzon-jp.f5.si](https://hamuzon-jp.f5.si/)
+[hamuzon-jp.f5.si](https://hamuzon-jp.f5.si/) も成功
 
 Homepage link listsです
 
