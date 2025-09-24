@@ -5,6 +5,8 @@
 
 [www.link-s.f5.si](https://www.link-s.f5.si/)　も使用
 
+[hamuzon-jp.f5.si](https://hamuzon-jp.f5.si/)
+
 Homepage link listsです
 
 link先の作品も見て行ってください
