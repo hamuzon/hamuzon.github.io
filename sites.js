@@ -20,6 +20,8 @@ const sitesData = {
     { href: "http://omikuji.hamusata.f5.si", text: "🍀おみくじ🔮- Hamusata / Hosted by GitHub", openInSameTab: true },
     { href: "https://dice.hamusata.f5.si", text: "🎲サイコロ🎯 Hamusata / Hosted by GitHub", openInSameTab: true },
     { href: "https://pixel-art.hamusata.f5.si/", text: "🎨 Pixel Drawing 🖌️ Hamusata / Hosted by GitHub", openInSameTab: true },
+    { href: "https://editor.hamusata.f5.si/", text: "📝 ファイルエディター / File Editor Hamusata / Hosted by GitHub", openInSameTab: true },
+
   ],
 
   hamuzonGitHubIO: [
@@ -38,6 +40,7 @@ const sitesData = {
     { href: "https://hamuzon.github.io/dice/", text: "🎲サイコロ🎯  - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/Short-Link/", text: "🔗Short link creation service🔗  - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/pixel-art/", text: "🎨 Pixel Drawing 🖌️ -Hamuzon", openInSameTab: true },
+    { href: "https://hamuzon.github.io/editor/", text: "📝 ファイルエディター / File Editor　-Hamuzon", openInSameTab: true },
   ],
 
   wwwLinkSF5Si: [
