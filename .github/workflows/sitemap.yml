@@ -1,0 +1,55 @@
+name: Update Sitemap
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-sitemap:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: true
+          clean: true
+          fetch-depth: 1
+
+      - name: Copy sitemap.xml if exists
+        run: |
+          REPOS=(
+            "."  
+            "./another-repo"  
+          )
+
+          for repo in "${REPOS[@]}"; do
+            SRC="$repo/public/hamuzon.github.io-sitemap.xml"
+            DST="$repo/sitemap.xml"
+            if [ -f "$SRC" ]; then
+              echo "Copying $SRC to $DST"
+              cp "$SRC" "$DST"
+            else
+              echo "Skipping $repo: $SRC not found"
+            fi
+          done
+
+      - name: Configure Git
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+      - name: Commit changes
+        run: |
+          DATE=$(TZ=Asia/Tokyo date +"%Y-%m-%d %H:%M:%S.%N")
+          DATE_MS="${DATE:0:23}"
+          
+          git add sitemap.xml
+          git commit -m "Update sitemap.xml ($DATE_MS)" || echo "No changes to commit"
+
+      - name: Push changes
+        run: git push
