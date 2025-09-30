@@ -5,7 +5,8 @@
 
 [www.link-s.f5.si](https://www.link-s.f5.si/)　と
 
-[hamuzon-jp.f5.si](https://hamuzon-jp.f5.si/) も成功
+使用し
+[hamuzon-jp.f5.si](https://hamuzon-jp.f5.si/) が参考に別リポジトリで使用し
 
 Homepage link listsです
 
