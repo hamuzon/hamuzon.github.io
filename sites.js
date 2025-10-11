@@ -22,11 +22,7 @@ const sitesData = {
     { href: "https://pixel-art.hamusata.f5.si/", text: "🎨 Pixel Drawing 🖌️ Hamusata / Hosted by GitHub", openInSameTab: true },
     { href: "https://editor.hamusata.f5.si/", text: "📝 ファイルエディター / File Editor Hamusata / Hosted by GitHub", openInSameTab: true },
     { href: "http://discord-tools.hamusata.f5.si/", text: "📱 Discord Tools 🖥️ / Hamusata / Hosted by GitHub", openInSameTab: true },
-  {
-  href: "https://world.hamusata.f5.si/",
-  text: "🌍️ アクセス位置共有 🌐 / (世界のどこからをリアルタイムで表示) / Hosted by Cloudflare Workers",
-  openInSameTab: true
-},
+    { href: "https://world.hamusata.f5.si/", text: "🌍️ アクセス位置共有 🌐 / (世界のどこからをリアルタイムで表示) / Hosted by Cloudflare Workers", openInSameTab: true },
 ],
 
   hamuzonGitHubIO: [
