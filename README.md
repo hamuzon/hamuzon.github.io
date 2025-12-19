@@ -1,14 +1,26 @@
-# hamuzon.github.io
-[hamuzon.github.io](https://hamuzon.github.io) のホームページ
+# ホームページリンク / Homepage Links
 
-[home.hamusata.f5.si](https://home.hamusata.f5.si/) と
+## GitHub 版ホームページ / GitHub Homepage
+- [hamuzon.github.io](https://hamuzon.github.io)  
+  Hamuzon の GitHub ページ版ホームページです。  
+  The GitHub Pages version of Hamuzon's homepage.
 
-[www.link-s.f5.si](https://www.link-s.f5.si/)　と
+## ポートフォリオサイト / Portfolio Site
+- [home.hamusata.f5.si](https://home.hamusata.f5.si)  
+  hamusata.f5.si のポートフォリオサイトです。  
+  A portfolio site on hamusata.f5.si
 
-使用し
+## ツールまとめサイト / Tools Summary Site
+- [www.link-s.f5.si](https://www.link-s.f5.si)  
+  いろいろなツールをまとめたサイトです。  
+  A site summarizing various tools.
 
-[hamuzon-jp.f5.si](https://hamuzon-jp.f5.si/) が参考に別リポジトリで使用し
+## 参考用 / Reference / Separate Repository
+- [hamuzon-jp.f5.si](https://hamuzon-jp.f5.si)  
+  参考用に別リポジトリで作られたサイトです。  
+  Created in a separate repository for reference.
 
-Homepage link listsです
+---
 
-link先の作品も見て行ってください
+リンク先の作品もぜひご覧ください。  
+Please feel free to explore the works linked from these sites.
