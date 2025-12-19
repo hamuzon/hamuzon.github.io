@@ -1,21 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://hamuzon.github.io/</loc></url>
-  <url><loc>https://hamuzon.github.io/Time-Zone_app/</loc></url>
-  <url><loc>https://hamuzon.github.io/expo2025-counter/</loc></url>
-  <url><loc>https://hamuzon.github.io/binary-decimal-converter/</loc></url>
-  <url><loc>https://hamuzon.github.io/Device-info/</loc></url>
-  <url><loc>https://hamuzon.github.io/text/</loc></url>
-  <url><loc>https://hamuzon.github.io/text-legacy/</loc></url>
-  <url><loc>https://hamuzon.github.io/Calculator/</loc></url>
-  <url><loc>https://hamuzon.github.io/password/</loc></url>
-  <url><loc>https://hamuzon.github.io/calendar/</loc></url>
-  <url><loc>https://hamuzon.github.io/todo/</loc></url>
-  <url><loc>https://hamuzon.github.io/QR/</loc></url>
-  <url><loc>https://hamuzon.github.io/omikuji/</loc></url>
-  <url><loc>https://hamuzon.github.io/dice/</loc></url>
-  <url><loc>https://hamuzon.github.io/Short-Link/</loc></url>
-  <url><loc>https://hamuzon.github.io/pixel-art/</loc></url>
-  <url><loc>https://hamuzon.github.io/editor/</loc></url>
-  <url><loc>https://hamuzon.github.io/discord-tools/</loc></url>
+
+  <url>
+    <loc>https://hamuzon.github.io/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/Time-Zone_app/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/expo2025-counter/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/binary-decimal-converter/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/Device-info/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/text/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/text-legacy/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/Calculator/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/password/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/calendar/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/todo/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/QR/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/omikuji/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/dice/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/Short-Link/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/pixel-art/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/editor/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/discord-tools/</loc>
+  </url>
+
 </urlset>
