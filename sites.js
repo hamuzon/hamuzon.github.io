@@ -28,7 +28,7 @@ const sitesData = {
   hamuzonGitHubIO: [
     { href: "./", text: "Hamuzon-Website-List", className: "tpww", openInSameTab: true },
     { href: "https://hamuzon.github.io/Time-Zone_app/", text: "TimeZone - Hamuzon", openInSameTab: true },
-    { href: "https://hamuzon.github.io/expo2025-counter/", text: "Expo 2025 Countdown - Hamuzon", openInSameTab: true },
+    { href: "https://hamuzon.github.io/expo/", text: "Expo Countdown - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/binary-decimal-converter/", text: "binary-decimal-converter - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/Device-info/", text: "Device-info - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/text/", text: "Text enlargement app - Hamuzon", openInSameTab: true },
