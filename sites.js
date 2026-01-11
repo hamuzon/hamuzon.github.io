@@ -6,7 +6,7 @@ const sitesData = {
     { href: "https://scratch.hamusata.f5.si/", text: "Scratch User & Project Info / Run on Netlify, stored on GitHub.", openInSameTab: true },
     { href: "https://time-zone.hamusata.f5.si", text: "Time Zone / Hosted by GitHub", openInSameTab: true },
     { href: "https://Device-info.hamusata.f5.si", text: "Device Info / Hosted by GitHub", openInSameTab: true },
-    { href: "https://expo2025-counter.hamusata.f5.si", text: "Expo 2025 Countdown - Hamusata / Hosted by GitHub", openInSameTab: true },
+    { href: "https://expo.hamusata.f5.si/", text: "Expo Countdown - Hamusata / Hosted by GitHub", openInSameTab: true },
     { href: "https://bin2dec.hamusata.f5.si", text: "binary-decimal-converter - Hamusata / Hosted by GitHub", openInSameTab: true },
     { href: "https://text.hamusata.f5.si", text: "Text enlargement app - Hamusata / Hosted by GitHub", openInSameTab: true },
     { href: "https://text-legacy.hamusata.f5.si", text: "Text enlargement app　-　legacy - Hamusata / Hosted by GitHub", openInSameTab: true },
