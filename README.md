@@ -19,7 +19,8 @@
 - [hamuzon-jp.f5.si](https://hamuzon-jp.f5.si)  
   参考用に別リポジトリで作られたサイトです。  
   Created in a separate repository for reference.
-
+  
+- [hamuzon/hamuzon-jp.f5.si](https://github.com/hamuzon/hamuzon-jp.f5.si)
 ---
 
 リンク先の作品もぜひご覧ください。  
