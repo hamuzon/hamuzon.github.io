@@ -31,7 +31,7 @@ const sitesData = {
     { href: "https://hamuzon.github.io/binary-decimal-converter/", text: "binary-decimal-converter - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/Device-info/", text: "Device-info - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/text/", text: "Text enlargement app - Hamuzon", openInSameTab: true },
-    { href: "https://hamuzon.github.io//text-legacy/", text: "Text enlargement app　-　legacy - Hamuzon", openInSameTab: true },
+    { href: "https://hamuzon.github.io/text-legacy/", text: "Text enlargement app　-　legacy - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/Calculator/", text: "計算機 / Calculator - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/password/", text: "🔑Password Generator Tool🗝️ - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/calendar/", text: "🗓️カレンダー / calendar📅 - Hamuzon", openInSameTab: true },
