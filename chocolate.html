@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Website List - Chocolate</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif;
+    background: linear-gradient(to bottom, #1a100e 0%, #3e2723 100%);
+    min-height: 100vh;
+    color: #333;
+  }
+
+  .container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    position: relative;
+    z-index: 10;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 2rem;
+    color: #d7ccc8;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    margin-bottom: 2rem;
+  }
+
+  h1 a.tpww {
+    color: #fff8dd;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  h1 a.tpww:hover { text-decoration: underline; }
+
+  ul {
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    list-style: none;
+  }
+
+  li {
+    margin: 0;
+  }
+  a {
+    display: block;
+    background: rgba(78, 52, 46, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #d7ccc8;
+    text-decoration: none;
+    padding: 1rem;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: 1px solid rgba(141, 110, 99, 0.3);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    word-break: break-word;
+  }
+
+  a:hover {
+    background: rgba(93, 64, 55, 0.85);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+  }
+
+  footer {
+    text-align: center;
+    padding: 1rem;
+    color: #f0f0f0;
+    font-size: 0.85rem;
+  }
+
+  footer a { color: #fff8dd; text-decoration: underline; }
+
+  #public-site-list { display: none; }
+
+  #chocolate-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10000;
+    background: rgba(62, 39, 35, 0.7);
+    color: #d7ccc8;
+    border: 1px solid rgba(141, 110, 99, 0.5);
+    border-radius: 25px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: normal;
+    letter-spacing: normal;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+  }
+
+  #chocolate-toggle:hover {
+    background: rgba(93, 64, 55, 0.9);
+    color: #fff;
+    transform: translateY(0);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  }
+
+  @media (max-width:480px) {
+    h1 { font-size: 1.5rem; }
+    footer { font-size: 0.75rem; }
+    ul { grid-template-columns: 1fr !important; }
+
+    #chocolate-toggle {
+      top: 0.5rem;
+      right: 0.5rem;
+      font-size: 0.8rem;
+      padding: 0.4rem 0.8rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="winterCanvas" style="position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:1;"></canvas>
+<button id="chocolate-toggle">Chocolate ON</button>
+
+<div class="container">
+  <h1><a href="./98" class="tpww">Website List</a></h1>
+  <ul id="site-list"></ul>
+  <ul id="public-site-list"></ul>
+</div>
+
+<footer id="main-footer">
+  <span id="footer-hamusata">&copy; <span id="year-hamusata"></span> <a href="https://hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a></span>
+  <span id="footer-hamuzon" style="display:none;">&copy; <span id="year-hamuzon"></span> <a href="https://github.com/Hamuzon" target="_blank" rel="noopener noreferrer">@hamuzon</a></span>
+  <br />
+  <span id="default-message">※一部のサイトは現在アクセスできない場合があります。<br />Some sites may be temporarily unavailable.</span>
+</footer>
+
+<script src="sites.js"></script>
+<script src="chocolate.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const host = window.location.hostname;
+  const siteList = document.getElementById("site-list");
+  const publicList = document.getElementById("public-site-list");
+  const footer = document.getElementById("main-footer");
+
+  function createLinkItem({ href, text, className, openInSameTab }) {
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.href = (href === "https://hamusata.f5.si/" || href === "./") && text.includes("Website-List") ? "/" : href;
+    a.textContent = text;
+    a.target = openInSameTab ? "_self" : "_blank";
+    a.rel = "noopener noreferrer";
+    if (className) {
+      a.className = className;
+    }
+    li.appendChild(a);
+    return li;
+  }
+
+  if (host.includes("hamusata.f5.si")) {
+    sitesData.homeHamusata.forEach(site => siteList.appendChild(createLinkItem(site)));
+    siteList.style.display = "grid";
+    publicList.style.display = "none";
+    document.getElementById("footer-hamusata").style.display = "inline";
+    document.getElementById("footer-hamuzon").style.display = "none";
+
+  } else if (host.includes("link-s.f5.si")) {
+    sitesData.wwwLinkSF5Si.forEach(site => siteList.appendChild(createLinkItem(site)));
+    siteList.style.display = "grid";
+    publicList.style.display = "none";
+    footer.innerHTML = `
+      <span style="display:block; padding:0.5rem; color:#f0f0f0;">
+        <a href="https://hamusata.f5.si" target="_self" style="color:#fff8dd; text-decoration:underline;">@hamusata</a>
+      </span>
+    `;
+  } else if (host.includes("hamuzon.github.io")) {
+    sitesData.hamuzonGitHubIO.forEach(site => siteList.appendChild(createLinkItem(site)));
+    siteList.style.display = "grid";
+    publicList.style.display = "none";
+    document.getElementById("footer-hamusata").style.display = "none";
+    document.getElementById("footer-hamuzon").style.display = "inline";
+  } else {
+    [...sitesData.publicSites, ...(sitesData.winter || [])].forEach(site => publicList.appendChild(createLinkItem(site)));
+    siteList.style.display = "none";
+    publicList.style.display = "grid";
+    footer.innerHTML = `
+      <span style="display:block; padding:0.5rem; color:#f0f0f0;">
+        このサイトは公式ではなく、一部の情報は異なる場合があります。<br>
+        This version may differ from the original official site.
+      </span>
+    `;
+  }
+
+  const baseYear = 2025;
+  const currentYear = new Date().getFullYear();
+  const yearDisplay = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
+  const yearHamusata = document.getElementById("year-hamusata");
+  const yearHamuzon = document.getElementById("year-hamuzon");
+
+  if (yearHamusata) {
+    yearHamusata.textContent = yearDisplay;
+  }
+  if (yearHamuzon) {
+    yearHamuzon.textContent = yearDisplay;
+  }
+});
+</script>
+
+</body>
+</html>
