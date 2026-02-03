@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Website List</title>
+<meta name="description" content="homepageのリンクListsです">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ff512f 0%, #f09819 100%); /* 節分カラー（赤鬼・福豆） */
+  color: #333;
+  overflow-x: hidden;
+  --firework-brightness: 1;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+h1::before {
+  position: absolute;
+  top: -15px;
+  left: 5%;
+  font-size: 3rem;
+  transform: rotate(-20deg);
+  z-index: -1;
+}
+
+h1::after {
+  position: absolute;
+  bottom: -15px;
+  right: 5%;
+  font-size: 2.5rem;
+  transform: rotate(20deg);
+  z-index: -1;
+}
+
+h1 a.tpww {
+  display: block;
+  margin: 0 auto;
+  max-width: 300px;
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #fff;
+  text-decoration: none;
+  padding: 1rem;
+  border-radius: 16px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  border: 1px solid rgba(255,255,255,0.4);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+  text-align: center;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, filter 0.1s linear;
+  cursor: pointer;
+  filter: brightness(var(--firework-brightness));
+}
+
+h1 a.tpww:hover {
+  background: rgba(255,255,255,0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  list-style: none;
+  position: relative;
+  z-index: 2;
+}
+
+li a {
+  display: block;
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #fff;
+  text-decoration: none;
+  padding: 1rem;
+  border-radius: 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 1px solid rgba(255,255,255,0.4);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, filter 0.1s linear;
+  word-break: break-word;
+  filter: brightness(var(--firework-brightness));
+}
+
+li a:hover {
+  background: rgba(255,255,255,0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  color: #f0f0f0;
+  font-size: 0.85rem;
+  position: relative;
+  z-index: 2;
+}
+
+footer a {
+  color: #fff8dd;
+  text-decoration: underline;
+}
+
+#fireworksCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#fireworks-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  background: rgba(255, 240, 200, 0.9); /* 豆色/木目調 */
+  color: #5d4037;
+  border: 2px solid #8d6e63;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+#fireworks-toggle:hover {
+  background: #fff;
+  transform: scale(1.05);
+}
+
+@media(max-width:480px){
+  h1 a.tpww{font-size:1.2rem;}
+  footer{font-size:0.75rem;}
+  ul{grid-template-columns:1fr !important;}
+  #fireworks-toggle{font-size:0.85rem;padding:0.4rem 0.8rem;}
+}
+</style>
+</head>
+<body>
+<canvas id="fireworksCanvas"></canvas>
+<button id="fireworks-toggle">豆まき ON</button>
+
+<div class="container">
+  <h1><a href="./" class="tpww">Website List</a></h1>
+  <ul id="site-list"></ul>
+  <ul id="public-site-list"></ul>
+</div>
+
+<footer id="main-footer">
+  <span id="default-message">※一部のサイトは現在アクセスできない場合があります。<br>Some sites may be temporarily unavailable.</span>
+</footer>
+
+<script src="sites.js"></script>
+<script src="Setsubun.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const currentHost = window.location.hostname;
+  const siteList = document.getElementById("site-list");
+  const publicSiteList = document.getElementById("public-site-list");
+  const footer = document.getElementById("main-footer");
+
+  const safeCreateLinkItem = ({ href, text, className }) => {
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.href = href;
+    a.textContent = text || href;
+    if (className) a.className = className;
+    a.target = "_self";
+    li.appendChild(a);
+    return li;
+  };
+
+  const baseYear = 2025;
+  const currentYear = new Date().getFullYear();
+  const yearText = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
+
+  let sitesToShow = [];
+  let footerHTML = "";
+
+  if (currentHost === "home.hamusata.f5.si") {
+    sitesToShow = sitesData.homeHamusata;
+    footerHTML = `&copy; ${yearText} <a href="https://home.hamusata.f5.si" target="_self">@hamusata</a>`;
+  } else if (currentHost === "hamuzon.github.io") {
+    sitesToShow = sitesData.hamuzonGitHubIO;
+    footerHTML = `&copy; ${yearText} <a href="https://github.com/Hamuzon" target="_self">@hamuzon</a>`;
+  } else if (currentHost === "www.link-s.f5.si") {
+    sitesToShow = sitesData.wwwLinkSF5Si;
+    footerHTML = `&copy; ${yearText} <a href="https://home.hamusata.f5.si" target="_self">@hamusata</a>`;
+  } else {
+    sitesToShow = sitesData.publicSites;
+    footerHTML = `このサイトは公式ではなく、一部の情報は異なる場合があります。<br>This version may differ from the official.`;
+  }
+
+  if (sitesToShow.length) {
+    siteList.innerHTML = "";
+    publicSiteList.innerHTML = "";
+    const targetList = (currentHost === "public") ? publicSiteList : siteList;
+    sitesToShow.forEach(site => targetList.appendChild(safeCreateLinkItem(site)));
+    siteList.style.display = (currentHost === "public") ? "none" : "grid";
+    publicSiteList.style.display = (currentHost === "public") ? "grid" : "none";
+  }
+
+  footer.innerHTML = `<span style="display:block;padding:0.5rem;color:#f0f0f0;">${footerHTML}</span>`;
+
+  // 豆まきの明るさ更新
+  if (window.fireworksControl) {
+    const updateBrightness = () => {
+      if (window.fireworksControl.manager) {
+        const fwMgr = window.fireworksControl.manager;
+        const brightness = Math.min(
+          1 + fwMgr.fireworks.reduce(
+            (acc, fw) => acc + fw.particles.reduce((a, p) => a + p.alpha, 0), 0
+          ) / 150,
+          1.5
+        );
+        document.documentElement.style.setProperty("--firework-brightness", brightness);
+      }
+      requestAnimationFrame(updateBrightness);
+    };
+    requestAnimationFrame(updateBrightness);
+  }
+});
+
+// 豆まきON/OFF切替
+(() => {
+  const toggleBtn = document.getElementById('fireworks-toggle');
+  let fireworksOn = true;
+  toggleBtn.addEventListener('click', () => {
+    fireworksOn = !fireworksOn;
+    if (fireworksOn) {
+      toggleBtn.textContent = '豆まき ON ';
+      window.fireworksControl.start();
+    } else {
+      toggleBtn.textContent = '豆まき OFF ';
+      window.fireworksControl.stop();
+    }
+  });
+})();
+</script>
+</body>
+</html>
