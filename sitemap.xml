@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
-    <loc>https://hamuzon.github.io/</loc>
+    <loc>./</loc>
   </url>
 
   <url>
@@ -10,7 +10,7 @@
   </url>
 
   <url>
-    <loc>https://hamuzon.github.io/expo2025-counter/</loc>
+    <loc>https://hamuzon.github.io/expo/</loc>
   </url>
 
   <url>
@@ -18,7 +18,19 @@
   </url>
 
   <url>
+    <loc>https://hamuzon.github.io/binary-decimal-converter/old/</loc>
+  </url>
+
+  <url>
     <loc>https://hamuzon.github.io/Device-info/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/Device-info/legacy/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/device-info-old/</loc>
   </url>
 
   <url>
@@ -26,7 +38,7 @@
   </url>
 
   <url>
-    <loc>https://hamuzon.github.io/text-legacy/</loc>
+    <loc>https://hamuzon.github.io/text/legacy/</loc>
   </url>
 
   <url>
@@ -34,27 +46,19 @@
   </url>
 
   <url>
+    <loc>https://hamuzon.github.io/Calculator/v1/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/Calculator/v2/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/Calculator/v3/</loc>
+  </url>
+
+  <url>
     <loc>https://hamuzon.github.io/password/</loc>
-  </url>
-
-  <url>
-    <loc>https://hamuzon.github.io/calendar/</loc>
-  </url>
-
-  <url>
-    <loc>https://hamuzon.github.io/todo/</loc>
-  </url>
-
-  <url>
-    <loc>https://hamuzon.github.io/QR/</loc>
-  </url>
-
-  <url>
-    <loc>https://hamuzon.github.io/omikuji/</loc>
-  </url>
-
-  <url>
-    <loc>https://hamuzon.github.io/dice/</loc>
   </url>
 
   <url>
@@ -62,7 +66,79 @@
   </url>
 
   <url>
+    <loc>https://hamuzon.github.io/short-url-qr</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/QR</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/qrcode-tool</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/scan</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/mc-qr</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/mail</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/calendar/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/calendar/v1.0/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/calendar/v2.0/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/calendar/v3.0/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/calendar/v4.0/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/omikuji/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/omikuji/V1/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/omikuji/V2/</loc>
+  </url>
+
+  <url>
     <loc>https://hamuzon.github.io/pixel-art/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/pixel-art/v1.0/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/pixel-art/v1.1/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/pixel-art/v2.0/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/pixel-art/v2.1/</loc>
   </url>
 
   <url>
@@ -71,6 +147,22 @@
 
   <url>
     <loc>https://hamuzon.github.io/discord-tools/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/discord-tools/timestamp/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/discord-tools/message-id/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/discord-tools/dashboard/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/discord-tools/conversion/</loc>
   </url>
 
 </urlset>
