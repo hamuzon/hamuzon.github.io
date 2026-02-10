@@ -21,7 +21,7 @@ const sitesData = {
     { href: "https://pixel-art.hamusata.f5.si/", text: "🎨 Pixel Drawing 🖌️ Hamusata ", openInSameTab: true },
     { href: "https://editor.hamusata.f5.si/", text: "📝 ファイルエディター / File Editor Hamusata ", openInSameTab: true },
     { href: "http://discord-tools.hamusata.f5.si/", text: "📱 Discord Tools 🖥️ / Hamusata ", openInSameTab: true },
-    { href: "https://world.hamusata.f5.si/", text: "🌍️ アクセス位置共有 🌐 / (世界のどこからをリアルタイムで表示)", openInSameTab: true },
+    { href: "https://globe.world.hamusata.f5.si/", text: "🌍️ アクセス位置共有 🌐 / (世界のどこからをリアルタイムで表示)", openInSameTab: true },
 ],
 
   hamuzonGitHubIO: [
