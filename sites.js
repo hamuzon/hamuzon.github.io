@@ -22,6 +22,7 @@ const sitesData = {
     { href: "https://editor.hamusata.f5.si/", text: "📝 ファイルエディター / File Editor Hamusata ", openInSameTab: true },
     { href: "http://discord-tools.hamusata.f5.si/", text: "📱 Discord Tools 🖥️ / Hamusata ", openInSameTab: true },
     { href: "https://globe.world.hamusata.f5.si/", text: "🌍️ アクセス位置共有 🌐 / (世界のどこからをリアルタイムで表示)", openInSameTab: true },
+    { href: "https://video-hub.hamusata.f5.si/", text: "📹️Video　Player Tool HUB　⏯️", openInSameTab: true },
 ],
 
   hamuzonGitHubIO: [
@@ -43,6 +44,7 @@ const sitesData = {
     { href: "https://hamuzon.github.io/pixel-art/", text: "🎨 Pixel Drawing 🖌️ -Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/editor/", text: "📝 ファイルエディター / File Editor　-Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/discord-tools/", text: "📱 Discord Tools 🖥️ /　-Hamuzon", openInSameTab: true },
+    { href: "https://hamuzon.github.io/Video-hub/", text: "📹️Video　Player Tool HUB　⏯️ /　-Hamuzon", openInSameTab: true },
   ],
 
   wwwLinkSF5Si: [
