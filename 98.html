@@ -16,6 +16,7 @@
       display: flex;
       justify-content: center;
       min-height: 100vh;
+      -webkit-user-select: text;
       user-select: text;
     }
     main.container.window {
@@ -30,6 +31,7 @@
       align-items: center;
     }
     header.title-bar {
+      -webkit-user-select: none;
       user-select: none;
       padding: 0 8px;
       height: 27px;
@@ -77,6 +79,7 @@
       font-weight: bold;
       color: black;
       margin: 1rem 0 1.5rem 0;
+      -webkit-user-select: text;
       user-select: text;
       width: 100%;
       text-align: center;
@@ -92,6 +95,7 @@
       background-color: #c0c0c0;
       white-space: normal;
       overflow-wrap: break-word;
+      -webkit-user-select: text;
       user-select: text;
       max-width: 100%;
     }
@@ -119,6 +123,7 @@
       background-color: #c0c0c0;
       border: 2px outset buttonface;
       box-sizing: border-box;
+      -webkit-user-select: text;
       user-select: text;
       font-size: 14px;
       transition: background-color 0.15s ease, color 0.15s ease, border-style 0.15s ease;
@@ -140,10 +145,11 @@
       justify-content: center;
       align-items: center;
       gap: 0.5rem;
+      -webkit-user-select: text;
       user-select: text;
       flex-wrap: wrap;
     }
-    footer a { color: #202020; text-decoration: underline; font-weight: 600; user-select: text; white-space: nowrap; }
+    footer a { color: #202020; text-decoration: underline; font-weight: 600; -webkit-user-select: text; user-select: text; white-space: nowrap; }
     footer a:hover, footer a:focus { color: #000080; text-decoration: none; outline: none; }
     #default-message { width: 100%; margin-top: 0.5rem; text-align: center; font-size: 0.7rem; color: #404040; }
     #public-site-list { display: none; width: 100%; }

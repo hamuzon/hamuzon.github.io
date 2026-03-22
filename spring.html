@@ -55,8 +55,8 @@
   a {
     display: block;
     background: rgba(255, 245, 250, 0.6);
-    backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
     color: #c71585;
     text-decoration: none;
     padding: 1rem;
@@ -114,6 +114,8 @@
     footer { font-size: 0.75rem; }
     ul { grid-template-columns: 1fr !important; }
     #spring-toggle { font-size: 0.85rem; padding:0.4rem 0.8rem; }
+    #footer-hamuzon { display: none; }
+    .footer-notice { display: block; padding: 0.5rem; color: #d754a3; }
   }
 </style>
 </head>
@@ -130,7 +132,7 @@
 
 <footer id="main-footer">
   <span id="footer-hamusata">&copy; <span id="year-hamusata"></span> <a href="https://home.hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a></span>
-  <span id="footer-hamuzon" style="display:none;">&copy; <span id="year-hamuzon"></span> <a href="https://github.com/Hamuzon" target="_blank" rel="noopener noreferrer">@hamuzon</a></span>
+  <span id="footer-hamuzon">&copy; <span id="year-hamuzon"></span> <a href="https://github.com/Hamuzon" target="_blank" rel="noopener noreferrer">@hamuzon</a></span>
   <br />
   <span id="default-message">※一部のサイトは現在アクセスできない場合があります。<br />Some sites may be temporarily unavailable.</span>
 </footer>
@@ -166,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
   } else if(host === "www.link-s.f5.si"){
     sitesData.wwwLinkSF5Si.forEach(site => siteList.appendChild(createLinkItem(site)));
     siteList.style.display="grid"; publicList.style.display="none";
-    footer.innerHTML = `<span style="display:block; padding:0.5rem; color:#d754a3;">
+    footer.innerHTML = `<span class="footer-notice">
         <a href="https://home.hamusata.f5.si" target="_self" style="color:#ff69b4; text-decoration:underline;">@hamusata</a>
       </span>`;
   } else if(host === "hamuzon.github.io"){
@@ -177,7 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     [...sitesData.publicSites, ...(sitesData.spring||[])].forEach(site => publicList.appendChild(createLinkItem(site)));
     siteList.style.display="none"; publicList.style.display="grid";
-    footer.innerHTML = `<span style="display:block; padding:0.5rem; color:#d754a3;">
+    footer.innerHTML = `<span class="footer-notice">
       このサイトは公式ではなく、一部の情報は異なる場合があります。<br>
       This version may differ from the original official site.
     </span>`;

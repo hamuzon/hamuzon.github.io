@@ -60,8 +60,8 @@ h1 a.tpww {
   margin: 0 auto;
   max-width: 300px;
   background: rgba(255,255,255,0.25);
-  backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   color: #fff;
   text-decoration: none;
   padding: 1rem;
@@ -96,8 +96,8 @@ ul {
 li a {
   display: block;
   background: rgba(255,255,255,0.25);
-  backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   color: #fff;
   text-decoration: none;
   padding: 1rem;
@@ -168,6 +168,7 @@ footer a {
   footer{font-size:0.75rem;}
   ul{grid-template-columns:1fr !important;}
   #fireworks-toggle{font-size:0.85rem;padding:0.4rem 0.8rem;}
+  .footer-notice { display: block; padding: 0.5rem; color: #f0f0f0; }
 }
 </style>
 </head>
@@ -235,7 +236,7 @@ document.addEventListener("DOMContentLoaded", () => {
     publicSiteList.style.display = (currentHost === "public") ? "grid" : "none";
   }
 
-  footer.innerHTML = `<span style="display:block;padding:0.5rem;color:#f0f0f0;">${footerHTML}</span>`;
+  footer.innerHTML = `<span class="footer-notice">${footerHTML}</span>`;
 
   // 豆まきの明るさ更新
   if (window.fireworksControl) {
