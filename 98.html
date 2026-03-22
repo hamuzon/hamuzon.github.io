@@ -222,21 +222,21 @@
     }
 
     // ホストごとにリンクリストを切り替え
-    if (currentHost === "home.hamusata.f5.si") {
+    if (currentHost.includes("home.hamusata.f5.si")) {
       siteList.innerHTML = "";
       sitesData.homeHamusata.forEach(site => siteList.appendChild(createLinkItem(site)));
       siteList.style.display = "grid";
       publicSiteList.style.display = "none";
       footer.style.display = "flex";
 
-    } else if (currentHost === "hamuzon.github.io") {
+    } else if (currentHost.includes("hamuzon.github.io")) {
       siteList.innerHTML = "";
       sitesData.hamuzonGitHubIO.forEach(site => siteList.appendChild(createLinkItem(site)));
       siteList.style.display = "grid";
       publicSiteList.style.display = "none";
       footer.style.display = "flex";
 
-    } else if (currentHost === "www.link-s.f5.si") {
+    } else if (currentHost.includes("link-s.f5.si")) {
       siteList.innerHTML = "";
       sitesData.wwwLinkSF5Si.forEach(site => siteList.appendChild(createLinkItem(site)));
       siteList.style.display = "grid";

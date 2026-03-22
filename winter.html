@@ -87,6 +87,7 @@
     transition: background 0.3s ease;
   }
   #winter-toggle:hover { background: rgba(0,0,0,0.7); }
+  #winterCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
   @media (max-width:480px) {
     h1 { font-size: 1.5rem; }
     footer { font-size: 0.75rem; }
@@ -94,7 +95,6 @@
     #winter-toggle { font-size: 0.85rem; padding: 0.4rem 0.8rem; }
     #footer-hamuzon { display: none; }
     .footer-notice { display: block; padding: 0.5rem; color: #f0f0f0; }
-    #winterCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
   }
 </style>
 </head>
@@ -138,19 +138,19 @@ document.addEventListener("DOMContentLoaded", () => {
     return li;
   }
 
-  if(host === "home.hamusata.f5.si"){
+  if(host.includes("home.hamusata.f5.si")){
     sitesData.homeHamusata.forEach(site => siteList.appendChild(createLinkItem(site)));
     siteList.style.display="grid"; publicList.style.display="none";
     document.getElementById("footer-hamusata").style.display="inline";
     document.getElementById("footer-hamuzon").style.display="none";
 
-  } else if(host === "www.link-s.f5.si"){
+  } else if(host.includes("link-s.f5.si")){
     sitesData.wwwLinkSF5Si.forEach(site => siteList.appendChild(createLinkItem(site)));
     siteList.style.display="grid"; publicList.style.display="none";
     footer.innerHTML = `<span class="footer-notice">
         <a href="https://home.hamusata.f5.si" target="_self" style="color:#fff8dd; text-decoration:underline;">@hamusata</a>
       </span>`;
-  } else if(host === "hamuzon.github.io"){
+  } else if(host.includes("hamuzon.github.io")){
     sitesData.hamuzonGitHubIO.forEach(site => siteList.appendChild(createLinkItem(site)));
     siteList.style.display="grid"; publicList.style.display="none";
     document.getElementById("footer-hamusata").style.display="none";

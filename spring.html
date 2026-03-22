@@ -160,18 +160,18 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // サイトリスト切り替え
-  if(host === "home.hamusata.f5.si"){
+  if(host.includes("hamusata.f5.si")){
     sitesData.homeHamusata.forEach(site => siteList.appendChild(createLinkItem(site)));
     siteList.style.display="grid"; publicList.style.display="none";
     document.getElementById("footer-hamusata").style.display="inline";
     document.getElementById("footer-hamuzon").style.display="none";
-  } else if(host === "www.link-s.f5.si"){
+  } else if(host.includes("www.link-s.f5.si")){
     sitesData.wwwLinkSF5Si.forEach(site => siteList.appendChild(createLinkItem(site)));
     siteList.style.display="grid"; publicList.style.display="none";
     footer.innerHTML = `<span class="footer-notice">
         <a href="https://home.hamusata.f5.si" target="_self" style="color:#ff69b4; text-decoration:underline;">@hamusata</a>
       </span>`;
-  } else if(host === "hamuzon.github.io"){
+  } else if(host.includes("hamuzon.github.io")){
     sitesData.hamuzonGitHubIO.forEach(site => siteList.appendChild(createLinkItem(site)));
     siteList.style.display="grid"; publicList.style.display="none";
     document.getElementById("footer-hamusata").style.display="none";
@@ -192,16 +192,8 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("year-hamusata").textContent = yearDisplay;
   document.getElementById("year-hamuzon").textContent = yearDisplay;
 
-  // 桜ON/OFF
-  const toggleBtn = document.getElementById('spring-toggle');
-  let sakuraOn = true;
-  toggleBtn.addEventListener('click', ()=>{
-    sakuraOn = !sakuraOn;
-    toggleBtn.textContent = sakuraOn ? '桜ON' : '桜OFF';
-    if(window.springControl){
-      sakuraOn ? window.springControl.show() : window.springControl.hide();
-    }
-  });
+  // 桜表示初期化
+  if(window.springControl) window.springControl.show();
 });
 </script>
 </body>

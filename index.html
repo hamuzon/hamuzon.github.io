@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,33 +8,47 @@
   <meta name="description" content="homepageのリンクListsです" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; }
-    html, body {
-      margin: 0; padding: 0;
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
       font-family: 'Inter', 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif;
       background: linear-gradient(to bottom, #ffcf91 0%, #a96bf8 100%);
       min-height: 100vh;
       color: #333;
     }
+
     .container {
       width: 90%;
       max-width: 1200px;
       margin: 0 auto;
       padding: 2rem 1rem;
     }
+
     h1 {
       text-align: center;
       font-size: 2rem;
       color: #f0f0f0;
-      text-shadow: 0 0 8px rgba(0,0,0,0.7);
+      text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
       margin-bottom: 2rem;
     }
+
     h1 a.tpww {
       color: #fff8dd;
       text-decoration: none;
       cursor: pointer;
     }
-    h1 a.tpww:hover { text-decoration: underline; }
+
+    h1 a.tpww:hover {
+      text-decoration: underline;
+    }
+
     ul {
       padding: 0;
       margin: 0;
@@ -42,10 +57,14 @@
       gap: 1rem;
       list-style: none;
     }
-    li { margin: 0; }
+
+    li {
+      margin: 0;
+    }
+
     a {
       display: block;
-      background: rgba(20,20,20,0.15);
+      background: rgba(20, 20, 20, 0.15);
       -webkit-backdrop-filter: blur(12px);
       backdrop-filter: blur(12px);
       color: #ddd;
@@ -54,33 +73,59 @@
       border-radius: 16px;
       font-size: 1rem;
       font-weight: 600;
-      border: 1px solid rgba(255,255,255,0.12);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
       transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
       word-break: break-word;
     }
+
     a:hover {
-      background: rgba(30,30,30,0.3);
+      background: rgba(30, 30, 30, 0.3);
       transform: translateY(-4px);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
     }
+
     footer {
       text-align: center;
       padding: 1rem;
       color: #f0f0f0;
       font-size: 0.85rem;
     }
-    footer a { color: #fff8dd; text-decoration: underline; }
-    #public-site-list { display: none; }
+
+    footer a {
+      color: #fff8dd;
+      text-decoration: underline;
+    }
+
+    #public-site-list {
+      display: none;
+    }
+
     @media (max-width:480px) {
-      h1 { font-size: 1.5rem; }
-      footer { font-size: 0.75rem; }
-      ul { grid-template-columns: 1fr !important; }
-      #footer-hamuzon { display: none; }
-      .footer-notice { display: block; padding: 0.5rem; }
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      footer {
+        font-size: 0.75rem;
+      }
+
+      ul {
+        grid-template-columns: 1fr !important;
+      }
+
+      #footer-hamuzon {
+        display: none;
+      }
+
+      .footer-notice {
+        display: block;
+        padding: 0.5rem;
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <h1>
@@ -92,10 +137,12 @@
 
   <footer id="main-footer">
     <span id="footer-hamusata">
-      &copy; <span id="year-hamusata"></span> <a href="https://home.hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a>
+      &copy; <span id="year-hamusata"></span> <a href="https://home.hamusata.f5.si" target="_blank"
+        rel="noopener noreferrer">@hamusata</a>
     </span>
     <span id="footer-hamuzon">
-      &copy; <span id="year-hamuzon"></span> <a href="https://github.com/Hamuzon" target="_blank" rel="noopener noreferrer">@hamuzon</a>
+      &copy; <span id="year-hamuzon"></span> <a href="https://github.com/Hamuzon" target="_blank"
+        rel="noopener noreferrer">@hamuzon</a>
     </span>
     <br />
     <span id="default-message">
@@ -131,21 +178,21 @@
         return li;
       }
 
-      if (currentHost === "home.hamusata.f5.si") {
+      if (currentHost.includes("home.hamusata.f5.si")) {
         sitesData.homeHamusata.forEach(site => siteList.appendChild(createLinkItem(site)));
         siteList.style.display = "grid";
         publicSiteList.style.display = "none";
         footerHamusata.style.display = "inline";
         footerHamuzon.style.display = "none";
 
-      } else if (currentHost === "hamuzon.github.io") {
+      } else if (currentHost.includes("hamuzon.github.io")) {
         sitesData.hamuzonGitHubIO.forEach(site => siteList.appendChild(createLinkItem(site)));
         siteList.style.display = "grid";
         publicSiteList.style.display = "none";
         footerHamusata.style.display = "none";
         footerHamuzon.style.display = "inline";
 
-      } else if (currentHost === "www.link-s.f5.si") {
+      } else if (currentHost.includes("www.link-s.f5.si")) {
         sitesData.wwwLinkSF5Si.forEach(site => siteList.appendChild(createLinkItem(site)));
         siteList.style.display = "grid";
         publicSiteList.style.display = "none";
@@ -172,4 +219,5 @@
     });
   </script>
 </body>
+
 </html>

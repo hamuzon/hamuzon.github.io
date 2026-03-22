@@ -192,13 +192,13 @@ document.addEventListener("DOMContentLoaded", () => {
   let sitesToShow = [];
   let footerHTML = "";
 
-  if (currentHost === "home.hamusata.f5.si") {
+  if (currentHost.includes("home.hamusata.f5.si")) {
     sitesToShow = sitesData.homeHamusata;
     footerHTML = `&copy; ${yearText} <a href="https://home.hamusata.f5.si" target="_self">@hamusata</a>`;
-  } else if (currentHost === "hamuzon.github.io") {
+  } else if (currentHost.includes("hamuzon.github.io")) {
     sitesToShow = sitesData.hamuzonGitHubIO;
     footerHTML = `&copy; ${yearText} <a href="https://github.com/Hamuzon" target="_self">@hamuzon</a>`;
-  } else if (currentHost === "www.link-s.f5.si") {
+  } else if (currentHost.includes("www.link-s.f5.si")) {
     sitesToShow = sitesData.wwwLinkSF5Si;
     footerHTML = `&copy; ${yearText} <a href="https://home.hamusata.f5.si" target="_self">@hamusata</a>`;
   } else {
