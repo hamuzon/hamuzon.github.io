@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Website List ???</title>
+<meta name="description" content="April Fool's Day Special">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@400;500&family=Noto+Color+Emoji&family=Zen+Maru+Gothic:wght@500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Kiwi Maru', 'Zen Maru Gothic', 'Noto Color Emoji', sans-serif;
+    background-color: #fdfcf6;
+    background-image:
+      linear-gradient(45deg, #f0e6cc 25%, transparent 25%, transparent 75%, #f0e6cc 75%, #f0e6cc),
+      linear-gradient(45deg, #f0e6cc 25%, transparent 25%, transparent 75%, #f0e6cc 75%, #f0e6cc);
+    background-size: 50px 50px;
+    background-position: 0 0, 25px 25px;
+    min-height: 100vh;
+    color: #4a3b32;
+    overflow-x: hidden;
+    transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  }
+
+  .container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(139, 69, 19, 0.1);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border: 4px double #d7a98c;
+    transform: rotate(-0.5deg);
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #d75455;
+    text-shadow: 2px 2px 0px #f0e68c;
+    margin-bottom: 2rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    transform: skew(-2deg);
+  }
+
+  h1 a.tpww {
+    text-decoration: none;
+    color: inherit;
+    background: transparent;
+    padding: 0.5rem 1rem;
+    border-bottom: 3px dotted #d75455;
+    border-radius: 0;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    cursor: help;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+
+  h1 a.tpww:hover {
+    background: rgba(215, 84, 85, 0.1);
+    transform: scale(1.05) rotate(2deg);
+    color: #ff0000;
+  }
+
+  ul {
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    list-style: none;
+  }
+
+  li { margin: 0; }
+
+  a.site-link {
+    display: block;
+    background: #fff;
+    color: #594e3f;
+    text-decoration: none;
+    padding: 1.5rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    border: 1px solid #e0d0b0;
+    box-shadow: 4px 4px 0px rgba(200, 180, 150, 0.5);
+    transition: all 0.2s;
+    word-break: break-word;
+    position: relative;
+    font-family: 'Kiwi Maru', serif;
+  }
+
+  a.site-link:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 8px 8px 0px rgba(215, 84, 85, 0.3);
+    background: #fffcf0;
+    border-color: #d75455;
+    color: #d75455;
+  }
+
+  a.site-link:active {
+    transform: translate(4px, 4px);
+    box-shadow: none;
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    background: #4a3b32;
+    color: #fff;
+    margin-top: auto;
+    transition: transform 1s ease-in-out;
+    border-top: 4px solid #d75455;
+  }
+
+  .footer-flipped { transform: rotate(180deg); }
+
+  .footer-inner-rotated {
+    transform: rotate(180deg);
+    display: inline-block;
+  }
+
+  footer a { color: #ffeb3b; text-decoration: none; }
+  footer a:hover { text-decoration: underline; color: #fff; }
+
+  #public-site-list { display: none; }
+
+  .floater {
+    position: fixed;
+    pointer-events: none;
+    font-size: 3rem;
+    z-index: 999;
+    animation: floatUp 5s linear infinite;
+    opacity: 0.7;
+    font-family: 'Noto Color Emoji', sans-serif;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0.8; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+  }
+
+  #cursor-stalker {
+    position: fixed;
+    top: 0; left: 0;
+    font-size: 2rem;
+    pointer-events: none;
+    z-index: 10000;
+    transition: transform 0.1s ease-out;
+    -webkit-user-select: none;
+    user-select: none;
+    font-family: 'Noto Color Emoji', sans-serif;
+  }
+
+  body.flipped {
+    transform: rotate(180deg);
+  }
+
+  .runaway {
+    transition: transform 0.2s ease-out !important;
+  }
+
+  @media (max-width:480px) {
+    h1 { font-size: 1.8rem; }
+    ul { 
+      grid-template-columns: 1fr !important; 
+      gap: 1rem; 
+    }
+    li { transform: none !important;  }
+    a.site-link {
+      padding: 1.5rem 1rem;
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    footer { font-size: 0.8rem; }
+    .container { width: 95%; padding: 1.5rem 0.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1><a href="./spring" class="tpww">Website List 2026?</a></h1>
+  <ul id="site-list"></ul>
+  <ul id="public-site-list"></ul>
+</div>
+
+<footer id="main-footer">
+  <div class="footer-inner-rotated">
+    <span id="footer-hamusata">&copy; <span id="year-hamusata"></span> <a href="https://home.hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a></span>
+    <span id="footer-hamuzon">&copy; <span id="year-hamuzon"></span> <a href="https://github.com/Hamuzon" target="_blank" rel="noopener noreferrer">@hamuzon</a></span>
+    <br>
+    <span id="default-message">April Fools' Day!<br>This page is a joke.</span>
+  </div>
+</footer>
+
+<script src="sites.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const host = window.location.hostname;
+  const siteList = document.getElementById("site-list");
+  const publicList = document.getElementById("public-site-list");
+  const footer = document.getElementById("main-footer");
+  const footerHamusata = document.getElementById("footer-hamusata");
+  const footerHamuzon = document.getElementById("footer-hamuzon");
+
+  const emojis = ['👺', '👹', '🍵', '🍡', '🌸', '🦊', '🤥', '🤪', '🌀'];
+  setInterval(() => {
+    const el = document.createElement('div');
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.className = 'floater';
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.animationDuration = (Math.random() * 5 + 4) + 's';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 9000);
+  }, 2500);
+
+  const stalker = document.createElement('div');
+  stalker.id = 'cursor-stalker';
+  stalker.textContent = '🦊';
+  document.body.appendChild(stalker);
+  document.addEventListener('mousemove', (e) => {
+    stalker.style.transform = `translate(${e.clientX + 10}px, ${e.clientY + 10}px)`;
+  });
+
+  setInterval(() => {
+    if (Math.random() > 0.85) {
+      document.body.classList.add('flipped');
+      setTimeout(() => {
+        document.body.classList.remove('flipped');
+      }, 4000);
+    }
+  }, 15000);
+
+  function createLinkItem({ href, text, className, openInSameTab }) {
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+
+    let displayText = text;
+    const isInternal = href.includes("hamusata.f5.si") || href.includes("hamuzon.github.io") || href.includes("link-s.f5.si") || href === "./" || href === "/";
+
+    if (isInternal && Math.random() > 0.8) {
+      displayText = text.split('').reverse().join('');
+    }
+
+    if ((href === "https://home.hamusata.f5.si/" || href === "./") && text.includes("Website-List")) {
+      a.href = "/";
+    } else {
+      a.href = href;
+    }
+
+    a.textContent = displayText;
+    a.target = openInSameTab ? "_self" : "_blank";
+    a.rel = "noopener noreferrer";
+    a.className = "site-link";
+    if (className) a.classList.add(className);
+
+    li.style.transform = `rotate(${Math.random() * 6 - 3}deg)`;
+
+    a.addEventListener('mouseover', () => {
+      if (Math.random() > 0.7) {
+        const x = (Math.random() - 0.5) * 60;
+        const y = (Math.random() - 0.5) * 60;
+        a.classList.add('runaway');
+        a.style.transform = `translate(${x}px, ${y}px) rotate(${Math.random()*20-10}deg)`;
+      }
+    });
+    a.addEventListener('click', (e) => {
+      if (Math.random() > 0.9) {
+        e.preventDefault();
+        alert("嘘です。\n(It's a lie.)");
+      }
+    });
+
+    li.appendChild(a);
+    return li;
+  }
+
+  if(host.includes("hamusata.f5.si")){
+    sitesData.homeHamusata.forEach(site => siteList.appendChild(createLinkItem(site)));
+    siteList.style.display="grid"; publicList.style.display="none";
+    footerHamusata.style.display="inline";
+    footerHamuzon.style.display="none";
+
+  } else if(host.includes("hamuzon.github.io")){
+    sitesData.hamuzonGitHubIO.forEach(site => siteList.appendChild(createLinkItem(site)));
+    siteList.style.display="grid"; publicList.style.display="none";
+    footerHamusata.style.display="none";
+    footerHamuzon.style.display="inline";
+
+  } else if(host.includes("www.link-s.f5.si")){
+    sitesData.wwwLinkSF5Si.forEach(site => siteList.appendChild(createLinkItem(site)));
+    siteList.style.display="grid"; publicList.style.display="none";
+    footerHamusata.style.display="inline";
+    footerHamuzon.style.display="none";
+
+    sitesData.publicSites.forEach(site => publicList.appendChild(createLinkItem(site)));
+    publicList.style.display="grid"; 
+
+  } else {
+    [...sitesData.publicSites].forEach(site => publicList.appendChild(createLinkItem(site)));
+    siteList.style.display="none"; publicList.style.display="grid";
+    footerHamusata.style.display="none";
+    footerHamuzon.style.display="none";
+
+    const div = document.createElement("div");
+    div.innerHTML = "Fake Mode Activated";
+    div.style.color = "orange";
+    footer.firstElementChild.appendChild(div);
+  }
+
+  const baseYear = 2025;
+  const currentYear = 2026;
+  const yearDisplay = `${baseYear}~${currentYear}`;
+  const yh = document.getElementById("year-hamusata");
+  if(yh) yh.textContent = yearDisplay;
+  const yz = document.getElementById("year-hamuzon");
+  if(yz) yz.textContent = yearDisplay;
+});
+</script>
+
+</body>
+</html>
