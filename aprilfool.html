@@ -287,12 +287,6 @@ document.addEventListener("DOMContentLoaded", () => {
         a.style.transform = `translate(${x}px, ${y}px) rotate(${Math.random()*20-10}deg)`;
       }
     });
-    a.addEventListener('click', (e) => {
-      if (Math.random() > 0.9) {
-        e.preventDefault();
-        alert("嘘です。\n(It's a lie.)");
-      }
-    });
 
     li.appendChild(a);
     return li;
@@ -310,14 +304,11 @@ document.addEventListener("DOMContentLoaded", () => {
     footerHamusata.style.display="none";
     footerHamuzon.style.display="inline";
 
-  } else if(host.includes("www.link-s.f5.si")){
+  } else if(host.includes("link-s.f5.si")){
     sitesData.wwwLinkSF5Si.forEach(site => siteList.appendChild(createLinkItem(site)));
-    siteList.style.display="none"; publicList.style.display="none";
+    siteList.style.display="grid"; publicList.style.display="none";
     footerHamusata.style.display="inline";
     footerHamuzon.style.display="none";
-
-    sitesData.publicSites.forEach(site => publicList.appendChild(createLinkItem(site)));
-    publicList.style.display="grid"; 
 
   } else {
     [...sitesData.publicSites].forEach(site => publicList.appendChild(createLinkItem(site)));
