@@ -8,14 +8,14 @@
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@400;500&family=Noto+Color+Emoji&family=Zen+Maru+Gothic:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@400;500&family=Noto+Color+Emoji&family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; }
 
   body {
     margin: 0;
     padding: 0;
-    font-family: 'Kiwi Maru', 'Zen Maru Gothic', 'Noto Color Emoji', sans-serif;
+    font-family: 'Kiwi Maru', 'Zen Maru Gothic', 'Noto Sans JP', 'Noto Color Emoji', sans-serif;
     background-color: #fdfcf6;
     background-image:
       linear-gradient(45deg, #f0e6cc 25%, transparent 25%, transparent 75%, #f0e6cc 75%, #f0e6cc),
@@ -221,7 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const footerHamusata = document.getElementById("footer-hamusata");
   const footerHamuzon = document.getElementById("footer-hamuzon");
 
-  const emojis = ['👺', '👹', '🍵', '🍡', '🌸', '🦊', '🤥', '🤪', '🌀'];
+  const emojis = ['👺', '👹', '🍵', '🍡', '🌸', '🦊', '🤥', '🤪', '🌀', '', '⚠', '', '⚛', '☢', 'N/A'];
   setInterval(() => {
     const el = document.createElement('div');
     el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
@@ -256,8 +256,13 @@ document.addEventListener("DOMContentLoaded", () => {
     let displayText = text;
     const isInternal = href.includes("hamusata.f5.si") || href.includes("hamuzon.github.io") || href.includes("link-s.f5.si") || href === "./" || href === "/";
 
-    if (isInternal && Math.random() > 0.8) {
-      displayText = text.split('').reverse().join('');
+    if (isInternal) {
+      if (Math.random() > 0.8) {
+        displayText = text.split('').reverse().join('');
+      }
+      if (Math.random() > 0.65) {
+        displayText = displayText.split('').map(c => Math.random() > 0.8 ? '' : c).join('');
+      }
     }
 
     if ((href === "https://home.hamusata.f5.si/" || href === "./") && text.includes("Website-List")) {
@@ -307,7 +312,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   } else if(host.includes("www.link-s.f5.si")){
     sitesData.wwwLinkSF5Si.forEach(site => siteList.appendChild(createLinkItem(site)));
-    siteList.style.display="grid"; publicList.style.display="none";
+    siteList.style.display="none"; publicList.style.display="none";
     footerHamusata.style.display="inline";
     footerHamuzon.style.display="none";
 
