@@ -142,8 +142,8 @@
 </div>
 
 <footer id="main-footer">
-  <span id="footer-hamusata">&copy; <span id="year-hamusata"></span> <a href="https://hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a></span>
-  <span id="footer-hamuzon">&copy; <span id="year-hamuzon"></span> <a href="https://github.com/Hamuzon" target="_blank" rel="noopener noreferrer">@hamuzon</a></span>
+  <span id="footer-hamusata">&copy; <span id="year-hamusata"></span> <a href="https://hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a> (<a href="https://hamusata.f5.si" target="_blank" rel="noopener noreferrer">hamusata.f5.si</a>)</span>
+  <span id="footer-hamuzon">&copy; <span id="year-hamuzon"></span> <a href="https://github.com/hamuzon" target="_blank" rel="noopener noreferrer">@hamuzon</a></span>
   <br />
   <span id="default-message">※一部のサイトは現在アクセスできない場合があります。<br />Some sites may be temporarily unavailable.</span>
 </footer>
@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
     publicList.style.display = "none";
     footer.innerHTML = `
       <span class="footer-notice">
-        <a href="https://hamusata.f5.si" target="_self" style="color:#fff8dd; text-decoration:underline;">@hamusata</a>
+        <a href="https://hamusata.f5.si" target="_self" style="color:#fff8dd; text-decoration:underline;">@hamusata</a> <a href="https://hamusata.f5.si" target="_self" style="color:#fff8dd; text-decoration:underline;">hamusata.f5.si</a>
       </span>
     `;
   } else if (host.includes("hamuzon.github.io")) {
