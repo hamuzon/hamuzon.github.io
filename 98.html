@@ -30,6 +30,20 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      transform-origin: center top;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+    main.container.window.window-closing {
+      opacity: 0;
+      transform: scale(0.96) translateY(-8px);
+      pointer-events: none;
+    }
+    main.container.window.window-hidden {
+      display: none;
+    }
+    main.container.window.window-opening {
+      opacity: 0;
+      transform: scale(0.97) translateY(-6px);
     }
     header.title-bar {
       -webkit-user-select: none;
@@ -222,6 +236,8 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const currentHost = window.location.hostname;
+      const mainWindow = document.querySelector("main.container.window");
+      const closeButton = document.querySelector(".title-bar-close");
       const siteList = document.getElementById("site-list");
       const publicSiteList = document.getElementById("public-site-list");
       const footer = document.getElementById("main-footer");
