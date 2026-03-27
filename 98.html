@@ -169,12 +169,12 @@
 <body>
   <main class="container window" role="main" aria-label="Website List Window">
     <header class="title-bar" role="banner">
-      <p class="title-bar-text">Website List</p>
+      <p class="title-bar-text" id="title-bar-text">Website List</p>
       <button class="title-bar-close" aria-label="Close"></button>
     </header>
 
     <h1>
-      <a href="./" class="tpww" onclick="location.reload()">Website List</a>
+      <a href="./" class="tpww" id="window-title-link" onclick="location.reload()">Website List</a>
     </h1>
 
     <ul id="site-list" class="field-row wrap gap-2"></ul>
@@ -206,6 +206,14 @@
     const siteList = document.getElementById("site-list");
     const publicSiteList = document.getElementById("public-site-list");
     const footer = document.getElementById("main-footer");
+    const titleBarText = document.getElementById("title-bar-text");
+    const windowTitleLink = document.getElementById("window-title-link");
+
+    function updateHeaderTitle(text) {
+      titleBarText.textContent = text;
+      windowTitleLink.textContent = text;
+      document.title = text;
+    }
 
     function createLinkItem({ href, text, className, reload }) {
       const li = document.createElement("li");
@@ -223,6 +231,7 @@
 
     // ホストごとにリンクリストを切り替え
     if (currentHost.includes("home.hamusata.f5.si")) {
+      updateHeaderTitle("Hamusata Website List");
       siteList.innerHTML = "";
       sitesData.homeHamusata.forEach(site => siteList.appendChild(createLinkItem(site)));
       siteList.style.display = "grid";
@@ -230,6 +239,7 @@
       footer.style.display = "flex";
 
     } else if (currentHost.includes("hamuzon.github.io")) {
+      updateHeaderTitle("Hamuzon Website List");
       siteList.innerHTML = "";
       sitesData.hamuzonGitHubIO.forEach(site => siteList.appendChild(createLinkItem(site)));
       siteList.style.display = "grid";
@@ -237,6 +247,7 @@
       footer.style.display = "flex";
 
     } else if (currentHost.includes("link-s.f5.si")) {
+      updateHeaderTitle("link-s.f5.si Website List");
       siteList.innerHTML = "";
       sitesData.wwwLinkSF5Si.forEach(site => siteList.appendChild(createLinkItem(site)));
       siteList.style.display = "grid";
@@ -244,6 +255,7 @@
       footer.style.display = "flex";
 
     } else {
+      updateHeaderTitle("Public Website List");
       siteList.style.display = "none";
       publicSiteList.style.display = "grid";
       footer.innerHTML = `
