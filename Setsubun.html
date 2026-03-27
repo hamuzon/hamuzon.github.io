@@ -15,7 +15,7 @@ html, body {
   padding: 0;
   font-family: 'Inter', 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif;
   min-height: 100vh;
-  background: linear-gradient(135deg, #ff512f 0%, #f09819 100%); 
+  background: linear-gradient(135deg, #ff512f 0%, #f09819 100%);
   color: #333;
   overflow-x: hidden;
   --firework-brightness: 1;
@@ -215,13 +215,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (currentHost.includes("home.hamusata.f5.si")) {
     sitesToShow = sitesData.homeHamusata;
-    footerHTML = `&copy; ${yearText} <a href="https://home.hamusata.f5.si" target="_self">@hamusata</a>`;
+    footerHTML = `&copy; ${yearText} <a href="https://hamusata.f5.si" target="_self">@hamusata</a>`;
   } else if (currentHost.includes("hamuzon.github.io")) {
     sitesToShow = sitesData.hamuzonGitHubIO;
-    footerHTML = `&copy; ${yearText} <a href="https://github.com/Hamuzon" target="_self">@hamuzon</a>`;
-  } else if (currentHost.includes("www.link-s.f5.si")) {
+    footerHTML = `&copy; ${yearText} <a href="https://github.com/hamuzon" target="_self">@hamuzon</a>`;
+  } else if (currentHost.includes("link-s.f5.si")) {
     sitesToShow = sitesData.wwwLinkSF5Si;
-    footerHTML = `&copy; ${yearText} <a href="https://home.hamusata.f5.si" target="_self">@hamusata</a>`;
+    footerHTML = `&copy; ${yearText} <a href="https://hamusata.f5.si" target="_self">@hamusata</a>`;
   } else {
     sitesToShow = sitesData.publicSites;
     footerHTML = `このサイトは公式ではなく、一部の情報は異なる場合があります。<br>This version may differ from the official.`;

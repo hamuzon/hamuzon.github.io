@@ -110,8 +110,8 @@
 </div>
 
 <footer id="main-footer">
-  <span id="footer-hamusata">&copy; <span id="year-hamusata"></span> <a href="https://home.hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a></span>
-  <span id="footer-hamuzon">&copy; <span id="year-hamuzon"></span> <a href="https://github.com/Hamuzon" target="_blank" rel="noopener noreferrer">@hamuzon</a></span>
+  <span id="footer-hamusata">&copy; <span id="year-hamusata"></span> <a href="https://hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a></span>
+  <span id="footer-hamuzon">&copy; <span id="year-hamuzon"></span> <a href="https://github.com/hamuzon" target="_blank" rel="noopener noreferrer">@hamuzon</a></span>
   <br />
   <span id="default-message">※一部のサイトは現在アクセスできない場合があります。<br />Some sites may be temporarily unavailable.</span>
 </footer>
@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
     sitesData.wwwLinkSF5Si.forEach(site => siteList.appendChild(createLinkItem(site)));
     siteList.style.display="grid"; publicList.style.display="none";
     footer.innerHTML = `<span class="footer-notice">
-        <a href="https://home.hamusata.f5.si" target="_self" style="color:#fff8dd; text-decoration:underline;">@hamusata</a>
+        <a href="https://hamusata.f5.si" target="_self" style="color:#fff8dd; text-decoration:underline;">@hamusata</a>
       </span>`;
   } else if(host.includes("hamuzon.github.io")){
     sitesData.hamuzonGitHubIO.forEach(site => siteList.appendChild(createLinkItem(site)));

@@ -217,9 +217,14 @@
     </ul>
 
     <footer id="main-footer" role="contentinfo" aria-label="Footer">
-      <span>&copy;</span>
-      <span id="year-hamusata"></span>
-      <a href="https://home.hamusata.f5.si" rel="noopener noreferrer">@hamusata</a>
+      <span id="footer-hamusata">
+        &copy; <span id="year-hamusata"></span>
+        <a href="https://hamusata.f5.si" rel="noopener noreferrer">@hamusata</a>
+      </span>
+      <span id="footer-hamuzon">
+        &copy; <span id="year-hamuzon"></span>
+        <a href="https://github.com/hamuzon" rel="noopener noreferrer">@hamuzon</a>
+      </span>
       <div id="default-message">
         ※一部のサイトは現在アクセスできない場合があります。<br />
         Some sites may be temporarily unavailable.
@@ -236,6 +241,8 @@
       const siteList = document.getElementById("site-list");
       const publicSiteList = document.getElementById("public-site-list");
       const footer = document.getElementById("main-footer");
+      const footerHamusata = document.getElementById("footer-hamusata");
+      const footerHamuzon = document.getElementById("footer-hamuzon");
 
       function createLinkItem({ href, text, className, reload }) {
         const li = document.createElement("li");
@@ -254,6 +261,8 @@
     // ホストごとにリンクリストを切り替え
       if (currentHost.includes("home.hamusata.f5.si")) {
         footer.classList.remove("footer-notice-mode");
+        footerHamusata.style.display = "inline";
+        footerHamuzon.style.display = "none";
         siteList.innerHTML = "";
         sitesData.homeHamusata.forEach(site => siteList.appendChild(createLinkItem(site)));
         siteList.style.display = "grid";
@@ -262,14 +271,18 @@
 
       } else if (currentHost.includes("hamuzon.github.io")) {
         footer.classList.remove("footer-notice-mode");
+        footerHamusata.style.display = "none";
+        footerHamuzon.style.display = "inline";
         siteList.innerHTML = "";
         sitesData.hamuzonGitHubIO.forEach(site => siteList.appendChild(createLinkItem(site)));
         siteList.style.display = "grid";
         publicSiteList.style.display = "none";
         footer.style.display = "flex";
 
-      } else if (currentHost.includes("www.link-s.f5.si") || currentHost.includes("link-s.f5.si")) {
+      } else if (currentHost.includes("link-s.f5.si")) {
         footer.classList.remove("footer-notice-mode");
+        footerHamusata.style.display = "inline";
+        footerHamuzon.style.display = "none";
         siteList.innerHTML = "";
         sitesData.wwwLinkSF5Si.forEach(site => siteList.appendChild(createLinkItem(site)));
         siteList.style.display = "grid";
@@ -278,6 +291,8 @@
 
       } else {
         footer.classList.add("footer-notice-mode");
+        footerHamusata.style.display = "none";
+        footerHamuzon.style.display = "none";
         siteList.style.display = "none";
         publicSiteList.style.display = "grid";
         footer.innerHTML = `
@@ -291,32 +306,12 @@
       const baseYear = 2025;
       const currentYear = new Date().getFullYear();
       const yearHamusata = document.getElementById("year-hamusata");
+      const yearHamuzon = document.getElementById("year-hamuzon");
       if (yearHamusata) {
         yearHamusata.textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
       }
-
-      if (closeButton && mainWindow) {
-        let isAnimating = false;
-        closeButton.addEventListener("click", () => {
-          if (isAnimating) return;
-          isAnimating = true;
-          mainWindow.classList.add("window-closing");
-
-          setTimeout(() => {
-            mainWindow.classList.remove("window-closing");
-            mainWindow.classList.add("window-hidden");
-          }, 180);
-
-          setTimeout(() => {
-            mainWindow.classList.remove("window-hidden");
-            mainWindow.classList.add("window-opening");
-
-            requestAnimationFrame(() => {
-              mainWindow.classList.remove("window-opening");
-              isAnimating = false;
-            });
-          }, 300);
-        });
+      if (yearHamuzon) {
+        yearHamuzon.textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
       }
     });
   </script>
