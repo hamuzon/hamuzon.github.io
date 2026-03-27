@@ -210,7 +210,7 @@
   <footer id="main-footer">
     <span id="footer-hamusata">
       &copy; <span id="year-hamusata"></span>
-      <a href="https://hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a><span class="hamusata-domain"> (<a href="https://hamusata.f5.si" target="_blank" rel="noopener noreferrer">hamusata.f5.si</a>)</span>
+      <a href="https://hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a>
     </span>
     <span id="footer-hamuzon">
       &copy; <span id="year-hamuzon"></span>
@@ -232,7 +232,6 @@
       const footerHamusata = document.getElementById("footer-hamusata");
       const footerHamuzon = document.getElementById("footer-hamuzon");
       const footer = document.getElementById("main-footer");
-      const hamusataDomain = document.querySelector("#footer-hamusata .hamusata-domain");
 
       function createLinkItem({ href, text, className, openInSameTab }) {
         const li = document.createElement("li");
@@ -261,7 +260,6 @@
         publicSiteList.style.display = "none";
         footerHamusata.style.display = "inline";
         footerHamuzon.style.display = "none";
-        if (hamusataDomain) hamusataDomain.style.display = "inline";
 
       } else if (isHamuzonGitHub) {
         sitesData.hamuzonGitHubIO.forEach(site => siteList.appendChild(createLinkItem(site)));
@@ -276,7 +274,6 @@
         publicSiteList.style.display = "none";
         footerHamusata.style.display = "inline";
         footerHamuzon.style.display = "none";
-        if (hamusataDomain) hamusataDomain.style.display = "none";
 
       } else {
         sitesData.publicSites.forEach(site => publicSiteList.appendChild(createLinkItem(site)));
