@@ -21,6 +21,7 @@
     }
     main.container.window {
       width: 820px;
+      max-width: 100%;
       background: #c0c0c0;
       padding: 1rem 1.25rem 1.25rem;
       box-sizing: border-box;
@@ -110,9 +111,10 @@
       padding-left: 0;
       margin: 0;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(clamp(180px, 45vw, 260px), 1fr));
       gap: 8px;
       width: 100%;
+      align-items: start;
     }
     li { margin: 0; }
     a {
@@ -153,6 +155,17 @@
     footer a:hover, footer a:focus { color: #000080; text-decoration: none; outline: none; }
     #default-message { width: 100%; margin-top: 0.5rem; text-align: center; font-size: 0.7rem; color: #404040; }
     #public-site-list { display: none; width: 100%; }
+    footer.footer-notice-mode {
+      margin-top: 1rem;
+      padding: 0.7rem 0.9rem;
+      display: block;
+      text-align: center;
+    }
+    .footer-notice {
+      display: block;
+      margin: 0;
+      line-height: 1.4;
+    }
 
     @media (max-width: 520px) {
       main.container.window { width: 100%; margin: 1rem; }
@@ -202,62 +215,70 @@
 
   <script src="sites.js"></script>
   <script>
-    const currentHost = window.location.hostname;
-    const siteList = document.getElementById("site-list");
-    const publicSiteList = document.getElementById("public-site-list");
-    const footer = document.getElementById("main-footer");
+    document.addEventListener("DOMContentLoaded", () => {
+      const currentHost = window.location.hostname;
+      const siteList = document.getElementById("site-list");
+      const publicSiteList = document.getElementById("public-site-list");
+      const footer = document.getElementById("main-footer");
 
-    function createLinkItem({ href, text, className, reload }) {
-      const li = document.createElement("li");
-      const a = document.createElement("a");
-      a.href = href;
-      a.textContent = text;
-      a.rel = "noopener noreferrer";
-      if (className) a.className = className;
-      if (reload) {
-        a.addEventListener("click", e => { e.preventDefault(); location.reload(); });
+      function createLinkItem({ href, text, className, reload }) {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = href;
+        a.textContent = text;
+        a.rel = "noopener noreferrer";
+        if (className) a.className = className;
+        if (reload) {
+          a.addEventListener("click", e => { e.preventDefault(); location.reload(); });
+        }
+        li.appendChild(a);
+        return li;
       }
-      li.appendChild(a);
-      return li;
-    }
 
     // ホストごとにリンクリストを切り替え
-    if (currentHost.includes("home.hamusata.f5.si")) {
-      siteList.innerHTML = "";
-      sitesData.homeHamusata.forEach(site => siteList.appendChild(createLinkItem(site)));
-      siteList.style.display = "grid";
-      publicSiteList.style.display = "none";
-      footer.style.display = "flex";
+      if (currentHost.includes("home.hamusata.f5.si")) {
+        footer.classList.remove("footer-notice-mode");
+        siteList.innerHTML = "";
+        sitesData.homeHamusata.forEach(site => siteList.appendChild(createLinkItem(site)));
+        siteList.style.display = "grid";
+        publicSiteList.style.display = "none";
+        footer.style.display = "flex";
 
-    } else if (currentHost.includes("hamuzon.github.io")) {
-      siteList.innerHTML = "";
-      sitesData.hamuzonGitHubIO.forEach(site => siteList.appendChild(createLinkItem(site)));
-      siteList.style.display = "grid";
-      publicSiteList.style.display = "none";
-      footer.style.display = "flex";
+      } else if (currentHost.includes("hamuzon.github.io")) {
+        footer.classList.remove("footer-notice-mode");
+        siteList.innerHTML = "";
+        sitesData.hamuzonGitHubIO.forEach(site => siteList.appendChild(createLinkItem(site)));
+        siteList.style.display = "grid";
+        publicSiteList.style.display = "none";
+        footer.style.display = "flex";
 
-    } else if (currentHost.includes("link-s.f5.si")) {
-      siteList.innerHTML = "";
-      sitesData.wwwLinkSF5Si.forEach(site => siteList.appendChild(createLinkItem(site)));
-      siteList.style.display = "grid";
-      publicSiteList.style.display = "none";
-      footer.style.display = "flex";
+      } else if (currentHost.includes("www.link-s.f5.si") || currentHost.includes("link-s.f5.si")) {
+        footer.classList.remove("footer-notice-mode");
+        siteList.innerHTML = "";
+        sitesData.wwwLinkSF5Si.forEach(site => siteList.appendChild(createLinkItem(site)));
+        siteList.style.display = "grid";
+        publicSiteList.style.display = "none";
+        footer.style.display = "flex";
 
-    } else {
-      siteList.style.display = "none";
-      publicSiteList.style.display = "grid";
-      footer.innerHTML = `
-        <span style="display: block; padding: 0.5rem; text-align:center;">
-          このサイトは公式ではなく、一部の情報は異なる場合があります。<br />
-          This version may differ from the original official site.
-        </span>
-      `;
-      footer.style.display = "block";
-    }
+      } else {
+        footer.classList.add("footer-notice-mode");
+        siteList.style.display = "none";
+        publicSiteList.style.display = "grid";
+        footer.innerHTML = `
+          <span class="footer-notice">
+            このサイトは公式ではなく、一部の情報は異なる場合があります。<br />
+            This version may differ from the original official site.
+          </span>
+        `;
+      }
 
-    const baseYear = 2025;
-    const currentYear = new Date().getFullYear();
-    document.getElementById("year-hamusata").textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
+      const baseYear = 2025;
+      const currentYear = new Date().getFullYear();
+      const yearHamusata = document.getElementById("year-hamusata");
+      if (yearHamusata) {
+        yearHamusata.textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
+      }
+    });
   </script>
 </body>
 </html>
