@@ -205,7 +205,7 @@
     <footer id="main-footer" role="contentinfo" aria-label="Footer">
       <span>&copy;</span>
       <span id="year-hamusata"></span>
-      <a id="footer-author-link" href="https://hamusata.f5.si" rel="noopener noreferrer">@hamusata</a>
+      <a href="https://hamusata.f5.si" rel="noopener noreferrer">@hamusata</a>
       <div id="default-message">
         ※一部のサイトは現在アクセスできない場合があります。<br />
         Some sites may be temporarily unavailable.
@@ -220,7 +220,6 @@
       const siteList = document.getElementById("site-list");
       const publicSiteList = document.getElementById("public-site-list");
       const footer = document.getElementById("main-footer");
-      const footerAuthorLink = document.getElementById("footer-author-link");
 
       function createLinkItem({ href, text, className, reload }) {
         const li = document.createElement("li");
@@ -238,10 +237,6 @@
 
     // ホストごとにリンクリストを切り替え
       if (currentHost.includes("home.hamusata.f5.si")) {
-        if (footerAuthorLink) {
-          footerAuthorLink.href = "https://hamusata.f5.si";
-          footerAuthorLink.textContent = "@hamusata";
-        }
         footer.classList.remove("footer-notice-mode");
         siteList.innerHTML = "";
         sitesData.homeHamusata.forEach(site => siteList.appendChild(createLinkItem(site)));
@@ -250,10 +245,6 @@
         footer.style.display = "flex";
 
       } else if (currentHost.includes("hamuzon.github.io")) {
-        if (footerAuthorLink) {
-          footerAuthorLink.href = "https://github.com/Hamuzon";
-          footerAuthorLink.textContent = "@hamuzon";
-        }
         footer.classList.remove("footer-notice-mode");
         siteList.innerHTML = "";
         sitesData.hamuzonGitHubIO.forEach(site => siteList.appendChild(createLinkItem(site)));
@@ -262,10 +253,6 @@
         footer.style.display = "flex";
 
       } else if (currentHost.includes("link-s.f5.si")) {
-        if (footerAuthorLink) {
-          footerAuthorLink.href = "https://hamusata.f5.si";
-          footerAuthorLink.textContent = "@hamusata";
-        }
         footer.classList.remove("footer-notice-mode");
         siteList.innerHTML = "";
         sitesData.wwwLinkSF5Si.forEach(site => siteList.appendChild(createLinkItem(site)));
