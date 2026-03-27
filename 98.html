@@ -217,6 +217,8 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const currentHost = window.location.hostname;
+      const mainWindow = document.querySelector("main.container.window");
+      const closeButton = document.querySelector(".title-bar-close");
       const siteList = document.getElementById("site-list");
       const publicSiteList = document.getElementById("public-site-list");
       const footer = document.getElementById("main-footer");
@@ -277,6 +279,15 @@
       const yearHamusata = document.getElementById("year-hamusata");
       if (yearHamusata) {
         yearHamusata.textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
+      }
+
+      if (closeButton && mainWindow) {
+        closeButton.addEventListener("click", () => {
+          mainWindow.style.display = "none";
+          setTimeout(() => {
+            window.location.reload();
+          }, 200);
+        });
       }
     });
   </script>
