@@ -284,6 +284,9 @@
       if (closeButton && mainWindow) {
         closeButton.addEventListener("click", () => {
           mainWindow.style.display = "none";
+          setTimeout(() => {
+            mainWindow.style.display = "";
+          }, 200);
         });
       }
     });
