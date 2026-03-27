@@ -202,74 +202,76 @@
 
   <script src="sites.js"></script>
   <script>
-    const currentHost = window.location.hostname;
-    const siteList = document.getElementById("site-list");
-    const publicSiteList = document.getElementById("public-site-list");
-    const footer = document.getElementById("main-footer");
-    const titleBarText = document.getElementById("title-bar-text");
-    const windowTitleLink = document.getElementById("window-title-link");
+    document.addEventListener("DOMContentLoaded", () => {
+      const currentHost = window.location.hostname;
+      const siteList = document.getElementById("site-list");
+      const publicSiteList = document.getElementById("public-site-list");
+      const footer = document.getElementById("main-footer");
+      const titleBarText = document.getElementById("title-bar-text");
+      const windowTitleLink = document.getElementById("window-title-link");
 
-    function updateHeaderTitle(text) {
-      titleBarText.textContent = text;
-      windowTitleLink.textContent = text;
-      document.title = text;
-    }
-
-    function createLinkItem({ href, text, className, reload }) {
-      const li = document.createElement("li");
-      const a = document.createElement("a");
-      a.href = href;
-      a.textContent = text;
-      a.rel = "noopener noreferrer";
-      if (className) a.className = className;
-      if (reload) {
-        a.addEventListener("click", e => { e.preventDefault(); location.reload(); });
+      function updateHeaderTitle(text) {
+        titleBarText.textContent = text;
+        windowTitleLink.textContent = text;
+        document.title = text;
       }
-      li.appendChild(a);
-      return li;
-    }
+
+      function createLinkItem({ href, text, className, reload }) {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = href;
+        a.textContent = text;
+        a.rel = "noopener noreferrer";
+        if (className) a.className = className;
+        if (reload) {
+          a.addEventListener("click", e => { e.preventDefault(); location.reload(); });
+        }
+        li.appendChild(a);
+        return li;
+      }
 
     // ホストごとにリンクリストを切り替え
-    if (currentHost.includes("home.hamusata.f5.si")) {
-      updateHeaderTitle("Hamusata-Website-List");
-      siteList.innerHTML = "";
-      sitesData.homeHamusata.forEach(site => siteList.appendChild(createLinkItem(site)));
-      siteList.style.display = "grid";
-      publicSiteList.style.display = "none";
-      footer.style.display = "flex";
+      if (currentHost.includes("home.hamusata.f5.si")) {
+        updateHeaderTitle("Hamusata-Website-List");
+        siteList.innerHTML = "";
+        sitesData.homeHamusata.forEach(site => siteList.appendChild(createLinkItem(site)));
+        siteList.style.display = "grid";
+        publicSiteList.style.display = "none";
+        footer.style.display = "flex";
 
-    } else if (currentHost.includes("hamuzon.github.io")) {
-      updateHeaderTitle("Hamuzon-Website-List");
-      siteList.innerHTML = "";
-      sitesData.hamuzonGitHubIO.forEach(site => siteList.appendChild(createLinkItem(site)));
-      siteList.style.display = "grid";
-      publicSiteList.style.display = "none";
-      footer.style.display = "flex";
+      } else if (currentHost.includes("hamuzon.github.io")) {
+        updateHeaderTitle("Hamuzon-Website-List");
+        siteList.innerHTML = "";
+        sitesData.hamuzonGitHubIO.forEach(site => siteList.appendChild(createLinkItem(site)));
+        siteList.style.display = "grid";
+        publicSiteList.style.display = "none";
+        footer.style.display = "flex";
 
-    } else if (currentHost.includes("link-s.f5.si")) {
-      updateHeaderTitle("link-s.f5.si – ショートカットリンクサービス");
-      siteList.innerHTML = "";
-      sitesData.wwwLinkSF5Si.forEach(site => siteList.appendChild(createLinkItem(site)));
-      siteList.style.display = "grid";
-      publicSiteList.style.display = "none";
-      footer.style.display = "flex";
+      } else if (currentHost.includes("www.link-s.f5.si") || currentHost.includes("link-s.f5.si")) {
+        updateHeaderTitle("link-s.f5.si – ショートカットリンクサービス");
+        siteList.innerHTML = "";
+        sitesData.wwwLinkSF5Si.forEach(site => siteList.appendChild(createLinkItem(site)));
+        siteList.style.display = "grid";
+        publicSiteList.style.display = "none";
+        footer.style.display = "flex";
 
-    } else {
-      updateHeaderTitle("Website List");
-      siteList.style.display = "none";
-      publicSiteList.style.display = "grid";
-      footer.innerHTML = `
-        <span style="display: block; padding: 0.5rem; text-align:center;">
-          このサイトは公式ではなく、一部の情報は異なる場合があります。<br />
-          This version may differ from the original official site.
-        </span>
-      `;
-      footer.style.display = "block";
-    }
+      } else {
+        updateHeaderTitle("Website List");
+        siteList.style.display = "none";
+        publicSiteList.style.display = "grid";
+        footer.innerHTML = `
+          <span style="display: block; padding: 0.5rem; text-align:center;">
+            このサイトは公式ではなく、一部の情報は異なる場合があります。<br />
+            This version may differ from the original official site.
+          </span>
+        `;
+        footer.style.display = "block";
+      }
 
-    const baseYear = 2025;
-    const currentYear = new Date().getFullYear();
-    document.getElementById("year-hamusata").textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
+      const baseYear = 2025;
+      const currentYear = new Date().getFullYear();
+      document.getElementById("year-hamusata").textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
+    });
   </script>
 </body>
 </html>
