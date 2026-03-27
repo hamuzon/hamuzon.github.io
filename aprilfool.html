@@ -204,7 +204,7 @@
 
 <footer id="main-footer">
   <div class="footer-inner-rotated">
-    <span id="footer-hamusata">&copy; <span id="year-hamusata"></span> <a href="https://hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a> (<a href="https://hamusata.f5.si" target="_blank" rel="noopener noreferrer">hamusata.f5.si</a>)</span>
+    <span id="footer-hamusata">&copy; <span id="year-hamusata"></span> <a href="https://hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a><span class="hamusata-domain"> (<a href="https://hamusata.f5.si" target="_blank" rel="noopener noreferrer">hamusata.f5.si</a>)</span></span>
     <span id="footer-hamuzon">&copy; <span id="year-hamuzon"></span> <a href="https://github.com/hamuzon" target="_blank" rel="noopener noreferrer">@hamuzon</a></span>
     <br>
     <span id="default-message">April Fools' Day!<br>This page is a joke.</span>
@@ -220,6 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const footer = document.getElementById("main-footer");
   const footerHamusata = document.getElementById("footer-hamusata");
   const footerHamuzon = document.getElementById("footer-hamuzon");
+  const hamusataDomain = document.querySelector("#footer-hamusata .hamusata-domain");
 
   const emojis = ['👺', '👹', '🍵', '🍡', '🌸', '🦊', '🤥', '🤪', '🌀', '', '⚠', '', '⚛', '☢', 'N/A'];
   setInterval(() => {
@@ -297,6 +298,7 @@ document.addEventListener("DOMContentLoaded", () => {
     siteList.style.display="grid"; publicList.style.display="none";
     footerHamusata.style.display="inline";
     footerHamuzon.style.display="none";
+    if (hamusataDomain) hamusataDomain.style.display = "inline";
 
   } else if(host.includes("hamuzon.github.io")){
     sitesData.hamuzonGitHubIO.forEach(site => siteList.appendChild(createLinkItem(site)));
@@ -309,6 +311,7 @@ document.addEventListener("DOMContentLoaded", () => {
     siteList.style.display="grid"; publicList.style.display="none";
     footerHamusata.style.display="inline";
     footerHamuzon.style.display="none";
+    if (hamusataDomain) hamusataDomain.style.display = "none";
 
   } else {
     [...sitesData.publicSites].forEach(site => publicList.appendChild(createLinkItem(site)));
