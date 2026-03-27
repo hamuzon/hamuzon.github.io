@@ -284,9 +284,6 @@
       if (closeButton && mainWindow) {
         closeButton.addEventListener("click", () => {
           mainWindow.style.display = "none";
-          setTimeout(() => {
-            window.location.reload();
-          }, 200);
         });
       }
     });
