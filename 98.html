@@ -244,6 +244,32 @@
       const footerHamusata = document.getElementById("footer-hamusata");
       const footerHamuzon = document.getElementById("footer-hamuzon");
 
+      if (closeButton && mainWindow) {
+        let isAnimating = false;
+
+        closeButton.addEventListener("click", () => {
+          if (isAnimating) return;
+          isAnimating = true;
+
+          mainWindow.classList.add("window-closing");
+
+          setTimeout(() => {
+            mainWindow.classList.remove("window-closing");
+            mainWindow.classList.add("window-hidden");
+          }, 180);
+
+          setTimeout(() => {
+            mainWindow.classList.remove("window-hidden");
+            mainWindow.classList.add("window-opening");
+
+            requestAnimationFrame(() => {
+              mainWindow.classList.remove("window-opening");
+              isAnimating = false;
+            });
+          }, 300);
+        });
+      }
+
       function createLinkItem({ href, text, className, reload }) {
         const li = document.createElement("li");
         const a = document.createElement("a");
