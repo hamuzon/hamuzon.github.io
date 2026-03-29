@@ -4,6 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>404 エラーコード - Error</title>
+  <script>
+    // README.md や license へのアクセスを検知してトップへリダイレクト
+    const path = window.location.pathname.toLowerCase();
+    if (path.includes('readme') || path.includes('license')) {
+      window.location.replace('/');
+    }
+  </script>
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <style>
     *, *::before, *::after { box-sizing: border-box; }

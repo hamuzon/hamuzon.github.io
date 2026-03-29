@@ -33,6 +33,10 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
+      - name: Remove sensitive files from deployment artifact
+        run: |
+          # デプロイ対象からのみ削除 (リポジトリのファイルは消えません)
+          rm -f README.md license
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
