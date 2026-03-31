@@ -54,7 +54,8 @@
 Since April 1st is April Fool's Day, I asked an AI to create an April Fool's Day-themed website, and it did.
 
 English by Google Translate
-[hamuzon.github.io/aprilfool](https://hamuzon.github.io/aprilfool) 
+
+- [hamuzon.github.io/aprilfool](https://hamuzon.github.io/aprilfool) 
 
 ---
 
