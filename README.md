@@ -46,6 +46,16 @@
   上記サイトの GitHub リポジトリです。  
   GitHub repository of the above site.
 
+
+---
+
+4月1日はエイプリルフールなのでAIにエープリルぽいサイトお願いしたら作ってくれました
+
+Since April 1st is April Fool's Day, I asked an AI to create an April Fool's Day-themed website, and it did.
+
+English by Google Translate
+[hamuzon.github.io/aprilfool](https://hamuzon.github.io/aprilfool) 
+
 ---
 
 リンク先の作品もぜひご覧ください。  
