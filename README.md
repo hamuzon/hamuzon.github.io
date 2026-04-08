@@ -46,10 +46,7 @@
   上記サイトの GitHub リポジトリです。  
   GitHub repository of the above site.
 
-
 ---
-
-
 
 リンク先の作品もぜひご覧ください。  
 Please feel free to explore the works linked from these sites.
