@@ -24,6 +24,7 @@ const sitesData = {
     { href: "https://globe.world.hamusata.f5.si/", text: "🌍️ アクセス位置共有 🌐 / (世界のどこからをリアルタイムで表示)", openInSameTab: true },
     { href: "https://video-hub.hamusata.f5.si/", text: "📹️Video　Player Tool HUB　⏯️", openInSameTab: true },
     { href: "http://olympic.hamusata.f5.si/", text: "🏟️ Olympic Countdown / オリンピック関連カウントダウン 🎖️", openInSameTab: true },
+    { href: "http://Clock.hamusata.f5.si/", text: "⌚️ Clock-App ⏰️ ", openInSameTab: true },
 ],
 
   hamuzonGitHubIO: [
@@ -47,6 +48,7 @@ const sitesData = {
     { href: "https://hamuzon.github.io/discord-tools/", text: "📱 Discord Tools 🖥️ /　-Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/Video-hub/", text: "📹️Video　Player Tool HUB　⏯️ /　-Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/olympic/", text: "🏟️ Olympic Countdown / オリンピック関連カウントダウン 🎖️ - Hamuzon", openInSameTab: true },
+    { href: "https://hamuzon.github.io/Clock-app/", text: "⌚️ Clock-App ⏰️ - Hamuzon", openInSameTab: true },
   ],
 
   wwwLinkSF5Si: [

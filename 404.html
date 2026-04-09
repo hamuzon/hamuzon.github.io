@@ -5,9 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>404 エラーコード - Error</title>
   <script>
-    // README.md や license へのアクセスを検知してトップへリダイレクト
+    // 特定のパスへのアクセスを検知してリダイレクト
+    const host = window.location.hostname;
     const path = window.location.pathname.toLowerCase();
-    if (path.includes('readme') || path.includes('license')) {
+
+    if (host === 'hamuzon.github.io' && (path.endsWith('/clock') || path.endsWith('/clock/'))) {
+      window.location.replace('/clock-app/');
+    } else if (path.includes('readme') || path.includes('license')) {
       window.location.replace('/');
     }
   </script>
