@@ -9,7 +9,9 @@
     const host = window.location.hostname;
     const path = window.location.pathname.toLowerCase();
 
-    if (host === 'hamuzon.github.io' && (path.endsWith('/clock') || path.endsWith('/clock/'))) {
+    if (host === 'hamuzon.github.io' && (path === '/lit' || path === '/lit/')) {
+      window.location.replace('/?utm_source=litlink&utm_medium=social');
+    } else if (host === 'hamuzon.github.io' && (path.endsWith('/clock') || path.endsWith('/clock/'))) {
       window.location.replace('/clock-app/');
     } else if (path.includes('readme') || path.includes('license')) {
       window.location.replace('/');
