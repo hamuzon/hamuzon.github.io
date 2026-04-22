@@ -8,7 +8,7 @@ on:
 
   # sitemap.yml が実行完了した後に自動でデプロイを動かす設定
   workflow_run:
-    workflows: ["Generate sitemap"] # ※sitemap.yml の一番上にある 'name:' と同じ名前にすること
+    workflows: ["Update Sitemap"] # ※sitemap.yml の一番上にある 'name:' と同じ名前にすること
     types:
       - completed
 
