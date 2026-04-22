@@ -173,8 +173,64 @@
     <loc>https://hamuzon.github.io/Video-hub/</loc>
   </url>
 
-    <url>
+  <url>
     <loc>https://hamuzon.github.io/clock-app/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/QR/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/QR/Image-qr-scanner</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/QR/QR</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/QR/mail</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/QR/mc-qr</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/QR/qrcode-tool</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/QR/scan</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/QR/short-url-qr</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/dice/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/expo2025-counter/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/todo/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/yt/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/yt/text/</loc>
+  </url>
+
+  <url>
+    <loc>https://hamuzon.github.io/yt/thumbnail/</loc>
   </url>
 
 </urlset>
