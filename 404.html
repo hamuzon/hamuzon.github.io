@@ -11,6 +11,8 @@
 
     if (host === 'hamuzon.github.io' && (path === '/lit' || path === '/lit/')) {
       window.location.replace('/?utm_source=litlink&utm_medium=social');
+    } else if (host === 'hamuzon.github.io' && (path === '/tre' || path === '/tre/')) {
+      window.location.replace('/?utm_source=linktree&utm_medium=social');
     } else if (host === 'hamuzon.github.io' && (path.endsWith('/clock') || path.endsWith('/clock/'))) {
       window.location.replace('/clock-app/');
     } else if (path.includes('readme') || path.includes('license')) {
