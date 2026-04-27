@@ -8,7 +8,7 @@ on:
 
   # sitemap.yml が実行完了した後に自動でデプロイを動かす設定
   workflow_run:
-    workflows: ["Update Sitemap"] # ※sitemap.yml の一番上にある 'name:' と同じ名前にすること
+    workflows: ["Update Sitemap"]
     types:
       - completed
 
@@ -30,7 +30,7 @@ concurrency:
 jobs:
   # Single deploy job since we're just deploying
   deploy:
-    # ワークフロー実行が成功した場合、または通常のプッシュの場合のみ実行
+    # Update Sitemapワークフローが失敗した場合は実行しない
     if: ${{ github.event_name == 'push' || github.event.workflow_run.conclusion == 'success' }}
     environment:
       name: github-pages
