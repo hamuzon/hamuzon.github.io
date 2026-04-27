@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'public/hamuzon.github.io-sitemap.xml'
+      - 'public/hamusata.f5.si-sitemap.xml'
       - 'sitemap.xml'
   workflow_dispatch:
 
