@@ -39,8 +39,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        # sitemap.yml 実行後の最新コミット（ボットによる更新分）を確実に反映させるため、
+        # 特定の SHA ではなく main ブランチの最新を取得するように変更します。
         with:
-          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          ref: 'main'
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Remove sensitive files from deployment artifact
