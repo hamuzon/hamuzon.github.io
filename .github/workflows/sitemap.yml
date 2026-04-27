@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'public/hamuzon.github.io-sitemap.xml'
+      - 'sitemap.xml'
   workflow_dispatch:
 
 permissions:
