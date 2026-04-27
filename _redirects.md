@@ -10,5 +10,5 @@
 /bky  /?utm_source=bluesky&utm_medium=social   302
 /tx   /?utm_source=twitter&utm_medium=social   302
 /lit  /?utm_source=litlink&utm_medium=social   302
-
+<!-- markdownlint-disable-next-line MD034 -->
 https://home.hamusata.f5.si/sitemap.xml   https://home.hamusata.f5.si/public/hamusata.f5.si-sitemap.xml   301

@@ -44,7 +44,7 @@ jobs:
       - name: Remove sensitive files from deployment artifact
         run: |
           # デプロイ対象からのみ削除 (リポジトリのファイルは消えません)
-          rm -f README.md README readme.md license LICENSE LICENSE.txt
+          rm -f README.md README readme.md license LICENSE LICENSE.txt _redirects.md _redirects
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
