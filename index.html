@@ -160,6 +160,7 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const currentHost = window.location.hostname;
+      const normalizedHost = currentHost.toLowerCase().replace(/\.$/, "");
       const siteList = document.getElementById("site-list");
       const publicSiteList = document.getElementById("public-site-list");
       const footerHamusata = document.getElementById("footer-hamusata");
@@ -183,9 +184,9 @@
         return li;
       }
 
-      const isHomeHamusata = currentHost === "home.hamusata.f5.si";
-      const isHamuzonGitHub = currentHost === "hamuzon.github.io" || currentHost.endsWith(".hamuzon.github.io");
-      const isLinkSSubdomain = currentHost === "link-s.f5.si" || currentHost.endsWith(".link-s.f5.si");
+      const isHomeHamusata = normalizedHost === "home.hamusata.f5.si";
+      const isHamuzonGitHub = normalizedHost === "hamuzon.github.io" || normalizedHost.endsWith(".hamuzon.github.io");
+      const isLinkSSubdomain = normalizedHost === "link-s.f5.si" || normalizedHost.endsWith(".link-s.f5.si");
 
       if (isHomeHamusata) {
         sitesData.homeHamusata.forEach(site => siteList.appendChild(createLinkItem(site)));
