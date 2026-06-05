@@ -7,6 +7,13 @@
   <script>
     // 特定のパスへのアクセスを検知してリダイレクト
     const host = window.location.hostname;
+
+    // ドメイン末尾にドットがあるFQDN形式を正規化 (Middleware相当の処理)
+    if (host.endsWith('.')) {
+      const normalizedHost = host.slice(0, -1);
+      window.location.replace(window.location.href.replace(host, normalizedHost));
+    }
+
     const path = window.location.pathname.toLowerCase();
 
     if (host === 'hamuzon.github.io' && (path === '/lit' || path === '/lit/')) {

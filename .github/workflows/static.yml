@@ -45,6 +45,11 @@ jobs:
           ref: 'main'
       - name: Setup Pages
         uses: actions/configure-pages@v5
+      - name: Inject FQDN normalization script
+        run: |
+          # 全てのHTMLファイルの<head>直後に正規化スクリプトを挿入
+          # (Middlewareのように全てのページで動作させるため)
+          find . -maxdepth 1 -name "*.html" -not -name "google*.html" -exec sed -i '/<head>/a \  <script>if(window.location.hostname.endsWith(".")){window.location.replace(window.location.href.replace(window.location.hostname,window.location.hostname.slice(0,-1)));}</script>' {} +
       - name: Remove sensitive files from deployment artifact
         run: |
           # デプロイ対象からのみ削除 (リポジトリのファイルは消えません)
