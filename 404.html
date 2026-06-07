@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>404 エラーコード - Error</title>
   <script>
-    // 特定のパスへのアクセスを検知してリダイレクト
     const host = window.location.hostname;
 
-    // ドメイン末尾にドットがあるFQDN形式を正規化 (Middleware相当の処理)
     if (host.endsWith('.')) {
       const normalizedHost = host.slice(0, -1);
       window.location.replace(window.location.href.replace(host, normalizedHost));
@@ -26,6 +24,8 @@
       window.location.replace('/clock-app/');
     } else if (host === 'hamuzon.github.io' && path.includes('discord')) {
       window.location.replace('/discord-tools/');
+    } else if (host === 'hamuzon.github.io' && (path === '/art' || path === '/art/' || path === '/art-pixel' || path === '/art-pixel/' || path === '/pixel' || path === '/pixel/')) {
+      window.location.replace('/pixel-art/');
     } else if (path.includes('readme') || path.includes('license')) {
       window.location.replace('/');
     }
