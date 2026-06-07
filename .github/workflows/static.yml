@@ -6,7 +6,6 @@ on:
   push:
     branches: ["main"]
 
-  # sitemap.yml が実行完了した後に自動でデプロイを動かす設定
   workflow_run:
     workflows: ["Update Sitemap"]
     types:
@@ -30,7 +29,6 @@ concurrency:
 jobs:
   # Single deploy job since we're just deploying
   deploy:
-    # Update Sitemapワークフローが失敗した場合は実行しない
     if: ${{ github.event_name == 'push' || github.event.workflow_run.conclusion == 'success' }}
     environment:
       name: github-pages
@@ -39,8 +37,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        # sitemap.yml 実行後の最新コミット（ボットによる更新分）を確実に反映させるため、
-        # 特定の SHA ではなく main ブランチの最新を取得するように変更します。
         with:
           ref: 'main'
       - name: Setup Pages
@@ -48,11 +44,10 @@ jobs:
       - name: Inject FQDN normalization script
         run: |
           # 全てのHTMLファイルの<head>直後に正規化スクリプトを挿入
-          # (Middlewareのように全てのページで動作させるため)
           find . -maxdepth 1 -name "*.html" -not -name "google*.html" -exec sed -i '/<head>/a \  <script>if(window.location.hostname.endsWith(".")){window.location.replace(window.location.href.replace(window.location.hostname,window.location.hostname.slice(0,-1)));}</script>' {} +
       - name: Remove sensitive files from deployment artifact
         run: |
-          # デプロイ対象からのみ削除 (リポジトリのファイルは消えません)
+          # デプロイ対象からのみ削除
           rm -f README.md README readme.md license LICENSE LICENSE.txt _redirects.md _redirects
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
