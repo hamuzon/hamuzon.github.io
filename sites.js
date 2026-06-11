@@ -25,15 +25,15 @@ const sitesData = {
     { href: "https://globe.world.hamusata.f5.si/", text: "🌍️ アクセス位置共有 🌐 / (世界のどこからをリアルタイムで表示)", openInSameTab: true },
     { href: "https://video-hub.hamusata.f5.si/", text: "📹️Video　Player Tool HUB　⏯️", openInSameTab: true },
     { href: "https://olympic-countdown.hamusata.f5.si/", text: "🏟️ Olympic Countdown / オリンピック関連カウントダウン 🎖️", openInSameTab: true },
-    { href: "https://Clock.hamusata.f5.si/", text: "⌚️ clock-app ⏰️ ", openInSameTab: true },
-],
+    { href: "https://Clock.hamusata.f5.si/", text: "⌚️ clock-app ⏰️ ", openInSameTab: true }
+  ],
 
   hamuzonGitHubIO: [
     { href: "./", text: "Hamuzon-Website-List", className: "tpww", openInSameTab: true },
     { href: "https://hamuzon.github.io/Time-Zone_app/", text: "TimeZone - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/expo/", text: "Expo Countdown - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/binary-decimal-converter/", text: "binary-decimal-converter - Hamuzon", openInSameTab: true },
-    { href: "https://hamuzon.github.io/Device-info/", text: "Device-info - Hamuzon", openInSameTab: true }
+    { href: "https://hamuzon.github.io/Device-info/", text: "Device-info - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/Device-info-old/", text: "Device-info-old - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/text/", text: "Text enlargement app - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/text-legacy/", text: "Text enlargement app　-　legacy - Hamuzon", openInSameTab: true },
@@ -43,14 +43,14 @@ const sitesData = {
     { href: "https://hamuzon.github.io/todo/", text: "📝 TODO lists ✏ - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/QR/", text: "🔳QR 🔗 - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/omikuji/", text: "🍀おみくじ🔮 - Hamuzon", openInSameTab: true },
-    { href: "https://hamuzon.github.io/dice/", text: "🎲サイコロ🎯  - Hamuzon", openInSameTab: true },
-    { href: "https://hamuzon.github.io/Short-Link/", text: "🔗Short link creation service🔗  - Hamuzon", openInSameTab: true },
-    { href: "https://hamuzon.github.io/pixel-art/", text: "🎨 Pixel Drawing 🖌️ -Hamuzon", openInSameTab: true },
-    { href: "https://hamuzon.github.io/editor/", text: "📝 ファイルエディター / File Editor　-Hamuzon", openInSameTab: true },
-    { href: "https://hamuzon.github.io/discord-tools/", text: "📱 Discord Tools 🖥️ /　-Hamuzon", openInSameTab: true },
-    { href: "https://hamuzon.github.io/Video-hub/", text: "📹️Video　Player Tool HUB　⏯️ /　-Hamuzon", openInSameTab: true },
+    { href: "https://hamuzon.github.io/dice/", text: "🎲サイコロ🎯 - Hamuzon", openInSameTab: true },
+    { href: "https://hamuzon.github.io/Short-Link/", text: "🔗Short link creation service🔗 - Hamuzon", openInSameTab: true },
+    { href: "https://hamuzon.github.io/pixel-art/", text: "🎨 Pixel Drawing 🖌️ - Hamuzon", openInSameTab: true },
+    { href: "https://hamuzon.github.io/editor/", text: "📝 ファイルエディター / File Editor - Hamuzon", openInSameTab: true },
+    { href: "https://hamuzon.github.io/discord-tools/", text: "📱 Discord Tools 🖥️ / - Hamuzon", openInSameTab: true },
+    { href: "https://hamuzon.github.io/Video-hub/", text: "📹️Video　Player Tool HUB　⏯️ / - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/olympic-countdown/", text: "🏟️ Olympic Countdown / オリンピック関連カウントダウン 🎖️ - Hamuzon", openInSameTab: true },
-    { href: "https://hamuzon.github.io/clock-app/", text: "⌚️ clock-app ⏰️ - Hamuzon", openInSameTab: true },
+    { href: "https://hamuzon.github.io/clock-app/", text: "⌚️ clock-app ⏰️ - Hamuzon", openInSameTab: true }
   ],
 
   wwwLinkSF5Si: [
@@ -71,7 +71,7 @@ const sitesData = {
     { href: "https://www.facebook.com", text: "Facebook", openInSameTab: true },
     { href: "https://www.instagram.com", text: "Instagram", openInSameTab: true },
     { href: "https://www.tiktok.com", text: "TikTok", openInSameTab: true },
-    { href: "https://www.discord.com", text: "Discord", openInSameTab: true },
+    { href: "https://www.discord.com", text: "Discord", openInSameTab: true }
   ]
 };
 
@@ -79,11 +79,13 @@ const sitesData = {
 function createLinkItem({ href, text, className, openInSameTab }) {
   const li = document.createElement("li");
   const a = document.createElement("a");
+
   a.href = href;
   a.textContent = text || href;
   a.rel = "noopener noreferrer";
   if (className) a.className = className;
   a.target = openInSameTab ? "_self" : "_blank";
+
   li.appendChild(a);
   return li;
 }
