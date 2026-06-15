@@ -22,7 +22,6 @@ const sitesData = {
     { href: "https://pixel-art.hamusata.f5.si/", text: "🎨 Pixel Drawing 🖌️ Hamusata ", openInSameTab: true },
     { href: "https://editor.hamusata.f5.si/", text: "📝 ファイルエディター / File Editor Hamusata ", openInSameTab: true },
     { href: "https://discord-tools.hamusata.f5.si/", text: "📱 Discord Tools 🖥️ / Hamusata ", openInSameTab: true },
-    { href: "https://globe.world.hamusata.f5.si/", text: "🌍️ アクセス位置共有 🌐 / (世界のどこからをリアルタイムで表示)", openInSameTab: true },
     { href: "https://video-hub.hamusata.f5.si/", text: "📹️Video　Player Tool HUB　⏯️", openInSameTab: true },
     { href: "https://olympic-countdown.hamusata.f5.si/", text: "🏟️ Olympic Countdown / オリンピック関連カウントダウン 🎖️", openInSameTab: true },
     { href: "https://Clock.hamusata.f5.si/", text: "⌚️ clock-app ⏰️ ", openInSameTab: true }
