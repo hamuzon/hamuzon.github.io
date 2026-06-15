@@ -22,6 +22,10 @@
       window.location.replace('/calendar/');
     } else if (host === 'hamuzon.github.io' && (path.endsWith('/clock') || path.endsWith('/clock/') || path.endsWith('/clockapp') || path.endsWith('/clockapp/'))) {
       window.location.replace('/clock-app/');
+    } else if (host === 'hamuzon.github.io' && path.includes('device-info-old')) {
+      window.location.replace('/device-info-old/');
+    } else if (host === 'hamuzon.github.io' && path.includes('device-info')) {
+      window.location.replace('/device-info/');
     } else if (host === 'hamuzon.github.io' && path.includes('discord')) {
       window.location.replace('/discord-tools/');
     } else if (host === 'hamuzon.github.io' && (path === '/art' || path === '/art/' || path === '/art-pixel' || path === '/art-pixel/' || path === '/pixel' || path === '/pixel/')) {
