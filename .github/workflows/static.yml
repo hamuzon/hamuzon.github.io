@@ -5,13 +5,22 @@ on:
   # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
+    paths-ignore:
+      - 'sitemap.xml'
+      - 'public/**'
+
+  # サイトマップ更新ワークフローが完了した時にも実行する
+  workflow_run:
+    workflows: ["Update Sitemap"]
+    types:
+      - completed
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -24,6 +33,10 @@ concurrency:
 jobs:
   # Single deploy job since we're just deploying
   deploy:
+    # 通常のPush、またはUpdate Sitemapが成功した時のみ実行
+    if: >
+      github.event_name == 'push' || 
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -31,23 +44,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Sync and Commit Sitemap
-        run: |
-          SRC="public/hamuzon.github.io-sitemap.xml"
-          DST="sitemap.xml"
-          if [ -f "$SRC" ]; then
-            cp "$SRC" "$DST"
-            git config --local user.email "github-actions[bot]@users.noreply.github.com"
-            git config --local user.name "github-actions[bot]"
-            git add "$DST"
-            if ! git diff --staged --quiet; then
-              DATE=$(TZ=Asia/Tokyo date +"%Y-%m-%d %H:%M:%S")
-              git commit -m "Update sitemap.xml (auto-sync) $DATE"
-              git push
-            fi
-          fi
-
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Inject FQDN normalization script
