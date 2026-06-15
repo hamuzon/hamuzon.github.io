@@ -41,12 +41,16 @@ jobs:
           git config --local user.name "github-actions[bot]"
 
       - name: Commit changes
+        id: commit
         run: |
           DATE=$(TZ=Asia/Tokyo date +"%Y-%m-%d %H:%M:%S.%N")
           DATE_MS="${DATE:0:23}"
           
           git add sitemap.xml
-          git commit -m "Update sitemap.xml ($DATE_MS)" || echo "No changes to commit"
-
-      - name: Push changes
-        run: git push
+          if git diff --staged --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            git commit -m "Update sitemap.xml ($DATE_MS)"
+            git push
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi

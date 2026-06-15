@@ -5,6 +5,11 @@ on:
   # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
+    paths-ignore:
+      - 'public/hamuzon.github.io-sitemap.xml'
+      - 'public/hamusata.f5.si-sitemap.xml'
+      - 'sitemap.xml'
+      - '.github/workflows/sitemap.yml'
 
   workflow_run:
     workflows: ["Update Sitemap"]
@@ -29,7 +34,7 @@ concurrency:
 jobs:
   # Single deploy job since we're just deploying
   deploy:
-    if: ${{ github.event_name == 'push' || github.event.workflow_run.conclusion == 'success' }}
+    if: github.event_name == 'push' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
