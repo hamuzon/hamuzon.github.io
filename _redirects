@@ -1,16 +1,21 @@
 <!-- markdownlint-disable MD041 -->
 
-/README.md     /   301
-/README        /   301
-/LICENSE       /   301
-/license       /   301
-/LICENSE.txt   /   301
+# ===== Internal Files =====
 
-/.github/workflows/static.yml    /   301
-/.github/workflows/sitemap.yml   /   301
+/README.md                         /                                      301
+/README                            /                                      301
+/LICENSE                           /                                      301
+/license                           /                                      301
+/LICENSE.txt                       /                                      301
 
-/dc   /?utm_source=discord&utm_medium=social   302
-/bky  /?utm_source=bluesky&utm_medium=social   302
-/tx   /?utm_source=twitter&utm_medium=social   302
-/lit  /?utm_source=litlink&utm_medium=social   302
-/tre  /?utm_source=linktree&utm_medium=social  302
+/.github/workflows/static.yml      /                                      301
+/.github/workflows/sitemap.yml     /                                      301
+
+
+# ===== Social Analytics =====
+
+/dc                                /?utm_source=discord&utm_medium=social   302
+/bky                               /?utm_source=bluesky&utm_medium=social   302
+/tx                                /?utm_source=twitter&utm_medium=social   302
+/lit                               /?utm_source=litlink&utm_medium=social   302
+/tre                               /?utm_source=linktree&utm_medium=social  302
