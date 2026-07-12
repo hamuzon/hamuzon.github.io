@@ -1,4 +1,4 @@
-# Simple workflow for deploying static content to GitHub Pages
+# Simple workflow for deploying static content to Pages
 name: Deploy static content to Pages
 
 on:
@@ -51,7 +51,7 @@ jobs:
       - name: Inject FQDN normalization script
         run: |
           # 全てのHTMLファイルの<head>直後に正規化スクリプトを挿入
-          find . -maxdepth 1 -name "*.html" -not -name "google*.html" -exec sed -i '/<head>/a \  <script>if(window.location.hostname.endsWith(".")){window.location.replace(window.location.href.replace(window.location.hostname,window.location.hostname.slice(0,-1)));}</script>' {} +
+          find . -maxdepth 1 -name "*.html" -not -name "google*.html" -exec sed -i '/<head>/a \  <script>(()=>{const u=new URL(location.href);if(u.hostname.endsWith(".")){u.hostname=u.hostname.slice(0,-1);location.replace(u.toString());}})();</script>' {} +
       - name: Remove sensitive files from deployment artifact
         run: |
           # デプロイ対象からのみ削除
@@ -64,3 +64,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        
