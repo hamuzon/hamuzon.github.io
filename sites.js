@@ -7,7 +7,7 @@ const sitesData = {
     { href: "https://time-zone.hamusata.f5.si", text: "🕒 Time Zone", openInSameTab: true },
     { href: "https://Device-info.hamusata.f5.si", text: "📱 Device Info", openInSameTab: true },
     { href: "https://Device-info-old.hamusata.f5.si", text: "📟️ Device Info old", openInSameTab: true },
-    { href: "https://expo.hamusata.f5.si/", text: "🎆 Expo Countdown - Hamusata", openInSameTab: true },
+    { href: "https://expo-countdown.hamusata.f5.si/", text: "🎆 Expo Countdown - Hamusata", openInSameTab: true },
     { href: "https://bin2dec.hamusata.f5.si", text: "🔢 binary-decimal-converter - Hamusata", openInSameTab: true },
     { href: "https://text.hamusata.f5.si", text: "🔤 Text enlargement app - Hamusata", openInSameTab: true },
     { href: "https://text-legacy.hamusata.f5.si", text: "🔤 Text enlargement app　-　legacy - Hamusata", openInSameTab: true },
@@ -30,7 +30,7 @@ const sitesData = {
   hamuzonGitHubIO: [
     { href: "./", text: "Hamuzon-Website-List", className: "tpww", openInSameTab: true },
     { href: "https://hamuzon.github.io/Time-Zone_app/", text: "🕒 TimeZone - Hamuzon", openInSameTab: true },
-    { href: "https://hamuzon.github.io/expo/", text: "🎆 Expo Countdown - Hamuzon", openInSameTab: true },
+    { href: "https://hamuzon.github.io/expo-countdown/", text: "🎆 Expo Countdown - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/binary-decimal-converter/", text: "🔢 binary-decimal-converter - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/Device-info/", text: "📱 Device-info - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/device-info-old/", text: "📟️ Device-info-old - Hamuzon", openInSameTab: true },
