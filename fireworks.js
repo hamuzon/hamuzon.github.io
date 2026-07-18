@@ -1,4 +1,5 @@
 (() => {
+  // 花火を描画するためのCanvas要素を取得
   const canvas = document.getElementById('fireworksCanvas');
   if (!canvas) {
     console.warn('fireworks.js: canvas#fireworksCanvas が見つかりません');
@@ -7,7 +8,7 @@
   const ctx = canvas.getContext('2d');
   let cw, ch;
 
-  // リサイズ対応
+  // ウィンドウサイズに合わせてCanvasの解像度と描画サイズを最適化する関数
   function resize() {
     cw = window.innerWidth;
     ch = window.innerHeight;
@@ -21,15 +22,15 @@
   window.addEventListener('resize', resize);
   resize();
 
-  // ヘルパー関数
   function random(min, max) {
     return Math.random() * (max - min) + min;
   }
   function randomInt(min, max) {
     return Math.floor(random(min, max));
   }
-  
-  // パーティクル（花火の粒子）
+
+  // 花火が爆発した後の「火花」の1粒1粒を表現・管理するクラス
+  // 物理演算（重力、空気抵抗）や描画（軌跡、光り方）を担当
   class Particle {
     constructor(x, y, vx, vy, hue, brightness, decay, size, friction = 0.98, gravity = 0.05, flickering = false) {
       this.x = x;
@@ -46,7 +47,7 @@
       this.flickering = flickering;
       this.dead = false;
       this.trail = [];
-      this.trailMaxLen = randomInt(2, 4); // 軽くするためにトレイルの長さを削減
+      this.trailMaxLen = randomInt(2, 4);
     }
     update() {
       this.trail.push({ x: this.x, y: this.y });
@@ -65,8 +66,7 @@
     draw(ctx) {
       ctx.save();
       ctx.globalCompositeOperation = 'lighter';
-      
-      // トレイル
+
       if (this.trail.length > 1) {
         ctx.beginPath();
         ctx.moveTo(this.trail[0].x, this.trail[0].y);
@@ -78,7 +78,6 @@
         ctx.stroke();
       }
 
-      // 粒子
       let currentAlpha = this.alpha;
       if (this.flickering && Math.random() < 0.2) {
         currentAlpha *= 0.5;
@@ -87,18 +86,18 @@
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
       ctx.fillStyle = `hsla(${this.hue}, 100%, ${this.brightness}%, ${currentAlpha})`;
       ctx.fill();
-      
-      // パフォーマンス向上のためshadowBlurを削除し、代わりに少し大きい半透明の円を描画してグローを表現
+
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
       ctx.fillStyle = `hsla(${this.hue}, 100%, ${this.brightness}%, ${currentAlpha * 0.3})`;
       ctx.fill();
-      
+
       ctx.restore();
     }
   }
 
-  // 花火本体
+  // 花火の管理
+  // 牡丹、菊、柳、ハートなどの様々な花火の形状その他打ち上げ等
   class Firework {
     constructor(x, y, targetY, hue) {
       this.x = x;
@@ -123,7 +122,7 @@
 
         this.x += this.vx;
         this.y += this.vy;
-        this.vy += 0.15; // 打ち上げの重力
+        this.vy += 0.15;
 
         if (this.vy >= 0 || this.y <= this.targetY) {
           this.explode();
@@ -136,10 +135,9 @@
     }
     explode() {
       this.isExploded = true;
-      
+
       this.createFlash();
 
-      // パフォーマンスのためにベースのパーティクル数を削減 (約半減)
       const baseCount = 35 + randomInt(0, 35);
       switch (this.type) {
         case 0: this.createPeony(baseCount); break;
@@ -207,8 +205,8 @@
     createStar(count) {
       const spikes = 5;
       for (let i = 0; i < count; i++) {
-        const baseAngle = Math.floor(i / (count/spikes)) * (Math.PI*2/spikes) - Math.PI/2;
-        const offset = random(-Math.PI/(spikes*4), Math.PI/(spikes*4));
+        const baseAngle = Math.floor(i / (count / spikes)) * (Math.PI * 2 / spikes) - Math.PI / 2;
+        const offset = random(-Math.PI / (spikes * 4), Math.PI / (spikes * 4));
         const finalAngle = baseAngle + offset;
         const speed = random(3, 8);
         const vx = Math.cos(finalAngle) * speed;
@@ -220,7 +218,7 @@
       if (!this.isExploded) {
         ctx.save();
         ctx.globalCompositeOperation = 'lighter';
-        
+
         if (this.trail.length > 1) {
           ctx.beginPath();
           ctx.moveTo(this.trail[0].x, this.trail[0].y);
@@ -236,7 +234,7 @@
         ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
         ctx.fillStyle = `hsla(${this.hue}, 100%, 80%, 1)`;
         ctx.fill();
-        
+
         ctx.restore();
       } else {
         this.particles.forEach(p => p.draw(ctx));
@@ -244,14 +242,14 @@
     }
   }
 
-  // メイン管理
+  // 打ち上げのタイミングの管理
   class FireworksManager {
     constructor() {
       this.fireworks = [];
       this.lastLaunchTime = 0;
       this.running = false;
       this.animationFrameId = null;
-      this.launchInterval = 900; // インターバルを少し広げて軽くする
+      this.launchInterval = 600;
     }
     start() {
       if (this.running) return;
@@ -272,9 +270,8 @@
       return this.running;
     }
     launchFirework() {
-      // 画面上の花火が多すぎる場合は追加しない
-      if (this.fireworks.length > 5) return;
-      
+      if (this.fireworks.length > 10) return;
+
       const x = random(cw * 0.1, cw * 0.9);
       const y = ch;
       const targetY = random(ch * 0.1, ch * 0.5);
@@ -294,9 +291,8 @@
       this.fireworks = this.fireworks.filter(fw => !fw.dead);
     }
     draw() {
-      // 毎回クリアして背景を透過させる
       ctx.clearRect(0, 0, cw, ch);
-      
+
       this.fireworks.forEach(fw => fw.draw(ctx));
     }
     loop() {
@@ -307,7 +303,6 @@
     }
   }
 
-  // グローバルで制御できるように
   window.fireworksControl = window.fireworksControl || {};
   const manager = new FireworksManager();
   window.fireworksControl.manager = manager;
@@ -316,7 +311,6 @@
   window.fireworksControl.stop = () => manager.stop();
   window.fireworksControl.isRunning = () => manager.isRunning();
 
-  // ページロード時に自動で開始
   window.addEventListener('load', () => {
     manager.start();
   });
