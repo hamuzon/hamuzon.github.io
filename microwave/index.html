@@ -264,6 +264,12 @@ input:focus, select:focus {
         const answerEl = document.getElementById("answer");
         const secondsEl = document.getElementById("seconds");
 
+        // localStorageから値を読み込んでフォームに設定
+        fromInput.value = localStorage.getItem('microwave-from') || '500';
+        toInput.value = localStorage.getItem('microwave-to') || '600';
+        minInput.value = localStorage.getItem('microwave-min') || '2';
+        secInput.value = localStorage.getItem('microwave-sec') || '0';
+
         function calc() {
             const from = Number(fromInput.value) || 0;
             const to = Number(toInput.value) || 0;
@@ -271,6 +277,12 @@ input:focus, select:focus {
             const sec = Number(secInput.value) || 0;
 
             const totalSeconds = min * 60 + sec;
+
+            // 入力値をlocalStorageに保存
+            localStorage.setItem('microwave-from', fromInput.value);
+            localStorage.setItem('microwave-to', toInput.value);
+            localStorage.setItem('microwave-min', minInput.value);
+            localStorage.setItem('microwave-sec', secInput.value);
 
             if (to === 0) {
                 answerEl.textContent = "-";
