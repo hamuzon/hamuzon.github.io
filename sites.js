@@ -40,6 +40,7 @@ const sitesData = {
     { href: "https://hamuzon.github.io/text-legacy/", text: "🔤 Text enlargement app　-　legacy - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/birthday/", text: "🎂 Birthday Counter 🔢 - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/Calculator/", text: "🧮 計算機 / Calculator - Hamuzon", openInSameTab: true },
+    { href: "https://hamuzon.github.io/microwave/", text: "🍱 電子レンジ時間計算 / Microwave Time Calculator ⏱️ - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/password/", text: "🔑Password Generator Tool🗝️ - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/calendar/", text: "🗓️カレンダー / calendar📅 - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/todo/", text: "📝 TODO lists ✏ - Hamuzon", openInSameTab: true },
