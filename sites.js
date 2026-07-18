@@ -13,6 +13,7 @@ const sitesData = {
     { href: "https://text-legacy.hamusata.f5.si", text: "🔤 Text enlargement app　-　legacy - Hamusata", openInSameTab: true },
     { href: "https://birthday.hamusata.f5.si", text: "🎂 Birthday Counter 🔢　- Hamusata", openInSameTab: true },
     { href: "https://Calculator.hamusata.f5.si", text: "🧮 計算機 / Calculator - Hamusata", openInSameTab: true },
+    { href: "https://hamuzon.github.io/microwave/", text: "🍱 電子レンジ時間計算 / Microwave Time Calculator ⏱️ - Hamuzon", openInSameTab: true },
     { href: "https://password-create.hamusata.f5.si", text: "🔑Password Generator Tool🗝️ - Hamusata ", openInSameTab: true },
     { href: "https://calendar.hamusata.f5.si", text: "🗓️カレンダー / calendar📅 - Hamusata ", openInSameTab: true },
     { href: "https://todo.hamusata.f5.si", text: "📝 TODO lists ✏ - Hamusata ", openInSameTab: true },
