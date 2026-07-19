@@ -1,5 +1,34 @@
 <!-- markdownlint-disable MD041 -->
 
+# ===== X / Twitter =====
+/x             https://x.com/hamu_sata                                  301
+/x-1           https://x.com/hamu_sata                                  301
+/twt           https://x.com/hamu_sata                                  301
+/twitter       https://x.com/hamu_sata                                  301
+/twitter-1     https://x.com/i/user/1797783565670952960                 301
+
+# ===== Scratch =====
+/s             https://scratch.mit.edu/users/hamusata                   301
+/s-1           https://scratch.mit.edu/users/hamusata                   301
+/s-2           https://scratch.mit.edu/users/hamuzon                    301
+/scratch       https://scratch.mit.edu/users/hamusata                   301
+/scratch-1     https://scratch.mit.edu/users/hamusata                   301
+/scratch-2     https://scratch.mit.edu/users/hamuzon                    301
+
+# ===== GitHub =====
+/g             https://github.com/hamuzon                               301
+/g-1           https://github.com/hamuzon                               301
+/github        https://github.com/hamuzon                               301
+/github-1      https://github.com/hamuzon                               301
+
+# ===== Bluesky =====
+/b             https://bsky.app/profile/hamusata.f5.si                  301
+/b-1           https://bsky.app/profile/hamuzon-jp.f5.si                301
+/bs            https://bsky.app/profile/hamusata.f5.si                  301
+/bs-1          https://bsky.app/profile/hamuzon-jp.f5.si                301
+/bluesky       https://bsky.app/profile/hamusata.f5.si                  301
+/bluesky-1     https://bsky.app/profile/hamuzon-jp.f5.si                301
+
 # ===== Internal Files =====
 
 /README.md                         /                                      301
@@ -11,9 +40,14 @@
 /.github/workflows/sitemap.yml     /                                      301
 
 # ===== Social Analytics =====
+/dc            /?utm_source=discord&utm_medium=social                   302
+/bky           /?utm_source=bluesky&utm_medium=social                   302
+/tx            /?utm_source=twitter&utm_medium=social                   302
+/lit           /?utm_source=litlink&utm_medium=social                   302
+/tre           /?utm_source=linktree&utm_medium=social                  302
+/nos           /?utm_source=nostr&utm_medium=social                     302
 
-/dc                                /?utm_source=discord&utm_medium=social   302
-/bky                               /?utm_source=bluesky&utm_medium=social   302
-/tx                                /?utm_source=twitter&utm_medium=social   302
-/lit                               /?utm_source=litlink&utm_medium=social   302
-/tre                               /?utm_source=linktree&utm_medium=social  302
+/ig            /?utm_source=instagram&utm_medium=social                 302
+/fb            /?utm_source=facebook&utm_medium=social                  302
+/th            /?utm_source=threads&utm_medium=social                   302
+/meta          /?utm_source=meta&utm_medium=social                      302
