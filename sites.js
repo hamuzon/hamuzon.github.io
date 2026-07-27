@@ -26,7 +26,9 @@ const sitesData = {
     { href: "https://discord-tools.hamusata.f5.si/", text: "📱 Discord Tools 🖥️ / Hamusata ", openInSameTab: true },
     { href: "https://video-hub.hamusata.f5.si/", text: "📹️Video　Player Tool HUB　⏯️", openInSameTab: true },
     { href: "https://olympic-countdown.hamusata.f5.si/", text: "🏟️ Olympic Countdown / オリンピック関連カウントダウン 🎖️", openInSameTab: true },
-    { href: "https://Clock.hamusata.f5.si/", text: "⌚️ clock-app ⏰️ ", openInSameTab: true }
+    { href: "https://Clock.hamusata.f5.si/", text: "⌚️ clock-app ⏰️ ", openInSameTab: true },
+    { href: "https://certificate-maker.hamusata.f5.si/", text: "📜 表彰状メーカー / Certificate Maker 🏆", openInSameTab: true }
+
   ],
 
   hamuzonGitHubIO: [
@@ -53,7 +55,9 @@ const sitesData = {
     { href: "https://hamuzon.github.io/discord-tools/", text: "📱 Discord Tools 🖥️ / - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/Video-hub/", text: "📹️Video　Player Tool HUB　⏯️ / - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/olympic-countdown/", text: "🏟️ Olympic Countdown / オリンピック関連カウントダウン 🎖️ - Hamuzon", openInSameTab: true },
-    { href: "https://hamuzon.github.io/clock-app/", text: "⌚️ clock-app ⏰️ - Hamuzon", openInSameTab: true }
+    { href: "https://hamuzon.github.io/clock-app/", text: "⌚️ clock-app ⏰️ - Hamuzon", openInSameTab: true },
+    { href: "https://hamuzon.github.io/certificate-maker/", text: "📜 表彰状メーカー / Certificate Maker 🏆", openInSameTab: true }
+
   ],
 
   wwwLinkSF5Si: [
