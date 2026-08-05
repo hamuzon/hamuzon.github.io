@@ -58,8 +58,8 @@ const sitesData = {
     { href: "https://hamuzon.github.io/Video-hub/", text: "📹️Video　Player Tool HUB　⏯️ / - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/olympic-countdown/", text: "🏟️ Olympic Countdown / オリンピック関連カウントダウン 🎖️ - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/clock-app/", text: "⌚️ clock-app ⏰️ - Hamuzon", openInSameTab: true },
-    { href: "https://hamuzon.github.io/certificate-maker/", text: "📜 表彰状メーカー / Certificate Maker 🏆", openInSameTab: true }
-
+    { href: "https://hamuzon.github.io/certificate-maker/", text: "📜 表彰状メーカー / Certificate Maker 🏆", openInSameTab: true },
+{ href: "https://hamusata.f5.si/tanzaku/", text: "🎋 短冊メーカー / Tanzaku Maker ✨", openInSameTab: true }
   ],
 
   wwwLinkSF5Si: [
