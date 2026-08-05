@@ -1,0 +1,15 @@
+/*.html
+  Content-Type: text/html; charset=utf-8
+
+/*.css
+  Content-Type: text/css; charset=utf-8
+
+/*.js
+  Content-Type: text/javascript; charset=utf-8
+
+/*.json
+  Content-Type: application/json; charset=utf-8
+
+/*.xml
+  Content-Type: application/xml; charset=utf-8
+  
