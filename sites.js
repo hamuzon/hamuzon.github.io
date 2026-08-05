@@ -29,7 +29,7 @@ const sitesData = {
     { href: "https://olympic-countdown.hamusata.f5.si/", text: "🏟️ Olympic Countdown / オリンピック関連カウントダウン 🎖️", openInSameTab: true },
     { href: "https://Clock.hamusata.f5.si/", text: "⌚️ clock-app ⏰️ ", openInSameTab: true },
     { href: "https://certificate-maker.hamusata.f5.si/", text: "📜 表彰状メーカー / Certificate Maker 🏆", openInSameTab: true },
-{ href: "https://hamusata.f5.si/tanzaku/", text: "🎋 短冊メーカー / Tanzaku Maker ✨", openInSameTab: true }
+{ href: "https://hamusata.f5.si/wish", text: "🎋 短冊メーカー / Tanzaku Maker ✨", openInSameTab: true }
 
   ],
 
