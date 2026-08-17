@@ -2,6 +2,7 @@ const sitesData = {
   homeHamusata: [
     { href: "https://home.hamusata.f5.si/", text: "Hamusata-Website-List", openInSameTab: true },
     { href: "https://hamusata.f5.si/", text: "Hamusata-home-Page", openInSameTab: true },
+    { href: "https://lite.hamusata.f5.si", text: "HAMUSATA – Lite版ホームページ", openInSameTab: true },
     { href: "https://google.hamusata.f5.si/", text: "Hamusata-home-Page^Google-site-VERSION", openInSameTab: true },
     { href: "https://scratch.hamusata.f5.si/", text: "🧩 Scratch User & Project Info", openInSameTab: true },
     { href: "https://time-zone.hamusata.f5.si", text: "🕒 Time Zone", openInSameTab: true },
@@ -29,8 +30,8 @@ const sitesData = {
     { href: "https://olympic-countdown.hamusata.f5.si/", text: "🏟️ Olympic Countdown / オリンピック関連カウントダウン 🎖️", openInSameTab: true },
     { href: "https://Clock.hamusata.f5.si/", text: "⌚️ clock-app ⏰️ ", openInSameTab: true },
     { href: "https://certificate-maker.hamusata.f5.si/", text: "📜 表彰状メーカー / Certificate Maker 🏆", openInSameTab: true },
-{ href: "https://hamusata.f5.si/wish", text: "🎋 短冊メーカー / Tanzaku Maker ✨", openInSameTab: true }
-
+    { href: "https://hamusata.f5.si/wish", text: "🎋 短冊メーカー / Tanzaku Maker ✨", openInSameTab: true }
+  
   ],
 
   hamuzonGitHubIO: [
