@@ -4,24 +4,6 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script>
-  if (window.location.search) {
-    try {
-      const url = new URL(window.location.href);
-      let changed = false;
-      for (const key of Array.from(url.searchParams.keys())) {
-        if (key === '_gl' || key.startsWith('_ga')) {
-          url.searchParams.delete(key);
-          changed = true;
-        }
-      }
-      if (changed) {
-        const cleanUrl = url.pathname + (url.search ? url.search : '') + url.hash;
-        window.history.replaceState(null, '', cleanUrl);
-      }
-    } catch (e) {}
-  }
-</script>
 
 <title>電子レンジ ワット数・加熱時間変換ツール</title>
 
