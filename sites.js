@@ -99,3 +99,17 @@ function createLinkItem({ href, text, className, openInSameTab }) {
   li.appendChild(a);
   return li;
 }
+
+// URLから _gl, _ga パラメータを自動除去
+if (typeof window !== "undefined" && window.location && window.location.search) {
+  if (window.location.search.includes("_gl=") || window.location.search.includes("_ga=")) {
+    try {
+      const currentUrl = new URL(window.location.href);
+      currentUrl.searchParams.delete("_gl");
+      currentUrl.searchParams.delete("_ga");
+      const cleanUrl = currentUrl.pathname + (currentUrl.search ? currentUrl.search : "") + currentUrl.hash;
+      window.history.replaceState(null, "", cleanUrl);
+    } catch (e) {}
+  }
+}
+

@@ -4,6 +4,17 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+  if (window.location.search && (window.location.search.includes('_gl=') || window.location.search.includes('_ga='))) {
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.delete('_gl');
+      url.searchParams.delete('_ga');
+      const cleanUrl = url.pathname + (url.search ? url.search : '') + url.hash;
+      window.history.replaceState(null, '', cleanUrl);
+    } catch (e) {}
+  }
+</script>
 
 <title>電子レンジ ワット数・加熱時間変換ツール</title>
 

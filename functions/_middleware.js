@@ -1,10 +1,23 @@
 export async function onRequest(context) {
   const url = new URL(context.request.url);
+  let shouldRedirect = false;
 
-  // ドメイン末尾にドットがあるFQDN形式を正規化
   if (url.hostname.endsWith(".")) {
     url.hostname = url.hostname.slice(0, -1);
-    return Response.redirect(url.toString(), 301);
+    shouldRedirect = true;
+  }
+
+  if (url.searchParams.has("_gl")) {
+    url.searchParams.delete("_gl");
+    shouldRedirect = true;
+  }
+  if (url.searchParams.has("_ga")) {
+    url.searchParams.delete("_ga");
+    shouldRedirect = true;
+  }
+
+  if (shouldRedirect) {
+    return Response.redirect(url.toString(), 308);
   }
 
   return context.next();
