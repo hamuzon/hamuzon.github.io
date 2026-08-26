@@ -7,13 +7,11 @@ export async function onRequest(context) {
     shouldRedirect = true;
   }
 
-  if (url.searchParams.has("_gl")) {
-    url.searchParams.delete("_gl");
-    shouldRedirect = true;
-  }
-  if (url.searchParams.has("_ga")) {
-    url.searchParams.delete("_ga");
-    shouldRedirect = true;
+  for (const key of Array.from(url.searchParams.keys())) {
+    if (key === "_gl" || key.startsWith("_ga")) {
+      url.searchParams.delete(key);
+      shouldRedirect = true;
+    }
   }
 
   if (shouldRedirect) {

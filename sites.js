@@ -102,14 +102,19 @@ function createLinkItem({ href, text, className, openInSameTab }) {
 
 // URLから _gl, _ga パラメータを自動除去
 if (typeof window !== "undefined" && window.location && window.location.search) {
-  if (window.location.search.includes("_gl=") || window.location.search.includes("_ga=")) {
-    try {
-      const currentUrl = new URL(window.location.href);
-      currentUrl.searchParams.delete("_gl");
-      currentUrl.searchParams.delete("_ga");
+  try {
+    const currentUrl = new URL(window.location.href);
+    let changed = false;
+    for (const key of Array.from(currentUrl.searchParams.keys())) {
+      if (key === "_gl" || key.startsWith("_ga")) {
+        currentUrl.searchParams.delete(key);
+        changed = true;
+      }
+    }
+    if (changed) {
       const cleanUrl = currentUrl.pathname + (currentUrl.search ? currentUrl.search : "") + currentUrl.hash;
       window.history.replaceState(null, "", cleanUrl);
-    } catch (e) {}
-  }
+    }
+  } catch (e) {}
 }
 
