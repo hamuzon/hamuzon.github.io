@@ -297,33 +297,66 @@
     }
 
     const leafCountMax = 120;
-    const leaves = [];
-    for (let i = 0; i < leafCountMax; i++) leaves.push(new Leaf());
+    let leaves = [];
+    let animationFrameId = null;
+    let running = false;
+
+    function initLeaves() {
+      for (let i = 0; i < groundMap.length; i++) groundMap[i] = ch;
+      leaves = [];
+      for (let i = 0; i < leafCountMax; i++) leaves.push(new Leaf());
+    }
 
     function animate() {
+      if (!running) return;
       ctx.clearRect(0, 0, cw, ch);
       updateWind();
       leaves.forEach(leaf => {
         leaf.update();
         leaf.draw(ctx);
       });
-      requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
     }
-    animate();
+
+    function start() {
+      if (running) return;
+      running = true;
+      initLeaves();
+      canvas.style.display = 'block';
+      animate();
+    }
+
+    function stop() {
+      running = false;
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+      leaves = [];
+      for (let i = 0; i < groundMap.length; i++) groundMap[i] = ch;
+      ctx.clearRect(0, 0, cw, ch);
+      canvas.style.display = 'none';
+    }
 
     window.autumnControl = {
-      show: () => canvas.style.display = 'block',
-      hide: () => canvas.style.display = 'none',
+      start,
+      stop,
+      show: start,
+      hide: stop,
+      isRunning: () => running,
     };
 
-    canvas.style.display = 'block';
+    // 初期起動
+    start();
 
     const toggleBtn = document.getElementById('autumn-toggle');
-    let autumnOn = true;
-    toggleBtn.addEventListener('click', () => {
-      autumnOn = !autumnOn;
-      toggleBtn.textContent = autumnOn ? '落ち葉ON' : '落ち葉OFF';
-      autumnOn ? window.autumnControl.show() : window.autumnControl.hide();
-    });
+    if (toggleBtn) {
+      let autumnOn = true;
+      toggleBtn.addEventListener('click', () => {
+        autumnOn = !autumnOn;
+        toggleBtn.textContent = autumnOn ? '落ち葉ON' : '落ち葉OFF';
+        autumnOn ? start() : stop();
+      });
+    }
   });
 })();

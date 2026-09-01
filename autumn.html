@@ -221,28 +221,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const yearDisplay = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
   document.getElementById("year-hamusata").textContent = yearDisplay;
   document.getElementById("year-hamuzon").textContent = yearDisplay;
-
-  (() => {
-    const toggleBtn = document.getElementById('autumn-toggle');
-    if (!toggleBtn) return;
-
-    let autumnOn = true;
-
-    function updateAutumnDisplay() {
-      if (window.autumnControl) {
-        autumnOn ? window.autumnControl.show() : window.autumnControl.hide();
-        toggleBtn.textContent = autumnOn ? '落ち葉ON' : '落ち葉OFF';
-      }
-    }
-
-    toggleBtn.addEventListener('click', () => {
-      autumnOn = !autumnOn;
-      updateAutumnDisplay();
-    });
-
-    // 初期表示
-    updateAutumnDisplay();
-  })();
 });
 </script>
 
