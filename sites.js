@@ -30,8 +30,8 @@ const sitesData = {
     { href: "https://olympic-countdown.hamusata.f5.si/", text: "🏟️ Olympic Countdown / オリンピック関連カウントダウン 🎖️", openInSameTab: true },
     { href: "https://Clock.hamusata.f5.si/", text: "⌚️ clock-app ⏰️ ", openInSameTab: true },
     { href: "https://certificate-maker.hamusata.f5.si/", text: "📜 表彰状メーカー / Certificate Maker 🏆", openInSameTab: true },
-    { href: "https://hamusata.f5.si/wish", text: "🎋 短冊メーカー / Tanzaku Maker ✨", openInSameTab: true }
-  
+    { href: "https://hamusata.f5.si/wish", text: "🎋 短冊メーカー / Tanzaku Maker ✨", openInSameTab: true },
+    { href: "https://hamusata.f5.si/tsukimi/", text: "お月見🎑 / tsukimi🎑", openInSameTab: true }
   ],
 
   hamuzonGitHubIO: [
@@ -60,7 +60,8 @@ const sitesData = {
     { href: "https://hamuzon.github.io/Video-hub/", text: "📹️Video　Player Tool HUB　⏯️ / - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/olympic-countdown/", text: "🏟️ Olympic Countdown / オリンピック関連カウントダウン 🎖️ - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/clock-app/", text: "⌚️ clock-app ⏰️ - Hamuzon", openInSameTab: true },
-    { href: "https://hamuzon.github.io/certificate-maker/", text: "📜 表彰状メーカー / Certificate Maker 🏆", openInSameTab: true }
+    { href: "https://hamuzon.github.io/certificate-maker/", text: "📜 表彰状メーカー / Certificate Maker 🏆", openInSameTab: true },
+    { href: "https://hamuzon.github.io/tsukimi/", text: "お月見🎑 / tsukimi🎑", openInSameTab: true }
   ],
 
   wwwLinkSF5Si: [
@@ -71,7 +72,8 @@ const sitesData = {
     { href: "https://pw.link-s.f5.si/", text: "APIパスワード生成（端末リダイレクト）" },
     { href: "https://pw-pc.link-s.f5.si/", text: "APIパスワード生成（PC版リダイレクト先）" },
     { href: "https://pw-sp.link-s.f5.si/", text: "APIパスワード生成（スマホ版リダイレクト先）" },
-    { href: "https://qr.link-s.f5.si/", text: "QRコード生成サービス" }
+    { href: "https://qr.link-s.f5.si/", text: "QRコード生成サービス" },
+    { href: "https://hamusata.f5.si/tsukimi/", text: "お月見🎑 / tsukimi🎑", openInSameTab: true }
   ],
 
   publicSites: [
@@ -81,7 +83,8 @@ const sitesData = {
     { href: "https://www.facebook.com", text: "Facebook", openInSameTab: true },
     { href: "https://www.instagram.com", text: "Instagram", openInSameTab: true },
     { href: "https://www.tiktok.com", text: "TikTok", openInSameTab: true },
-    { href: "https://www.discord.com", text: "Discord", openInSameTab: true }
+    { href: "https://www.discord.com", text: "Discord", openInSameTab: true },
+    { href: "https://hamusata.f5.si/tsukimi/", text: "お月見🎑 / tsukimi🎑", openInSameTab: true }
   ]
 };
 
@@ -93,7 +96,11 @@ function createLinkItem({ href, text, className, openInSameTab }) {
   a.href = href;
   a.textContent = text || href;
   a.rel = "noopener noreferrer";
-  if (className) a.className = className;
+
+  if (className) {
+    a.className = className;
+  }
+
   a.target = openInSameTab ? "_self" : "_blank";
 
   li.appendChild(a);
@@ -105,14 +112,20 @@ if (typeof window !== "undefined" && window.location && window.location.search) 
   try {
     const currentUrl = new URL(window.location.href);
     let changed = false;
+
     for (const key of Array.from(currentUrl.searchParams.keys())) {
       if (key === "_gl" || key.startsWith("_ga")) {
         currentUrl.searchParams.delete(key);
         changed = true;
       }
     }
+
     if (changed) {
-      const cleanUrl = currentUrl.pathname + (currentUrl.search ? currentUrl.search : "") + currentUrl.hash;
+      const cleanUrl =
+        currentUrl.pathname +
+        (currentUrl.search ? currentUrl.search : "") +
+        currentUrl.hash;
+
       window.history.replaceState(null, "", cleanUrl);
     }
   } catch (e) {}
