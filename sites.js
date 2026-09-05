@@ -72,8 +72,7 @@ const sitesData = {
     { href: "https://pw.link-s.f5.si/", text: "APIパスワード生成（端末リダイレクト）" },
     { href: "https://pw-pc.link-s.f5.si/", text: "APIパスワード生成（PC版リダイレクト先）" },
     { href: "https://pw-sp.link-s.f5.si/", text: "APIパスワード生成（スマホ版リダイレクト先）" },
-    { href: "https://qr.link-s.f5.si/", text: "QRコード生成サービス" },
-    { href: "https://hamusata.f5.si/tsukimi/", text: "お月見🎑 / tsukimi🎑", openInSameTab: true }
+    { href: "https://qr.link-s.f5.si/", text: "QRコード生成サービス" }
   ],
 
   publicSites: [
@@ -83,8 +82,7 @@ const sitesData = {
     { href: "https://www.facebook.com", text: "Facebook", openInSameTab: true },
     { href: "https://www.instagram.com", text: "Instagram", openInSameTab: true },
     { href: "https://www.tiktok.com", text: "TikTok", openInSameTab: true },
-    { href: "https://www.discord.com", text: "Discord", openInSameTab: true },
-    { href: "https://hamusata.f5.si/tsukimi/", text: "お月見🎑 / tsukimi🎑", openInSameTab: true }
+    { href: "https://www.discord.com", text: "Discord", openInSameTab: true }
   ]
 };
 
