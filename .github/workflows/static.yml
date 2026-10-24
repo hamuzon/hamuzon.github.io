@@ -1,50 +1,46 @@
-# Simple workflow for deploying static content to Pages
+
+# Simple workflow for deploying static content to GitHub Pages
 name: Deploy static content to Pages
 
 on:
-  # Runs on pushes targeting the default branch
+  # Run on pushes targeting the default branch
   push:
     branches: ["main"]
     paths-ignore:
       - 'sitemap.xml'
       - 'public/**'
 
-  # サイトマップ更新ワークフローが完了した時にも実行する
+  # Also run when the sitemap update workflow completes
   workflow_run:
     workflows: ["Update Sitemap"]
     types:
       - completed
 
-  # Allows you to run this workflow manually from the Actions tab
+  # Allow manual execution from the Actions tab
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+# Set permissions for the GITHUB_TOKEN to deploy to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment
+# Allow only one concurrent deployment and do not cancel in-progress deployments
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
+  # Single job for deploying the site
   deploy:
-    # 通常のPush、手動実行、またはUpdate Sitemapが成功した時のみ実行
+    # Run on pushes or when the Update Sitemap workflow succeeds
     if: >
       github.event_name == 'push' ||
-      github.event_name == 'workflow_dispatch' ||
       (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
-
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     runs-on: ubuntu-latest
-
-    env:
-      GA_MEASUREMENT_ID: G-F8HVYVW05H
 
     steps:
       - name: Checkout
@@ -55,72 +51,56 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Inject Google Analytics 4
-        run: |
-          if [[ ! "$GA_MEASUREMENT_ID" =~ ^G-[A-Z0-9]+$ ]]; then
-            echo "Invalid Google Analytics measurement ID"
-            exit 1
-          fi
-
-          export GA_ID="$GA_MEASUREMENT_ID"
-
-          python3 <<'PY'
-          import os
-          from pathlib import Path
-
-          ga_id = os.environ["GA_ID"]
-
-          script = f"""
-          <!-- Google tag (gtag.js) -->
-          <script async src="https://www.googletagmanager.com/gtag/js?id={ga_id}"></script>
-          <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){{dataLayer.push(arguments);}}
-            gtag('js', new Date());
-            gtag('config', '{ga_id}');
-          </script>
-          """
-
-          count = 0
-
-          for path in Path(".").glob("*.html"):
-              # Google Search Console verification files are excluded
-              if path.name.startswith("google"):
-                  continue
-
-              html = path.read_text(encoding="utf-8")
-
-              # Prevent duplicate insertion
-              if "googletagmanager.com/gtag/js" in html:
-                  continue
-
-              # Insert GA4 immediately before </head>
-              head_end = html.lower().find("</head>")
-
-              if head_end == -1:
-                  print(f"Skipped (no head): {path}")
-                  continue
-
-              html = html[:head_end] + script + "\n" + html[head_end:]
-              path.write_text(html, encoding="utf-8")
-              count += 1
-
-          print(f"Google Analytics injected into {count} HTML files.")
-          PY
-
       - name: Inject FQDN normalization script
+        shell: bash
         run: |
-          find . -maxdepth 1 -name "*.html" -not -name "google*.html" -exec sed -i '/<head>/a \  <script>(()=>{const u=new URL(location.href);if(u.hostname.endsWith(".")){u.hostname=u.hostname.slice(0,-1);location.replace(u.toString());}})();</script>' {} +
+          # Inject the hostname normalization script after the opening head tag in all HTML files
+          find . -type f -name "*.html" ! -name "google*.html" -print0 |
+          while IFS= read -r -d '' file; do
+            if grep -q 'hostname.endsWith' "$file"; then
+              echo "FQDN normalization script already exists: $file"
+              continue
+            fi
+
+            sed -i '/<head>/a\
+          <script>(()=>{const u=new URL(location.href);if(u.hostname.endsWith(".")){u.hostname=u.hostname.slice(0,-1);location.replace(u.toString());}})();</script>' "$file"
+
+            echo "Updated: $file"
+          done
+
+      - name: Inject Google Analytics
+        shell: bash
+        run: |
+          # Inject Google Analytics after the opening head tag in all HTML files
+          find . -type f -name "*.html" ! -name "google*.html" -print0 |
+          while IFS= read -r -d '' file; do
+            if grep -q 'G-F8HVYVW05H' "$file"; then
+              echo "Google Analytics already exists: $file"
+              continue
+            fi
+
+            sed -i '/<head>/a\
+          <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8HVYVW05H"></script>\
+          <script>\
+          window.dataLayer = window.dataLayer || [];\
+          function gtag(){dataLayer.push(arguments);}\
+          gtag("js", new Date());\
+          gtag("config", "G-F8HVYVW05H");\
+          </script>' "$file"
+
+            echo "Updated: $file"
+          done
 
       - name: Remove sensitive files from deployment artifact
+        shell: bash
         run: |
-          # デプロイ対象からのみ削除
+          # Remove files and directories from the deployment artifact
           rm -rf functions README.md README readme.md license LICENSE LICENSE.txt _redirects.md _redirects
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
+          # Upload the entire repository
           path: '.'
 
       - name: Deploy to GitHub Pages
