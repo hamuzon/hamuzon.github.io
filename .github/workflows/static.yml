@@ -24,44 +24,105 @@ permissions:
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+# Allow only one concurrent deployment
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
   deploy:
-    # 通常のPush、またはUpdate Sitemapが成功した時のみ実行
+    # 通常のPush、手動実行、またはUpdate Sitemapが成功した時のみ実行
     if: >
-      github.event_name == 'push' || 
+      github.event_name == 'push' ||
+      github.event_name == 'workflow_dispatch' ||
       (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     runs-on: ubuntu-latest
+
+    env:
+      GA_MEASUREMENT_ID: G-F8HVYVW05H
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: main # サイトマップが更新された後の最新コミットを取得
+          ref: main
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
+      - name: Inject Google Analytics 4
+        run: |
+          if [[ ! "$GA_MEASUREMENT_ID" =~ ^G-[A-Z0-9]+$ ]]; then
+            echo "Invalid Google Analytics measurement ID"
+            exit 1
+          fi
+
+          export GA_ID="$GA_MEASUREMENT_ID"
+
+          python3 <<'PY'
+          import os
+          from pathlib import Path
+
+          ga_id = os.environ["GA_ID"]
+
+          script = f"""
+          <!-- Google tag (gtag.js) -->
+          <script async src="https://www.googletagmanager.com/gtag/js?id={ga_id}"></script>
+          <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){{dataLayer.push(arguments);}}
+            gtag('js', new Date());
+            gtag('config', '{ga_id}');
+          </script>
+          """
+
+          count = 0
+
+          for path in Path(".").glob("*.html"):
+              # Google Search Console verification files are excluded
+              if path.name.startswith("google"):
+                  continue
+
+              html = path.read_text(encoding="utf-8")
+
+              # Prevent duplicate insertion
+              if "googletagmanager.com/gtag/js" in html:
+                  continue
+
+              # Insert GA4 immediately before </head>
+              head_end = html.lower().find("</head>")
+
+              if head_end == -1:
+                  print(f"Skipped (no head): {path}")
+                  continue
+
+              html = html[:head_end] + script + "\n" + html[head_end:]
+              path.write_text(html, encoding="utf-8")
+              count += 1
+
+          print(f"Google Analytics injected into {count} HTML files.")
+          PY
+
       - name: Inject FQDN normalization script
         run: |
-          # 全てのHTMLファイルの<head>直後に正規化スクリプトを挿入
           find . -maxdepth 1 -name "*.html" -not -name "google*.html" -exec sed -i '/<head>/a \  <script>(()=>{const u=new URL(location.href);if(u.hostname.endsWith(".")){u.hostname=u.hostname.slice(0,-1);location.replace(u.toString());}})();</script>' {} +
+
       - name: Remove sensitive files from deployment artifact
         run: |
           # デプロイ対象からのみ削除
           rm -rf functions README.md README readme.md license LICENSE LICENSE.txt _redirects.md _redirects
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload entire repository
           path: '.'
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        
