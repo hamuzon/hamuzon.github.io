@@ -33,7 +33,8 @@ const sitesData = {
     { href: "https://certificate-maker.hamusata.f5.si/", text: "📜 表彰状メーカー / Certificate Maker 🏆", openInSameTab: true },
     { href: "https://hamusata.f5.si/wish", text: "🎋 短冊メーカー / Tanzaku Maker ✨", openInSameTab: true },
     { href: "https://hamusata.f5.si/tsukimi/", text: "お月見🎑 / tsukimi🎑", openInSameTab: true },
-    { href: "https://mono.hamusata.f5.si/", text: "色々置いてるサイト", openInSameTab: true }
+    { href: "https://mono.hamusata.f5.si/", text: "コード置き場
+Cord storage", openInSameTab: true }
   ],
 
   hamuzonGitHubIO: [
