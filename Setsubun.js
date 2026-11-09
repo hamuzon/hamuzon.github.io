@@ -53,54 +53,67 @@
       this.decay = decay;
       this.size = size;
       this.gravity = gravity;
-      this.bounceFactor = -0.6; // 跳ね返り係数 (0に近いほど跳ねない)
+      this.rotation = Math.random() * Math.PI * 2;
+      this.rotationSpeed = (Math.random() - 0.5) * 0.18;
+      this.bounceFactor = -0.3;
       this.bounces = 0;
-      this.maxBounces = 3; // 最大跳ね返り回数
+      this.maxBounces = 2;
       this.dead = false;
     }
     update() {
-      this.vx *= 0.99; // 空気抵抗
-      this.vy *= 0.99;
-      this.vy += this.gravity; // 重力
+      this.vx *= 0.995;
+      this.vy *= 0.995;
+      this.vy += this.gravity;
       this.x += this.vx;
       this.y += this.vy;
+      this.rotation += this.rotationSpeed;
 
-      // 画面端での跳ね返り
-      // 下の壁
       if (this.y + this.size >= ch && this.vy > 0) {
-        this.y = ch - this.size; // 壁の内側に押し戻す
+        this.y = ch - this.size;
         this.vy *= this.bounceFactor;
-        this.vx *= 0.95; // 地面との摩擦で横方向の速度を減衰
+        this.vx *= 0.75;
         this.bounces++;
-      }
-      // 上の壁
-      if (this.y - this.size <= 0 && this.vy < 0) {
-        this.y = this.size;
-        this.vy *= this.bounceFactor;
-      }
-      // 左の壁
-      if (this.x - this.size <= 0 && this.vx < 0) {
-        this.x = this.size;
-        this.vx *= this.bounceFactor;
-      }
-      // 右の壁
-      if (this.x + this.size >= cw && this.vx > 0) {
-        this.x = cw - this.size;
-        this.vx *= this.bounceFactor;
       }
 
       this.alpha -= this.decay;
-      if (this.alpha <= 0 || this.bounces >= this.maxBounces) {
+      if (
+        this.alpha <= 0 ||
+        this.bounces >= this.maxBounces ||
+        this.x < -this.size * 2 ||
+        this.x > cw + this.size * 2 ||
+        this.y < -this.size * 2
+      ) {
         this.dead = true;
       }
     }
     draw(ctx) {
       ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.rotation);
+      ctx.scale(this.size, this.size * 0.72);
       ctx.globalAlpha = this.alpha;
       ctx.fillStyle = this.color;
+      ctx.strokeStyle = 'rgba(125, 86, 45, 0.55)';
+      ctx.lineWidth = 0.12;
       ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.moveTo(-1, 0);
+      ctx.bezierCurveTo(-1.25, -0.55, -0.35, -1.05, 0.35, -0.72);
+      ctx.bezierCurveTo(1.05, -0.45, 1.15, 0.35, 0.45, 0.78);
+      ctx.bezierCurveTo(-0.2, 1.02, -0.9, 0.58, -1, 0);
       ctx.fill();
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(-0.48, -0.2);
+      ctx.quadraticCurveTo(-0.25, 0, -0.42, 0.22);
+      ctx.strokeStyle = 'rgba(125, 86, 45, 0.7)';
+      ctx.lineWidth = 0.1;
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(-0.1, -0.52);
+      ctx.quadraticCurveTo(0.35, -0.68, 0.62, -0.4);
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.55)';
+      ctx.lineWidth = 0.1;
+      ctx.stroke();
       ctx.restore();
     }
   }
@@ -118,14 +131,13 @@
     
     throwBeans(angleRange) {
       // 一度に投げる豆の数
-      const count = randomInt(30, 50);
+      const count = randomInt(24, 38);
       for(let i=0; i<count; i++) {
         // 投げる角度: 指定された方向を中心に扇状に
         const angle = angleRange.base + random(-angleRange.spread, angleRange.spread);
-        const speed = random(15, 25); // 初速
+        const speed = random(8, 15);
         const color = getSetsubunColor();
-        // 重力を強め(0.4)にして放物線を描く
-        this.particles.push(new Particle(this.x, this.y, angle, speed, color, random(0.008, 0.015), random(4, 8), 0.4));
+        this.particles.push(new Particle(this.x, this.y, angle, speed, color, random(0.006, 0.012), random(6, 9), 0.22));
       }
     }
 
