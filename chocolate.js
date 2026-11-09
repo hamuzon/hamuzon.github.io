@@ -154,9 +154,32 @@
 
         if (this.shape === 'strawberry') {
           ctx.beginPath();
-          ctx.moveTo(-this.size / 2, -this.size / 2);
-          ctx.quadraticCurveTo(0, this.size, this.size / 2, -this.size / 2);
+          ctx.moveTo(-this.size * 0.46, -this.size * 0.2);
+          ctx.quadraticCurveTo(-this.size * 0.58, -this.size * 0.58, 0, -this.size * 0.38);
+          ctx.quadraticCurveTo(this.size * 0.58, -this.size * 0.58, this.size * 0.46, -this.size * 0.2);
+          ctx.quadraticCurveTo(this.size * 0.38, this.size * 0.2, 0, this.size * 0.5);
+          ctx.quadraticCurveTo(-this.size * 0.38, this.size * 0.2, -this.size * 0.46, -this.size * 0.2);
           ctx.fill();
+          ctx.strokeStyle = 'rgba(80, 20, 20, 0.45)';
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+          ctx.fillStyle = '#78a653';
+          ctx.beginPath();
+          ctx.moveTo(-this.size * 0.42, -this.size * 0.28);
+          ctx.lineTo(-this.size * 0.3, -this.size * 0.48);
+          ctx.lineTo(-this.size * 0.08, -this.size * 0.34);
+          ctx.lineTo(0, -this.size * 0.52);
+          ctx.lineTo(this.size * 0.12, -this.size * 0.34);
+          ctx.lineTo(this.size * 0.34, -this.size * 0.46);
+          ctx.lineTo(this.size * 0.4, -this.size * 0.22);
+          ctx.closePath();
+          ctx.fill();
+          ctx.fillStyle = '#fff0bd';
+          for (const [x, y] of [[-0.22, -0.12], [0.2, -0.1], [-0.12, 0.12], [0.16, 0.16], [0, 0.34]]) {
+            ctx.beginPath();
+            ctx.ellipse(x * this.size, y * this.size, 0.55, 0.9, -0.3, 0, Math.PI * 2);
+            ctx.fill();
+          }
         }
 
         if (this.shape === 'heart') {
