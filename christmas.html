@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0e332d" />
+  <title>Website List - Christmas</title>
+  <meta name="description" content="クリスマスのイルミネーションをイメージしたサイト一覧ページです。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Website List - Christmas" />
+  <meta property="og:description" content="クリスマスのイルミネーションをイメージしたサイト一覧ページです。" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+  <style>
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  color-scheme: dark;
+  --page: #160f2b;
+  --page-deep: #0c0a19;
+  --ink: #fff8e9;
+  --muted: #d7cce9;
+  --accent: #ffad52;
+  --accent-strong: #ff713b;
+  --panel: rgba(36, 24, 61, 0.72);
+  --card: rgba(255, 255, 255, 0.08);
+  --card-hover: rgba(255, 173, 82, 0.16);
+  --line: rgba(255, 230, 190, 0.2);
+  --glow: rgba(255, 113, 59, 0.2);
+}
+
+body[data-theme="christmas"] {
+  color-scheme: light;
+  --page: #123b31;
+  --page-deep: #071e1c;
+  --ink: #fff8e7;
+  --muted: #d9e8d9;
+  --accent: #f2c96d;
+  --accent-strong: #d84a46;
+  --panel: rgba(8, 39, 32, 0.76);
+  --card: rgba(255, 248, 231, 0.1);
+  --card-hover: rgba(242, 201, 109, 0.18);
+  --line: rgba(255, 236, 190, 0.25);
+  --glow: rgba(216, 74, 70, 0.2);
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(242, 201, 109, 0.2), transparent 34%),
+    radial-gradient(ellipse at 0% 100%, rgba(193, 47, 55, 0.25), transparent 40%),
+    linear-gradient(160deg, #15503c 0%, #0c302a 52%, #071e1c 100%);
+}
+
+body[data-theme="newyear"] {
+  color-scheme: light;
+  --page: #fbf1dc;
+  --page-deep: #ead5b1;
+  --ink: #3c231e;
+  --muted: #755950;
+  --accent: #ad2935;
+  --accent-strong: #c38d35;
+  --panel: rgba(255, 252, 244, 0.82);
+  --card: rgba(255, 255, 255, 0.62);
+  --card-hover: rgba(173, 41, 53, 0.09);
+  --line: rgba(126, 67, 45, 0.16);
+  --glow: rgba(173, 41, 53, 0.1);
+}
+
+html {
+  min-height: 100%;
+  background: var(--page-deep);
+}
+
+body {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  background:
+    radial-gradient(ellipse at 50% 0%, var(--glow), transparent 55%),
+    linear-gradient(160deg, var(--page), var(--page-deep));
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: Inter, "Segoe UI", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+}
+
+body::before,
+body::after {
+  position: fixed;
+  z-index: -1;
+  width: 21rem;
+  height: 21rem;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+body[data-theme="christmas"]::before,
+body[data-theme="christmas"]::after {
+  width: 10rem;
+  height: 15rem;
+  border: 0;
+  border-radius: 0;
+  background: #d8bd76;
+  clip-path: polygon(50% 0, 60% 19%, 75% 16%, 70% 31%, 91% 29%, 79% 45%, 100% 48%, 83% 61%, 94% 74%, 63% 73%, 63% 100%, 37% 100%, 37% 73%, 6% 74%, 17% 61%, 0 48%, 21% 45%, 9% 29%, 30% 31%, 25% 16%, 40% 19%);
+  opacity: 0.12;
+  box-shadow: none;
+}
+
+body[data-theme="christmas"]::before {
+  top: 8%;
+  left: -3rem;
+}
+
+body[data-theme="christmas"]::after {
+  right: -3rem;
+  bottom: 4%;
+  transform: scale(0.75);
+}
+
+body::before {
+  top: -13rem;
+  left: -9rem;
+  box-shadow: 0 0 0 2rem transparent, 0 0 0 2.1rem var(--line), 0 0 0 4.1rem transparent, 0 0 0 4.2rem var(--line);
+}
+
+body::after {
+  right: -14rem;
+  bottom: -14rem;
+  width: 27rem;
+  height: 27rem;
+  box-shadow: 0 0 0 2rem transparent, 0 0 0 2.1rem var(--line);
+}
+
+.holiday-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+h1 {
+  margin: 0 0 2rem;
+  text-align: center;
+}
+
+body[data-theme="christmas"] h1::before {
+  display: block;
+  margin-bottom: 0.65rem;
+  color: var(--accent);
+  content: "✦  MERRY CHRISTMAS  ✦";
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+}
+
+h1 a.tpww {
+  display: block;
+  width: min(100%, 340px);
+  margin: 0 auto;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--ink);
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+h1 a.tpww:hover {
+  background: var(--card-hover);
+}
+
+.effect-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 20;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(255, 236, 190, 0.45);
+  border-radius: 20px;
+  background: rgba(8, 39, 32, 0.82);
+  color: #fff8e7;
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+}
+
+.effect-toggle:hover {
+  background: #a92f39;
+}
+
+.effect-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.site-list a:hover {
+  background: var(--card-hover);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+.site-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.site-list[hidden] {
+  display: none;
+}
+
+.site-list a {
+  display: block;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--card);
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+footer {
+  position: relative;
+  z-index: 10;
+  padding: 1rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+footer a {
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  text-decoration: underline;
+  box-shadow: none;
+}
+
+#footer-hamusata,
+#footer-hamuzon {
+  display: none;
+}
+
+.footer-notice {
+  display: block;
+}
+
+@media (max-width: 480px) {
+  h1 a.tpww { font-size: 1.2rem; }
+  footer { font-size: 0.75rem; }
+  .site-list { grid-template-columns: 1fr; }
+  .effect-toggle { top: 0.5rem; right: 0.5rem; font-size: 0.8rem; }
+  #footer-hamuzon { display: none; }
+  .footer-notice { padding: 0.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body[data-theme="christmas"] {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 227, 151, 0.3), transparent 38%),
+    radial-gradient(ellipse at 0% 100%, rgba(186, 36, 48, 0.28), transparent 40%),
+    linear-gradient(160deg, #15543d 0%, #0c3028 55%, #071d1a 100%);
+}
+
+body[data-theme="christmas"]::before,
+body[data-theme="christmas"]::after {
+  top: auto;
+  right: auto;
+  bottom: 0;
+  left: 3%;
+  width: clamp(5rem, 11vw, 10rem);
+  height: clamp(7.5rem, 17vw, 15rem);
+  border: 0;
+  border-radius: 0;
+  background: #d7bd73;
+  clip-path: polygon(50% 0, 60% 19%, 75% 16%, 70% 31%, 91% 29%, 79% 45%, 100% 48%, 83% 61%, 94% 74%, 63% 73%, 63% 100%, 37% 100%, 37% 73%, 6% 74%, 17% 61%, 0 48%, 21% 45%, 9% 29%, 30% 31%, 25% 16%, 40% 19%);
+  opacity: 0.22;
+  box-shadow: none;
+}
+
+body[data-theme="christmas"]::after {
+  right: 3%;
+  left: auto;
+  bottom: 0;
+  transform: scale(0.78);
+  transform-origin: bottom center;
+}
+
+body[data-theme="christmas"] h1::before {
+  content: "🎄  MERRY CHRISTMAS  🎄";
+  color: #ffe5a0;
+  font-size: 0.95rem;
+  letter-spacing: 0.16em;
+}
+
+body[data-theme="christmas"] h1 a.tpww {
+  border-color: rgba(255, 225, 160, 0.48);
+  background: linear-gradient(135deg, rgba(174, 42, 48, 0.88), rgba(108, 27, 38, 0.86));
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.25), 0 0 28px rgba(255, 218, 132, 0.12);
+}
+
+body[data-theme="christmas"] .site-list a {
+  border-color: rgba(255, 225, 160, 0.24);
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.05));
+}
+
+body[data-theme="christmas"] .effect-toggle {
+  border-color: rgba(255, 225, 160, 0.5);
+  background: #a92f39;
+}
+
+body[data-theme="christmas"] .effect-toggle:hover {
+  background: #c1433e;
+}
+
+  </style>
+</head>
+<body data-theme="christmas">
+  <canvas id="christmasCanvas" class="holiday-canvas" aria-hidden="true"></canvas>
+  <div class="container">
+    <h1><a href="/" class="tpww">Website List</a></h1>
+    <ul id="site-list" class="site-list"></ul>
+    <ul id="public-site-list" class="site-list"></ul>
+  </div>
+  <footer id="main-footer">
+    <span id="footer-hamusata">&copy; <span id="year-hamusata"></span> <a href="https://hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a></span>
+    <span id="footer-hamuzon">&copy; <span id="year-hamuzon"></span> <a href="https://github.com/hamuzon" target="_blank" rel="noopener noreferrer">@hamuzon</a></span>
+    <br />
+    <span id="default-message">※一部のサイトは現在アクセスできない場合があります。<br />Some sites may be temporarily unavailable.</span>
+  </footer>
+  <button id="christmas-toggle" class="effect-toggle" type="button" aria-label="クリスマス演出の切り替え" aria-pressed="true">クリスマス演出 ON</button>
+  <script src="sites.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const host = window.location.hostname.toLowerCase().replace(/\.$/, "");
+      const siteList = document.getElementById("site-list");
+      const publicList = document.getElementById("public-site-list");
+      const footer = document.getElementById("main-footer");
+
+      function addSites(list, sites) {
+        sites.forEach(({ href, text, className, openInSameTab }) => {
+          const item = document.createElement("li");
+          const link = document.createElement("a");
+          link.href = (href === "https://home.hamusata.f5.si/" || href === "./")
+            && text.includes("Website-List") ? "/" : href;
+          link.textContent = text;
+          link.target = openInSameTab ? "_self" : "_blank";
+          link.rel = "noopener noreferrer";
+          if (className) link.className = className;
+          item.appendChild(link);
+          list.appendChild(item);
+        });
+      }
+
+      if (host === "home.hamusata.f5.si") {
+        addSites(siteList, sitesData.homeHamusata);
+        document.getElementById("footer-hamusata").style.display = "inline";
+      } else if (host === "hamuzon.github.io" || host.endsWith(".hamuzon.github.io")) {
+        addSites(siteList, sitesData.hamuzonGitHubIO);
+        document.getElementById("footer-hamuzon").style.display = "inline";
+      } else if (host === "link-s.f5.si" || host.endsWith(".link-s.f5.si")) {
+        addSites(siteList, sitesData.wwwLinkSF5Si);
+        footer.innerHTML = '<span class="footer-notice"><a href="https://hamusata.f5.si">@hamusata</a></span>';
+      } else {
+        siteList.style.display = "none";
+        addSites(publicList, sitesData.publicSites);
+        footer.innerHTML = '<span class="footer-notice">このサイトは公式ではなく、一部の情報は異なる場合があります。<br />This version may differ from the original official site.</span>';
+      }
+
+      const baseYear = 2025;
+      const currentYear = new Date().getFullYear();
+      const year = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
+      document.getElementById("year-hamusata").textContent = year;
+      document.getElementById("year-hamuzon").textContent = year;
+    });
+  </script>
+  <script src="christmas.js"></script>
+</body>
+</html>

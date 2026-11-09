@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#160f2b" />
+  <title>Website List - Halloween</title>
+  <meta name="description" content="ハロウィンの夜をイメージしたサイト一覧ページです。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Website List - Halloween" />
+  <meta property="og:description" content="ハロウィンの夜をイメージしたサイト一覧ページです。" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+  <style>
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  color-scheme: dark;
+  --page: #160f2b;
+  --page-deep: #0c0a19;
+  --ink: #fff8e9;
+  --muted: #d7cce9;
+  --accent: #ffad52;
+  --accent-strong: #ff713b;
+  --panel: rgba(36, 24, 61, 0.72);
+  --card: rgba(255, 255, 255, 0.08);
+  --card-hover: rgba(255, 173, 82, 0.16);
+  --line: rgba(255, 230, 190, 0.2);
+  --glow: rgba(255, 113, 59, 0.2);
+}
+
+body[data-theme="christmas"] {
+  color-scheme: light;
+  --page: #0e332d;
+  --page-deep: #09241f;
+  --ink: #fff9e9;
+  --muted: #d5e5d7;
+  --accent: #f5cf72;
+  --accent-strong: #e85c4a;
+  --panel: rgba(9, 41, 35, 0.76);
+  --card: rgba(255, 255, 255, 0.1);
+  --card-hover: rgba(245, 207, 114, 0.16);
+  --line: rgba(255, 244, 211, 0.24);
+  --glow: rgba(245, 207, 114, 0.18);
+}
+
+body[data-theme="newyear"] {
+  color-scheme: light;
+  --page: #fbf1dc;
+  --page-deep: #ead5b1;
+  --ink: #3c231e;
+  --muted: #755950;
+  --accent: #ad2935;
+  --accent-strong: #c38d35;
+  --panel: rgba(255, 252, 244, 0.82);
+  --card: rgba(255, 255, 255, 0.62);
+  --card-hover: rgba(173, 41, 53, 0.09);
+  --line: rgba(126, 67, 45, 0.16);
+  --glow: rgba(173, 41, 53, 0.1);
+}
+
+html {
+  min-height: 100%;
+  background: var(--page-deep);
+}
+
+body {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  background:
+    radial-gradient(ellipse at 50% 0%, var(--glow), transparent 55%),
+    linear-gradient(160deg, var(--page), var(--page-deep));
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: Inter, "Segoe UI", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+}
+
+body::before,
+body::after {
+  position: fixed;
+  z-index: -1;
+  width: 21rem;
+  height: 21rem;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+body::before {
+  top: -13rem;
+  left: -9rem;
+  box-shadow: 0 0 0 2rem transparent, 0 0 0 2.1rem var(--line), 0 0 0 4.1rem transparent, 0 0 0 4.2rem var(--line);
+}
+
+body::after {
+  right: -14rem;
+  bottom: -14rem;
+  width: 27rem;
+  height: 27rem;
+  box-shadow: 0 0 0 2rem transparent, 0 0 0 2.1rem var(--line);
+}
+
+.holiday-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+h1 {
+  margin: 0 0 2rem;
+  text-align: center;
+}
+
+body[data-theme="halloween"] h1::before {
+  display: block;
+  margin-bottom: 0.65rem;
+  color: var(--accent);
+  content: "HAPPY HALLOWEEN";
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+}
+
+h1 a.tpww {
+  display: block;
+  width: min(100%, 340px);
+  margin: 0 auto;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--ink);
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+h1 a.tpww:hover {
+  background: var(--card-hover);
+}
+
+.site-list a:hover {
+  background: var(--card-hover);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+.effect-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 20;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(36, 24, 61, 0.88);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+}
+
+.effect-toggle:hover {
+  background: #7136a0;
+}
+
+.effect-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.site-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.site-list[hidden] {
+  display: none;
+}
+
+.site-list a {
+  display: block;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--card);
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+footer {
+  position: relative;
+  z-index: 10;
+  padding: 1rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+footer a {
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  text-decoration: underline;
+  box-shadow: none;
+}
+
+#footer-hamusata,
+#footer-hamuzon {
+  display: none;
+}
+
+.footer-notice {
+  display: block;
+}
+
+@media (max-width: 480px) {
+  h1 a.tpww { font-size: 1.2rem; }
+  footer { font-size: 0.75rem; }
+  .site-list { grid-template-columns: 1fr; }
+  .effect-toggle { top: 0.5rem; right: 0.5rem; font-size: 0.8rem; }
+  #footer-hamuzon { display: none; }
+  .footer-notice { padding: 0.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+  </style>
+</head>
+<body data-theme="halloween">
+  <canvas id="halloweenCanvas" class="holiday-canvas" aria-hidden="true"></canvas>
+  <div class="container">
+    <h1><a href="/" class="tpww">Website List</a></h1>
+    <ul id="site-list" class="site-list"></ul>
+    <ul id="public-site-list" class="site-list"></ul>
+  </div>
+  <footer id="main-footer">
+    <span id="footer-hamusata">&copy; <span id="year-hamusata"></span> <a href="https://hamusata.f5.si" target="_blank" rel="noopener noreferrer">@hamusata</a></span>
+    <span id="footer-hamuzon">&copy; <span id="year-hamuzon"></span> <a href="https://github.com/hamuzon" target="_blank" rel="noopener noreferrer">@hamuzon</a></span>
+    <br />
+    <span id="default-message">※一部のサイトは現在アクセスできない場合があります。<br />Some sites may be temporarily unavailable.</span>
+  </footer>
+  <button id="halloween-toggle" class="effect-toggle" type="button" aria-label="お化け演出の切り替え" aria-pressed="true">お化け ON</button>
+  <script src="sites.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const host = window.location.hostname.toLowerCase().replace(/\.$/, "");
+      const siteList = document.getElementById("site-list");
+      const publicList = document.getElementById("public-site-list");
+      const footer = document.getElementById("main-footer");
+
+      function addSites(list, sites) {
+        sites.forEach(({ href, text, className, openInSameTab }) => {
+          const item = document.createElement("li");
+          const link = document.createElement("a");
+          link.href = (href === "https://home.hamusata.f5.si/" || href === "./")
+            && text.includes("Website-List") ? "/" : href;
+          link.textContent = text;
+          link.target = openInSameTab ? "_self" : "_blank";
+          link.rel = "noopener noreferrer";
+          if (className) link.className = className;
+          item.appendChild(link);
+          list.appendChild(item);
+        });
+      }
+
+      if (host === "home.hamusata.f5.si") {
+        addSites(siteList, sitesData.homeHamusata);
+        document.getElementById("footer-hamusata").style.display = "inline";
+      } else if (host === "hamuzon.github.io" || host.endsWith(".hamuzon.github.io")) {
+        addSites(siteList, sitesData.hamuzonGitHubIO);
+        document.getElementById("footer-hamuzon").style.display = "inline";
+      } else if (host === "link-s.f5.si" || host.endsWith(".link-s.f5.si")) {
+        addSites(siteList, sitesData.wwwLinkSF5Si);
+        footer.innerHTML = '<span class="footer-notice"><a href="https://hamusata.f5.si">@hamusata</a></span>';
+      } else {
+        siteList.style.display = "none";
+        addSites(publicList, sitesData.publicSites);
+        footer.innerHTML = '<span class="footer-notice">このサイトは公式ではなく、一部の情報は異なる場合があります。<br />This version may differ from the original official site.</span>';
+      }
+
+      const baseYear = 2025;
+      const currentYear = new Date().getFullYear();
+      const year = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
+      document.getElementById("year-hamusata").textContent = year;
+      document.getElementById("year-hamuzon").textContent = year;
+    });
+  </script>
+  <script src="halloween.js"></script>
+</body>
+</html>
