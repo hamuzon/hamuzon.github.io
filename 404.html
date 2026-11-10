@@ -1,193 +1,170 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>404 エラーコード - Error</title>
-  <script>
-    const host = window.location.hostname;
-    const path = window.location.pathname.toLowerCase();
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>404 エラーコード - Error</title>
+    <script>
+      const host = window.location.hostname;
+      const path = window.location.pathname.toLowerCase();
 
-    if (host.endsWith('.')) {
-      const normalizedHost = host.slice(0, -1);
-      window.location.replace(window.location.href.replace(host, normalizedHost));
-    } else if (host === 'hamuzon.github.io' && (path === '/r' || path.startsWith('/r/'))) {
-      window.location.replace('https://youtu.be/dQw4w9WgXcQ');
-    } else if (host === 'hamuzon.github.io' && (path === '/lit' || path === '/lit/')) {
-      window.location.replace('/?utm_source=litlink&utm_medium=social');
-    } else if (host === 'hamuzon.github.io' && (path === '/tre' || path === '/tre/')) {
-      window.location.replace('/?utm_source=linktree&utm_medium=social');
-    } else if (host === 'hamuzon.github.io' && (path === '/calendar' || path === '/calendar/')) {
-      window.location.replace('/calendar/');
-    } else if (host === 'hamuzon.github.io' && (path.endsWith('/clock') || path.endsWith('/clock/') || path.endsWith('/clockapp') || path.endsWith('/clockapp/'))) {
-      window.location.replace('/clock-app/');
-    } else if (host === 'hamuzon.github.io' && path.includes('device-info-old')) {
-      window.location.replace('/device-info-old/');
-    } else if (host === 'hamuzon.github.io' && path.includes('device-info')) {
-      window.location.replace('/Device-info/');
-    } else if (host === 'hamuzon.github.io' && path.includes('discord')) {
-      window.location.replace('/discord-tools/');
-    } else if (host === 'hamuzon.github.io' && (path === '/art' || path === '/art/' || path === '/art-pixel' || path === '/art-pixel/' || path === '/pixel' || path === '/pixel/' || path === '/pixelart' || path === '/pixelart/')) {
-      window.location.replace('/pixel-art/');
-    } else if (path.includes('readme') || path.includes('license')) {
-      window.location.replace('/');
-    }
-  </script>
-  <link rel="icon" href="icon.svg" type="image/svg+xml" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; }
+      if (host.endsWith('.')) {
+        const normalizedHost = host.slice(0, -1);
+        window.location.replace(window.location.href.replace(host, normalizedHost));
+      } else if (
+        host === 'hamuzon.github.io' &&
+        (path === '/r' || path.startsWith('/r/'))
+      ) {
+        window.location.replace('https://youtu.be/dQw4w9WgXcQ');
+      } else if (
+        host === 'hamuzon.github.io' &&
+        (path === '/lit' || path === '/lit/')
+      ) {
+        window.location.replace('/?utm_source=litlink&utm_medium=social');
+      } else if (
+        host === 'hamuzon.github.io' &&
+        (path === '/tre' || path === '/tre/')
+      ) {
+        window.location.replace('/?utm_source=linktree&utm_medium=social');
+      } else if (
+        host === 'hamuzon.github.io' &&
+        (path === '/calendar' || path === '/calendar/')
+      ) {
+        window.location.replace('/calendar/');
+      } else if (
+        host === 'hamuzon.github.io' &&
+        (
+          path.endsWith('/clock') ||
+          path.endsWith('/clock/') ||
+          path.endsWith('/clockapp') ||
+          path.endsWith('/clockapp/')
+        )
+      ) {
+        window.location.replace('/clock-app/');
+      } else if (
+        host === 'hamuzon.github.io' &&
+        path.includes('device-info-old')
+      ) {
+        window.location.replace('/device-info-old/');
+      } else if (
+        host === 'hamuzon.github.io' &&
+        path.includes('device-info')
+      ) {
+        window.location.replace('/Device-info/');
+      } else if (
+        host === 'hamuzon.github.io' &&
+        path.includes('discord')
+      ) {
+        window.location.replace('/discord-tools/');
+      } else if (
+        host === 'hamuzon.github.io' &&
+        (
+          path === '/art' ||
+          path === '/art/' ||
+          path === '/art-pixel' ||
+          path === '/art-pixel/' ||
+          path === '/pixel' ||
+          path === '/pixel/' ||
+          path === '/pixelart' ||
+          path === '/pixelart/'
+        )
+      ) {
+        window.location.replace('/pixel-art/');
+      } else if (path.includes('readme') || path.includes('license')) {
+        window.location.replace('/');
+      }
+    </script>
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
 
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif;
-      background: linear-gradient(to bottom, #ffcf91 0%, #a96bf8 100%);
-      min-height: 100vh;
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      overflow-x: hidden;
-    }
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif;
+        background: linear-gradient(to bottom, #ffcf91 0%, #a96bf8 100%);
+        min-height: 100vh;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        overflow-x: hidden;
+      }
 
-    h1 {
-      font-size: 6rem;
-      color: #f0f0f0;
-      text-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
-      margin: 0;
-      line-height: 1;
-    }
+      h1 {
+        font-size: 6rem;
+        color: #f0f0f0;
+        text-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
+        margin: 0;
+        line-height: 1;
+      }
 
-    p {
-      font-size: 1.2rem;
-      margin: 1rem 0;
-      color: #f0f0f0;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    }
+      p {
+        font-size: 1.2rem;
+        margin: 1rem 0;
+        color: #f0f0f0;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
 
-    .subtext {
-      font-size: 1rem;
-      opacity: 0.7;
-      margin-bottom: 2.5rem;
-    }
+      .subtext {
+        font-size: 1rem;
+        opacity: 0.7;
+        margin-bottom: 2.5rem;
+      }
 
-    a.back {
-      display: inline-block;
-      background: rgba(20, 20, 20, 0.15);
-      -webkit-backdrop-filter: blur(12px);
-      backdrop-filter: blur(12px);
-      color: #ddd;
-      text-decoration: none;
-      padding: 1rem 2rem;
-      border-radius: 16px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-      transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: pointer;
-    }
+      a.back {
+        display: inline-block;
+        background: rgba(20, 20, 20, 0.15);
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+        color: #ddd;
+        text-decoration: none;
+        padding: 1rem 2rem;
+        border-radius: 16px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+        transition:
+          background 0.3s ease,
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+        cursor: pointer;
+      }
 
-    a.back:hover {
-      background: rgba(30, 30, 30, 0.3);
-      transform: translateY(-4px);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
-    }
+      a.back:hover {
+        background: rgba(30, 30, 30, 0.3);
+        transform: translateY(-4px);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+      }
 
-    @media (max-width: 600px) {
-      h1 { font-size: 4rem; }
-      p { font-size: 1.1rem; }
-      .subtext { font-size: 0.9rem; }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>404</h1>
-    <p>エラーが発生しました: ページが見つかりません</p>
-    <p class="subtext">Sorry, the page you're looking for doesn't exist.</p>
-    <a id="backLink" class="back" href="/">トップページへ戻る</a>
-  </div>
-</body>
-</html>
-  <link rel="icon" href="icon.svg" type="image/svg+xml" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; }
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 4rem;
+        }
 
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif;
-      background: linear-gradient(to bottom, #ffcf91 0%, #a96bf8 100%);
-      min-height: 100vh;
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      overflow-x: hidden;
-    }
+        p {
+          font-size: 1.1rem;
+        }
 
-    h1 {
-      font-size: 6rem;
-      color: #f0f0f0;
-      text-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
-      margin: 0;
-      line-height: 1;
-    }
-
-    p {
-      font-size: 1.2rem;
-      margin: 1rem 0;
-      color: #f0f0f0;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    }
-
-    .subtext {
-      font-size: 1rem;
-      opacity: 0.7;
-      margin-bottom: 2.5rem;
-    }
-
-    a.back {
-      display: inline-block;
-      background: rgba(20, 20, 20, 0.15);
-      -webkit-backdrop-filter: blur(12px);
-      backdrop-filter: blur(12px);
-      color: #ddd;
-      text-decoration: none;
-      padding: 1rem 2rem;
-      border-radius: 16px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-      transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: pointer;
-    }
-
-    a.back:hover {
-      background: rgba(30, 30, 30, 0.3);
-      transform: translateY(-4px);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
-    }
-
-    @media (max-width: 600px) {
-      h1 { font-size: 4rem; }
-      p { font-size: 1.1rem; }
-      .subtext { font-size: 0.9rem; }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>404</h1>
-    <p>エラーが発生しました: ページが見つかりません</p>
-    <p class="subtext">Sorry, the page you're looking for doesn't exist.</p>
-    <a id="backLink" class="back" href="/">トップページへ戻る</a>
-  </div>
-</body>
+        .subtext {
+          font-size: 0.9rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>404</h1>
+      <p>エラーが発生しました: ページが見つかりません</p>
+      <p class="subtext">Sorry, the page you're looking for doesn't exist.</p>
+      <a id="backLink" class="back" href="/">トップページへ戻る</a>
+    </div>
+  </body>
 </html>
