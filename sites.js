@@ -33,7 +33,9 @@ const sitesData = {
     { href: "https://certificate-maker.hamusata.f5.si/", text: "📜 表彰状メーカー / Certificate Maker 🏆", openInSameTab: true },
     { href: "https://hamusata.f5.si/wish", text: "🎋 短冊メーカー / Tanzaku Maker ✨", openInSameTab: true },
     { href: "https://hamusata.f5.si/tsukimi/", text: "お月見🎑 / tsukimi🎑", openInSameTab: true },
-    { href: "https://mono.hamusata.f5.si/", text: "コード置き場 / Cord storage", openInSameTab: true }
+    { href: "https://mono.hamusata.f5.si/", text: "コード置き場 / Cord storage", openInSameTab: true },
+    { href: "https://time-tools.hamusata.f5.si/timer/", text: "⌛️タイマー / Timer ⏲️ hamusata", openInSameTab: true },
+    { href: "https://time-tools.hamusata.f5.si/stopwatch/", text: "⌚ストップウォッチ /  stopwatch ⏰️ hamusata", openInSameTab: true }
   ],
 
   hamuzonGitHubIO: [
@@ -63,7 +65,9 @@ const sitesData = {
     { href: "https://hamuzon.github.io/olympic-countdown/", text: "🏟️ Olympic Countdown / オリンピック関連カウントダウン 🎖️ - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/clock-app/", text: "⌚️ clock-app ⏰️ - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/certificate-maker/", text: "📜 表彰状メーカー / Certificate Maker 🏆", openInSameTab: true },
-    { href: "https://hamuzon.github.io/tsukimi/", text: "お月見🎑 / tsukimi🎑", openInSameTab: true }
+    { href: "https://hamuzon.github.io/tsukimi/", text: "お月見🎑 / tsukimi🎑", openInSameTab: true },
+    { href: "https://hamuzon.github.io/time-tools/stopwatch/", text: "⌚ストップウォッチ /  stopwatch ⏰️ hamuzon", openInSameTab: true },
+    { href: "https://hamuzon.github.io/time-tools/timer/", text: "⌛️タイマー / Timer ⏲️ hamuzon", openInSameTab: true }
   ],
 
   wwwLinkSF5Si: [
