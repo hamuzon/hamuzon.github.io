@@ -72,7 +72,7 @@ const sitesData = {
 
   wwwLinkSF5Si: [
     { href: "https://link-s.f5.si/", text: "link-s.f5.si – ショートカットリンクサービス" },
-    { href: "https://go.link-s.f5.si/", text: "go.link-s.f5.si – カスタムパス対応版" },
+    { href: "https://go.link-s.f5.si/", text: "go.link-s.f5.si – 短縮URL カスタムパス対応版" },
     { href: "https://password-create.link-s.f5.si/", text: "API無しパスワード生成" },
     { href: "https://password.link-s.f5.si/", text: "API版パスワード生成（リダイレクト無し）" },
     { href: "https://pw.link-s.f5.si/", text: "APIパスワード生成（端末リダイレクト）" },
