@@ -34,8 +34,13 @@ const sitesData = {
     { href: "https://hamusata.f5.si/wish", text: "🎋 短冊メーカー / Tanzaku Maker ✨", openInSameTab: true },
     { href: "https://hamusata.f5.si/tsukimi/", text: "お月見🎑 / tsukimi🎑", openInSameTab: true },
     { href: "https://mono.hamusata.f5.si/", text: "コード置き場 / Cord storage", openInSameTab: true },
-    { href: "https://time-tools.hamusata.f5.si/timer/", text: "⌛️タイマー / Timer ⏲️ hamusata", openInSameTab: true },
-    { href: "https://time-tools.hamusata.f5.si/stopwatch/", text: "⌚ストップウォッチ /  stopwatch ⏰️ hamusata", openInSameTab: true }
+    { href: "https://time-tools.hamusata.f5.si/", text: "⏱️ TIME tools -hamusata", openInSameTab: true },
+    { href: "https://time-tools.hamusata.f5.si/stopwatch/", text: "⌚ストップウォッチ / Stopwatch ⏰️ -hamusata", openInSameTab: true },
+    { href: "https://time-tools.hamusata.f5.si/timer/", text: "⌛️タイマー / Timer ⏲️ -hamusata", openInSameTab: true },
+    { href: "https://time-tools.hamusata.f5.si/countdown/", text: "⏳カウントダウン / Countdown ⏱️ -hamusata", openInSameTab: true },
+    { href: "https://time-tools.hamusata.f5.si/alarm/", text: "⏰アラーム / Alarm 🔔 -hamusata", openInSameTab: true },
+    { href: "https://time-tools.hamusata.f5.si/world-clock/", text: "🌍世界時計 / World Clock 🕒 -hamusata", openInSameTab: true },
+    { href: "https://time-tools.hamusata.f5.si/pomodoro/", text: "🍅ポモドーロ / Pomodoro 🍅 -hamusata", openInSameTab: true }
   ],
 
   hamuzonGitHubIO: [
@@ -66,8 +71,13 @@ const sitesData = {
     { href: "https://hamuzon.github.io/clock-app/", text: "⌚️ clock-app ⏰️ - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/certificate-maker/", text: "📜 表彰状メーカー / Certificate Maker 🏆", openInSameTab: true },
     { href: "https://hamuzon.github.io/tsukimi/", text: "お月見🎑 / tsukimi🎑", openInSameTab: true },
-    { href: "https://hamuzon.github.io/time-tools/stopwatch/", text: "⌚ストップウォッチ /  stopwatch ⏰️ hamuzon", openInSameTab: true },
-    { href: "https://hamuzon.github.io/time-tools/timer/", text: "⌛️タイマー / Timer ⏲️ hamuzon", openInSameTab: true }
+    { href: "https://time-tools.hamuzon-jp.f5.si/", text: "⏱️ TIME tools", openInSameTab: true },
+    { href: "https://time-tools.hamuzon-jp.f5.si/stopwatch/", text: "⌚ストップウォッチ / Stopwatch ⏰️", openInSameTab: true },
+    { href: "https://time-tools.hamuzon-jp.f5.si/timer/", text: "⌛️タイマー / Timer ⏲️", openInSameTab: true },
+    { href: "https://time-tools.hamuzon-jp.f5.si/countdown/", text: "⏳カウントダウン / Countdown ⏱️", openInSameTab: true },
+    { href: "https://time-tools.hamuzon-jp.f5.si/alarm/", text: "⏰アラーム / Alarm 🔔", openInSameTab: true },
+    { href: "https://time-tools.hamuzon-jp.f5.si/world-clock/", text: "🌍世界時計 / World Clock 🕒", openInSameTab: true },
+    { href: "https://time-tools.hamuzon-jp.f5.si/pomodoro/", text: "🍅ポモドーロ / Pomodoro 🍅", openInSameTab: true }
   ],
 
   wwwLinkSF5Si: [
