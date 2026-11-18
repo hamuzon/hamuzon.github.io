@@ -40,7 +40,8 @@ const sitesData = {
     { href: "https://time-tools.hamusata.f5.si/countdown/", text: "⏳カウントダウン / Countdown ⏱️ -hamusata", openInSameTab: true },
     { href: "https://time-tools.hamusata.f5.si/alarm/", text: "⏰アラーム / Alarm 🔔 -hamusata", openInSameTab: true },
     { href: "https://time-tools.hamusata.f5.si/world-clock/", text: "🌍世界時計 / World Clock 🕒 -hamusata", openInSameTab: true },
-    { href: "https://time-tools.hamusata.f5.si/pomodoro/", text: "🍅ポモドーロ / Pomodoro 🍅 -hamusata", openInSameTab: true }
+    { href: "https://time-tools.hamusata.f5.si/pomodoro/", text: "🍅ポモドーロ / Pomodoro 🍅 -hamusata", openInSameTab: true },
+    { href: "https://hamusata.f5.si/countdown", text: "🎍 新年までのカウントダウン / New Year Countdown 🌅", openInSameTab: true }
   ],
 
   hamuzonGitHubIO: [
@@ -77,7 +78,8 @@ const sitesData = {
     { href: "https://time-tools.hamuzon-jp.f5.si/countdown/", text: "⏳カウントダウン / Countdown ⏱️", openInSameTab: true },
     { href: "https://time-tools.hamuzon-jp.f5.si/alarm/", text: "⏰アラーム / Alarm 🔔", openInSameTab: true },
     { href: "https://time-tools.hamuzon-jp.f5.si/world-clock/", text: "🌍世界時計 / World Clock 🕒", openInSameTab: true },
-    { href: "https://time-tools.hamuzon-jp.f5.si/pomodoro/", text: "🍅ポモドーロ / Pomodoro 🍅", openInSameTab: true }
+    { href: "https://time-tools.hamuzon-jp.f5.si/pomodoro/", text: "🍅ポモドーロ / Pomodoro 🍅", openInSameTab: true },
+    { href: "https://hamuzon.github.io/new-year-countdown/", text: "🎍 新年までのカウントダウン / New Year Countdown 🌅", openInSameTab: true }
   ],
 
   wwwLinkSF5Si: [
