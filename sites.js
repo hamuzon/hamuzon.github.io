@@ -72,13 +72,13 @@ const sitesData = {
     { href: "https://hamuzon.github.io/clock-app/", text: "⌚️ clock-app ⏰️ - Hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/certificate-maker/", text: "📜 表彰状メーカー / Certificate Maker 🏆", openInSameTab: true },
     { href: "https://hamuzon.github.io/tsukimi/", text: "お月見🎑 / tsukimi🎑", openInSameTab: true },
-    { href: "https://time-tools.hamuzon-jp.f5.si/", text: "⏱️ TIME tools", openInSameTab: true },
-    { href: "https://time-tools.hamuzon-jp.f5.si/stopwatch/", text: "⌚ストップウォッチ / Stopwatch ⏰️", openInSameTab: true },
-    { href: "https://time-tools.hamuzon-jp.f5.si/timer/", text: "⌛️タイマー / Timer ⏲️", openInSameTab: true },
-    { href: "https://time-tools.hamuzon-jp.f5.si/countdown/", text: "⏳カウントダウン / Countdown ⏱️", openInSameTab: true },
-    { href: "https://time-tools.hamuzon-jp.f5.si/alarm/", text: "⏰アラーム / Alarm 🔔", openInSameTab: true },
-    { href: "https://time-tools.hamuzon-jp.f5.si/world-clock/", text: "🌍世界時計 / World Clock 🕒", openInSameTab: true },
-    { href: "https://time-tools.hamuzon-jp.f5.si/pomodoro/", text: "🍅ポモドーロ / Pomodoro 🍅", openInSameTab: true },
+    { href: "https://hamuzon.github.io/time-tools/", text: "⏱️ TIME tools", openInSameTab: true },
+    { href: "https://hamuzon.github.io/time-tools/stopwatch/", text: "⌚ストップウォッチ / Stopwatch ⏰️", openInSameTab: true },
+    { href: "https://hamuzon.github.io/time-tools/timer/", text: "⌛️タイマー / Timer ⏲️", openInSameTab: true },
+    { href: "https://hamuzon.github.io/time-tools/countdown/", text: "⏳カウントダウン / Countdown ⏱️", openInSameTab: true },
+    { href: "https://hamuzon.github.io/time-tools/alarm/", text: "⏰アラーム / Alarm 🔔", openInSameTab: true },
+    { href: "https://hamuzon.github.io/time-tools/world-clock/", text: "🌍世界時計 / World Clock 🕒", openInSameTab: true },
+    { href: "https://hamuzon.github.io/time-tools/pomodoro/", text: "🍅ポモドーロ / Pomodoro 🍅", openInSameTab: true },
     { href: "https://hamuzon.github.io/new-year-countdown/", text: "🎍 新年までのカウントダウン / New Year Countdown 🌅", openInSameTab: true }
   ],
 
@@ -153,6 +153,6 @@ if (typeof window !== "undefined" && window.location && window.location.search) 
 
         window.history.replaceState(null, "", cleanUrl);
       }
-    } catch (e) {}
+    } catch (e) { }
   }, 5000);
 }
