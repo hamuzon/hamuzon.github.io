@@ -93,8 +93,12 @@
   <url><loc>https://text.hamusata.f5.si/</loc></url>
   <url><loc>https://text.hamusata.f5.si/legacy/</loc></url>
   <url><loc>https://time-tools.hamusata.f5.si/</loc></url>
+  <url><loc>https://time-tools.hamusata.f5.si/day-progress/</loc></url>
+  <url><loc>https://time-tools.hamusata.f5.si/metronome/</loc></url>
+  <url><loc>https://time-tools.hamusata.f5.si/month-progress/</loc></url>
   <url><loc>https://time-tools.hamusata.f5.si/stopwatch/</loc></url>
   <url><loc>https://time-tools.hamusata.f5.si/timer/</loc></url>
+  <url><loc>https://time-tools.hamusata.f5.si/year-progress/</loc></url>
   <url><loc>https://time-zone.hamusata.f5.si/</loc></url>
   <url><loc>https://todo.hamusata.f5.si/</loc></url>
   <url><loc>https://video-hub.hamusata.f5.si/</loc></url>
