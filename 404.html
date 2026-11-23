@@ -58,6 +58,11 @@
         window.location.replace('/discord-tools/');
       } else if (
         host === 'hamuzon.github.io' &&
+        path.includes('video')
+      ) {
+        window.location.replace('/Video-hub/');
+      } else if (
+        host === 'hamuzon.github.io' &&
         (
           path === '/art' ||
           path === '/art/' ||
