@@ -77,7 +77,7 @@ const sitesData = {
     { href: "https://hamuzon.github.io/tsukimi/", text: "お月見🎑 / tsukimi🎑", openInSameTab: true },
     { href: "https://hamuzon.github.io/time-tools/", text: "⏱️ TIME tools - @hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/time-tools/progress/", text: "⏱️ 時間・何%一覧 / Time Progress | - Time tools @hamuzon", openInSameTab: true },
-    { href: "https://hamuzon.github.io/time-tools/metronome/l", text: "メトロノーム / Metronome | - Time tools @hamuzon", openInSameTab: true },
+    { href: "https://hamuzon.github.io/time-tools/metronome/", text: "メトロノーム / Metronome | - Time tools @hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/time-tools/year-progress/", text: "今年は残り何%? / How Much of the Year Is Left? | - Time tools @hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/time-tools/stopwatch/", text: "⌚ストップウォッチ / Stopwatch ⏰️ | - Time tools @hamuzon", openInSameTab: true },
     { href: "https://hamuzon.github.io/time-tools/timer/", text: "⌛️タイマー / Timer ⏲️ | - Time tools @hamuzon", openInSameTab: true },
