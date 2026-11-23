@@ -43,12 +43,6 @@
   <url><loc>https://hamusata.f5.si/terms-and-privacy</loc></url>
   <url><loc>https://hamusata.f5.si/tsukimi/</loc></url>
   <url><loc>https://hamusata.hamusata.f5.si/</loc></url>
-  <url><loc>https://hamuzon.github.io/time-tools/alarm/</loc></url>
-  <url><loc>https://hamuzon.github.io/time-tools/countdown/</loc></url>
-  <url><loc>https://hamuzon.github.io/time-tools/pomodoro/</loc></url>
-  <url><loc>https://hamuzon.github.io/time-tools/stopwatch/</loc></url>
-  <url><loc>https://hamuzon.github.io/time-tools/timer/</loc></url>
-  <url><loc>https://hamuzon.github.io/time-tools/world-clock/</loc></url>
   <url><loc>https://home.hamusata.f5.si/</loc></url>
   <url><loc>https://home.hamusata.f5.si/98</loc></url>
   <url><loc>https://home.hamusata.f5.si/autumn</loc></url>
@@ -93,11 +87,16 @@
   <url><loc>https://text.hamusata.f5.si/</loc></url>
   <url><loc>https://text.hamusata.f5.si/legacy/</loc></url>
   <url><loc>https://time-tools.hamusata.f5.si/</loc></url>
+  <url><loc>https://time-tools.hamusata.f5.si/alarm/</loc></url>
+  <url><loc>https://time-tools.hamusata.f5.si/countdown/</loc></url>
   <url><loc>https://time-tools.hamusata.f5.si/day-progress/</loc></url>
   <url><loc>https://time-tools.hamusata.f5.si/metronome/</loc></url>
   <url><loc>https://time-tools.hamusata.f5.si/month-progress/</loc></url>
+  <url><loc>https://time-tools.hamusata.f5.si/pomodoro/</loc></url>
+  <url><loc>https://time-tools.hamusata.f5.si/progress/</loc></url>
   <url><loc>https://time-tools.hamusata.f5.si/stopwatch/</loc></url>
   <url><loc>https://time-tools.hamusata.f5.si/timer/</loc></url>
+  <url><loc>https://time-tools.hamusata.f5.si/world-clock/</loc></url>
   <url><loc>https://time-tools.hamusata.f5.si/year-progress/</loc></url>
   <url><loc>https://time-zone.hamusata.f5.si/</loc></url>
   <url><loc>https://todo.hamusata.f5.si/</loc></url>
