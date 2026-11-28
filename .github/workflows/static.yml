@@ -1,4 +1,3 @@
-
 # Simple workflow for deploying static content to GitHub Pages
 name: Deploy static content to Pages
 
@@ -31,15 +30,16 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Single job for deploying the site
-  deploy:
-    # Run on pushes or when the Update Sitemap workflow succeeds
+  # Build job: prepare the site and upload the Pages artifact.
+  # Keep this separate from the deploy job so that deploy-pages runs in a
+  # different job (and therefore later) than the artifact upload. Running both
+  # in one job makes deploy-pages race the artifact upload and fail with
+  # `No artifacts named "github-pages"`.
+  build:
     if: >
       github.event_name == 'push' ||
+      github.event_name == 'workflow_dispatch' ||
       (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
 
     steps:
@@ -98,11 +98,20 @@ jobs:
           rm -rf functions README.md README readme.md license LICENSE LICENSE.txt _redirects.md _redirects
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           # Upload the entire repository
           path: '.'
 
+  # Deployment job: publish the artifact uploaded by the build job
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
